@@ -11,7 +11,7 @@ I am a Ph. D. student in neuropsychology. I will be working on IRMs data to anal
 
 # Project presentation
 ## Introduction 
-This project aims to investigate the effects of oral contraceptives initiation on brain development during adolescence. For an animated overview of the litterature on this subject, please follow this link :  
+This project aims to investigate the effects of oral contraceptives initiation on brain development during adolescence. For an animated overview of the litterature on this subject, please follow this link : https://docs.google.com/presentation/d/18sPFdWEy6WP5lSThgEJ0WI-9j097xqXL/edit?usp=sharing&ouid=107748738109768169913&rtpof=true&sd=true 
 ## Objective
 ## Data
 ## Tools
@@ -47,8 +47,34 @@ This function will allow me to estimate marginal means for factors in my model. 
 
 model_emmeans<- emmeans(model, ~ time *  hormonal_group)
 
-I will then use the **contrast** function
+I will then use the **contrast** function.
+
+This function will allow be to test specific comparisons between estimated marginal means previously calculated with emmeans. 
+
 ### Vizualisation
+
+The second step of this project will be to visualize the model results on brain maps. I will map the group differences in developmental trajectories by visualizing the estimates (beta) of the time × hormonal group interaction from linear mixed-effects models. 
+I will generate a total of 6 brain maps: 3 for each brain phenotype (cortical thickness and volume).
+Because there are three groups, each map corresponds to a specific pairwise group comparison (using the reference group), and displays the time × group interaction effects, reflecting differences in developmental trajectories between the two groups being compared.
+I plan on coloring the map using the same logic as these authors : https://onlinelibrary.wiley.com/doi/epdf/10.1002/hbm.23154  
+
+#### ggseg R package
+
+I will be using the ggseg package, in order to visualize the interaction effects for each ROI of the brain. chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://cran.r-project.org/web/packages/ggseg/ggseg.pdf
+To do so, the beta of the interaction effects of all the roi models be in a dataframe with 2 columns : roi, and value. There will be a dataframe for each gray matter phenotype, and for each pair of group comparison. It will also be important to name the roi the same way as they are names in the atlas I will be using. 
+I will use the following arguments :
+
+ggseg(atlas = "nom_atlas", data = dataframe_betas,
+      mapping = aes(fill = nom_colonne_beta)) +
+  scale_fill_gradient2(low="blue", mid="white", high="red", midpoint=0)
+ 
+Le code de couleur de cette visualisation sera le suivant : bleu pour betas négatifs, blanc pour betas près de 0, rouge pour betas post. The color code will be the following : blue for negative betas, white for betas eith values around 0, red for positive betas. 
 ## Deliverables
+May 28th : finish data cleaning and structure data for analyses
+June 3rd : finish analyses
+June 5th : finish visualizations
+
+
 ## Medium 
 
+The results of the analyses and the graphs will be presented in this repo. I will also provide the code, but I will not share the data since it needs a Data Use Certification. 
