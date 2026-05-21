@@ -12,8 +12,24 @@ I am a Ph. D. student in neuropsychology. I will be working on IRMs data to anal
 # Project presentation
 ## Introduction 
 This project aims to investigate the effects of oral contraceptives initiation on brain development during adolescence. For an animated overview of the litterature on this subject, please follow this link : https://docs.google.com/presentation/d/18sPFdWEy6WP5lSThgEJ0WI-9j097xqXL/edit?usp=sharing&ouid=107748738109768169913&rtpof=true&sd=true 
-## Objective
+## Objectives
+
+1. To model longitudinal changes in cortical thickness and grey matter volume across adolescence in relation to hormonal group.
+
+2. To identify and visualize cortical regions showing differential developmental trajectories between hormonal groups using brain surface maps.
+
 ## Data
+### Sample
+ 
+My sample contains around 12 000 participants divised in the following groups : around 400 OC users, 5000 females non-users and 5000 males. 
+They provided sMRI scans at 4 times : 9-10 y/o, 11-12 y/o, 13-14 y/o, and 15-16 y/o.
+
+### Material
+T1 sMRI scans, already pre-processed and segmented using Desikan-Killiany and Destrieux atlas
+Cortical thickness, cortical and subcortical volumes
+
+Sex at birth at T1, and OC use at each time.
+
 ## Tools
 ### Analyses
 
