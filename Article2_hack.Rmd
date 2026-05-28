@@ -1,0 +1,2420 @@
+---
+title: "Article2"
+author: "Roxanne Leblanc"
+date: "2026-05-21"
+output: pdf_document
+---
+
+# 1. Préparation de la BDD
+## 1.1 Librairies
+```{r}
+
+library(dplyr)
+library(readr)
+library(emmeans)
+library(ggplot2)
+library(stringr)
+library(tidyr)
+library(lme4)
+library(lmerTest)
+library(purrr)
+library(broom.mixed)
+options(scipen = 999)
+
+```
+
+## 1.2 Importer les bases de données
+Exécuter une ligne à la fois autrement R bug car les fichiers sont trop lourds.
+```{r}
+# VIs
+ph_y_pds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_pds.tsv") 
+
+# VD
+## épaisseur corticale
+mr_y_smri__thk__dsk <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__thk__dsk.tsv") # Desikan
+mr_y_smri__thk__dst <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__thk__dst.tsv") # Destrieux
+## volume
+mr_y_smri__vol__aseg <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__aseg.tsv") # sous-corticale
+mr_y_smri__vol__dsk <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__dsk.tsv") # Desikan
+mr_y_smri__vol__dst <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__dst.tsv") # Destrieux
+
+# exclusion images IRM
+mr_y_qc__incl <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_qc__incl.tsv") 
+# critères d'exclusion ABCD
+ab_p_screen <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_p_screen.tsv")
+ab_p_screen <- ab_p_screen %>%
+  rename(session_id_screen = session_id)
+
+# covariables potentielles
+ab_g_dyn <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_g_dyn.tsv")
+ab_g_stc <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_g_stc.tsv")
+ab_p_demo <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_p_demo.tsv")
+mh_p_ders <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_p_ders.tsv")
+mh_p_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_p_ple.tsv")
+mh_y_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_ple.tsv")
+mh_y_bpm <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_bpm.tsv")
+mh_y_erq <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_erq.tsv")
+ph_p_covid <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_covid.tsv")
+ph_y_covid <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_covid.tsv")
+#ph_p_meds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_meds.tsv")
+#ph_y_meds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_meds.tsv")
+ph_p_otbi <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_otbi.tsv")
+ph_p_sex <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_sex.tsv")
+ph_y_sex <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_sex.tsv")
+su_y_mysu <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/su_y_mysu.tsv")
+su_y_mysu <- su_y_mysu %>%
+  rename(session_id_su_y_mysu = session_id)
+mh_y_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_ple.tsv")
+
+```
+
+
+## 1.3 Merger les bases de données 
+La base de données qui contient tout se nomme data.
+
+```{r}
+data <- ph_y_pds %>%
+  left_join(ab_g_dyn,   by = c("participant_id", "session_id")) %>%
+  left_join(ab_g_stc,   by = "participant_id") %>%  
+  left_join(ab_p_demo, by = c("participant_id", "session_id")) %>%
+  left_join(ab_p_screen, by = "participant_id") %>%
+  left_join(mh_p_ders, by = c("participant_id", "session_id")) %>%
+  left_join(mh_p_ple,  by = c("participant_id", "session_id")) %>%
+  left_join(mh_y_ple,  by = c("participant_id", "session_id")) %>%
+  left_join(mh_y_bpm,  by = c("participant_id", "session_id")) %>%
+  left_join(mh_y_erq,  by = c("participant_id", "session_id")) %>%
+  left_join(ph_p_covid, by = c("participant_id", "session_id")) %>%
+  left_join(ph_y_covid, by = c("participant_id", "session_id")) %>%
+  #left_join(ph_p_meds, by = c("participant_id", "session_id")) %>%
+  #left_join(ph_y_meds, by = c("participant_id", "session_id")) %>%
+  left_join(ph_p_otbi, by = c("participant_id", "session_id")) %>%
+  left_join(ph_p_sex,  by = c("participant_id", "session_id")) %>%
+  left_join(ph_y_sex,  by = c("participant_id", "session_id")) %>% 
+  left_join(mr_y_smri__thk__dsk,  by = c("participant_id", "session_id")) %>% 
+  left_join(mr_y_smri__thk__dst,  by = c("participant_id", "session_id")) %>%
+  left_join(mr_y_smri__vol__aseg,  by = c("participant_id", "session_id")) %>%
+  left_join(mr_y_smri__vol__dsk,  by = c("participant_id", "session_id")) %>%
+  left_join(mr_y_smri__vol__dst,  by = c("participant_id", "session_id")) %>%
+  left_join(mr_y_qc__incl,  by = c("participant_id", "session_id"))
+  
+
+  #left_join(su_y_mysu, by = c("participant_id"))
+
+write.csv(data, "data.csv", row.names = FALSE)
+```
+
+
+# 2. Analyses préliminaires
+## 2.1 Retirer les participants sur la base des critères d'exclusion
+Retrait des participants screenés sur la base des critères suivants :
+(i) Ne pas être fluide en anglais - 0 exclusions
+(ii) avoir une contre-indication à l’imagerie par résonance magnétique (implants ferromagnétiques irréversibles ou appareils dentaires, claustrophobie) - 2 exclusions
+(iii) présenter un trouble neurologique majeur - 13 exclusions
+(iv) avoir un âge gestationnel inférieur à 28 semaines ou un poids à la naissance inférieur à 1200 grammes - 0 exclusions
+(v) avoir présenté des complications à la naissance ayant entraîné une hospitalisation de plus d’un mois - 2=0 exclusions
+(vi) avoir une vision non corrigée - 0 exclusions
+(vii) avoir un diagnostic actuel de schizophrénie, de trouble du spectre autistique modéré ou sévère, de déficience intellectuelle, ou un trouble connu lié à l’alcool ou aux substances - 224 exclusions
+(viii) avoir initié une contraception hormonale avant T0/ne pas avoir répondu à la question/avoir répondu je sais pas - 52 exclusions
+(ix) prendre une médication susceptible d’influencer le développement cérébral (pas sûre)
+(x) présenter une condition neurologique diagnostiquée
+(xi) avoir subi un traumatisme crânien - 348 exclusions
+(xii) avoir des images IRM recommandées comme exclusion - 719 exclusions
+(xiii) ne pas avoir de données concernant la prise de CO/avoir des données incohérentes (ex: rapporter une utilisation de CH dans la question 1, mais pas dans la question 2) - 103 exclusions
+
+11 866 participants potentiels ont été screenés. Après exclusion, on a un échantillon de 10 492. particicipants.
+la nouvelle base de données avec seulement les participant inclus se nomme data_filtered.
+```{r}
+data <- read.csv("data.csv")
+
+
+# nombre de participants screenés
+n_distinct(data$participant_id) # 11 866
+
+# anglais
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_anglais = ifelse(
+      any(ab_p_screen__eng_001 == "0" | ab_p_screen__eng_001__01 == "0", na.rm = TRUE),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_anglais == "1"]) %>% length()) # aucun ppt exclu
+
+# IRM
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_claustro = ifelse(
+      any(
+        ab_p_screen__claustro_001 == "1" |
+        ab_p_screen__claustro_001__01 == "1" |
+        ab_p_screen__concern_001__02 == "1" |
+        ab_p_screen__metal_002__02 == "0" |
+        ab_p_screen__metal_002__03 == "0" |
+        ab_p_screen__metal_004__04 == "1" |
+        ab_p_screen__metal_006 == "1" |
+        ab_p_screen__metal_007 == "1" |
+        ab_p_screen__weight_001__01 == "0",
+        na.rm = TRUE
+      ),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_claustro == "1"]) %>% length()) # 2 ppts exclus
+
+
+# trouble neurologique
+data <- data %>% 
+  group_by(participant_id) %>% 
+  mutate(
+    exclu_neuro = ifelse(
+      any(
+        ab_p_screen__med_002 == "1" |
+        ab_p_screen__med_003 == "1" |
+        ab_p_screen__med_004 == "1" |
+        ab_p_screen__med_005 == "1" |
+        ab_p_screen__med_006 == "1" |
+        ab_p_screen__med_007 == "1" |
+        ab_p_screen__med_009__01 == "1" |
+        ab_p_screen__med_009__02 == "1" |
+        ab_p_screen__scan_001__01 == "1",
+        na.rm = TRUE
+      ),
+      "1", "0"
+    )
+  ) %>% 
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_neuro == "1"]) %>% length()) # 13 ppt exclus
+
+# prématuré
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_premature = ifelse(
+      any(
+        ab_p_screen__med_010 == "1" |
+        ab_p_screen__med_010__01 == "1" |
+        ab_p_screen__med_010__04 == "1",
+        na.rm = TRUE
+      ),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_premature == "1"]) %>% length()) # 0 ppt exclus
+
+# vision
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_vision = ifelse(
+      any(ab_p_screen__med_001__02 == "0", na.rm = TRUE),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_vision == "1"]) %>% length()) # 0 ppt exclus
+
+# schizo
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_schizo = ifelse(
+      any(ab_p_screen__med_012 == "1", na.rm = TRUE),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_schizo == "1"]) %>% length()) # 3 ppt exclus
+
+# TSA
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_tsa = ifelse(
+      any(ab_p_screen__med_013 == "1", na.rm = TRUE),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_tsa == "1"]) %>% length()) # 201 ppt exclus
+
+# autre condition psychologique
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_otherpsy = ifelse(
+      any(ab_p_screen__med_017__01 == "1", na.rm = TRUE),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_otherpsy == "1"]) %>% length()) # 1 ppt exclu
+
+# DI
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_di = ifelse(
+      any(ab_p_screen__med_014 == "0" | ab_p_screen__med_016 == "1", na.rm = TRUE),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_di == "1"]) %>% length()) # 19 ppt exclus
+
+# substance
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_substance = ifelse(
+      any(ab_p_screen__med_015 == "1", na.rm = TRUE),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_substance == "1"]) %>% length()) # 1 ppt exclu
+
+# CH avant T0
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_coT0 = ifelse(
+      any(ph_y_pds__f_002__05 %in% c(1, 999, 777) & session_id == "ses-00A", na.rm = TRUE),
+      "1", "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_coT0 == "1"]) %>% length()) # 52 ppt exclu
+
+# médication comment faire?
+
+# TBI
+data <- data %>% 
+  group_by(participant_id) %>% 
+  mutate(
+    exclu_tbi = ifelse(
+  any(ab_p_screen__tbi_001 == "1" |
+        ab_p_screen__tbi_002 == "1" |
+        ab_p_screen__tbi__scan_001__01 == "1"|
+        ph_p_otbi_tbiworst == "3"|
+        ph_p_otbi_tbiworst == "4"|
+        ph_p_otbi_tbiworst == "5" ,na.rm = TRUE),
+  "1", "0"
+  )
+) %>% 
+ungroup()
+
+sum(unique(data$participant_id[data$exclu_tbi == "1"]) %>% length()) # 348 ppt exclus
+
+# inclusion image IRM
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_irm = ifelse(
+      mr_y_qc__incl__smri__t1_indicator != 1,
+      "1",
+      "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_irm == "1"]) %>% length()) # 719 ppts exclus
+
+# donnée CO
+
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_coNA = ifelse(
+      first(ab_g_stc__cohort_sex) == 2 &
+      all(
+        is.na(ph_y_pds__f_002__05__01__v1) &
+        is.na(ph_y_pds__f_002__05) &
+        is.na(ph_y_pds__f_002__05__01)
+      ),
+      "1",
+      "0"
+    )
+  ) %>%
+  ungroup()
+
+
+sum(unique(data$participant_id[data$exclu_coNA == "1"]) %>% length()) # 0 ppt
+
+data <- data %>%
+  group_by(participant_id) %>%
+  mutate(
+    exclu_co_incoherent = ifelse(
+      any(
+        ph_y_pds__f_002__05 == 1 &
+        !(
+          ph_y_pds__f_002__05__01 == 1 |
+          ph_y_pds__f_002__05__01__v1 %in% c(1,2,3,4,5,6)
+        ),
+        na.rm = TRUE
+      ),
+      "1",
+      "0"
+    )
+  ) %>%
+  ungroup()
+
+sum(unique(data$participant_id[data$exclu_co_incoherent == "1"]) %>% length()) # 103 ppt
+
+
+# création de la base de données sans les participants exclus : data_filtered
+cols_exclu <- grep("^exclu_", names(data), value = TRUE)
+data_filtered <- data %>%
+  group_by(participant_id) %>%
+  filter(
+    !any(across(all_of(cols_exclu), ~ .x == "1"), na.rm = TRUE)
+  ) %>%
+  ungroup()
+
+# compter le nombre de participants restants
+n_distinct(data_filtered$participant_id) # 10 492 ppt
+
+
+write.csv(data_filtered, "data_filtered.csv", row.names = FALSE)
+
+```
+
+
+
+## 2.2 Calcul et création des variables pour les analyses
+Création des variables suivantes et explication :
+
+- statut pubertaire : addition des scores aux items communs aux deux sexes, et spécifiques pour chacun des sexes.
+
+- co : variable dont la valeur peut changer à chaque temps de mesure. gars = 0. Les filles qui n'ont pas commencé leurs règles ne recoivent pas la question sur l'utilisation de contraception, alors incluses dans le groupe de non-utilisatrices par défaut = 1. Filles qui rapportent l'utilisation de CO = 2. Filles qui rapportent l'utilisation d'un autre type de CH = 3
+
+- co_longi : variable qui a la même valeur pour tous les temps de mesure. gars = 0, filles qui n'ont pas commencé leurs règles/qui n'ont jamais pris de CO sur tous les temps de mesure = 1, filles qui ont rapporté prendre un CO à au moins 1 temps de mesure = 2.Filles qui ont rapporté prendre un autre type de CH à au moins 1 temps de mesure = 3
+
+- ch : variable dont la valeur peut changer à chaque temps de mesure. gars = 0. Les filles qui n'ont pas commencé leurs règles ne recoivent pas la question sur l'utilisation de contraception, alors incluses dans le groupe de non-utilisatrices par défaut = 1. Filles qui rapportent l'utilisation de CH = 2.
+
+- ch_longi: variable qui a la même valeur pour tous les temps de mesure. gars = 0, filles qui n'ont pas commencé leurs règles/qui n'ont jamais pris de CH sur tous les temps de mesure = 1, filles qui ont rapporté prendre un CH à au moins 1 temps de mesure = 2.
+
+- ple : nombre d'événements d'adversité vécus au cours de la vie tels qu'indiqués au temps 6. score de 1 chaque fois que la personne répond oui (34 items). variable continue
+
+- ple_cat : variable catégorielle du score d'événements d'adversité. +- 1 EC
+
+- session_id_continu : mettre le temps en mois (continu) pour pouvoir comparer les pentes entre les groupes
+
+```{r}
+data_filtered <- read.csv("data_filtered.csv")
+
+# changer les "n/a" des colonnes en charactères en vrais NA pour que les fonctions les détectent
+data_filtered <- data_filtered %>%
+  mutate(across(where(is.character), ~ na_if(., "n/a")))
+
+# création du score de statut pubertaire
+
+data_filtered  <- data_filtered %>%
+  mutate(
+    across(
+      c(ph_y_pds_001,
+        ph_y_pds_002,
+        ph_y_pds_003,
+        ph_y_pds__m_001,
+        ph_y_pds__m_002,
+        ph_y_pds__f_001,
+        ph_y_pds__f_002),
+      ~ as.numeric(.) %>% replace(. %in% c(777, 999), NA)
+    )
+  )
+
+data_filtered  <- data_filtered  %>%
+  mutate(
+    puberty = case_when(
+      ab_g_stc__cohort_sex == 1 ~
+        rowSums(across(c(ph_y_pds_001,
+                          ph_y_pds_002,
+                          ph_y_pds_003,
+                          ph_y_pds__m_001,
+                          ph_y_pds__m_002)),
+                na.rm = TRUE),
+      ab_g_stc__cohort_sex == 2 ~
+        rowSums(across(c(ph_y_pds_001,
+                          ph_y_pds_002,
+                          ph_y_pds_003,
+                          ph_y_pds__f_001,
+                          ph_y_pds__f_002)),
+                na.rm = TRUE),
+      TRUE ~ NA_real_
+    )
+  )
+
+# créer une variable catégorielle de groupes de co : homme, fille pas CO, fille co 
+
+data_filtered$co <- NA
+
+data_filtered$co[
+  data_filtered$ab_g_stc__cohort_sex == "1"
+] <- 0
+
+  
+
+data_filtered$co[
+  data_filtered$ab_g_stc__cohort_sex == "2" &
+  ( data_filtered$ph_y_pds__f_002__05 == 0 |
+    is.na(data_filtered$ph_y_pds__f_002__05)
+    )
+] <- 1
+
+data_filtered$co[
+  data_filtered$ab_g_stc__cohort_sex == "2" &
+  (
+    data_filtered$ph_y_pds__f_002__05__01 == 1 |
+    data_filtered$ph_y_pds__f_002__05__01__v1 == "1"
+  )
+] <- 2
+
+
+data_filtered$co[
+  data_filtered$ab_g_stc__cohort_sex == "2" &
+  (data_filtered$ph_y_pds__f_002__05__01__v1 %in% c(2,3,4,5,6)
+  )
+] <- 3
+
+data_filtered$co <- as.factor(data_filtered$co)
+
+count <- data_filtered %>%
+  group_by(session_id, co) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+# créer la variable de CO longitudinale (groupe CO dès que rapporte utilisation de de CO à 1 temps de mesure)
+
+data_filtered$co_longi <- NA
+
+
+data_filtered$co_longi[
+  data_filtered$ab_g_stc__cohort_sex == "1"
+] <- 0
+
+data_filtered$co_longi[
+  ave(
+    data_filtered$co == 2,
+    data_filtered$participant_id,
+    FUN = any
+  )
+] <- 2
+
+data_filtered$co_longi[
+  ave(
+    data_filtered$co == 3,
+    data_filtered$participant_id,
+    FUN = any
+  )
+] <- 3
+
+data_filtered$co_longi[
+  data_filtered$ab_g_stc__cohort_sex == "2" &
+  !ave(
+    data_filtered$co %in% c(2, 3),
+    data_filtered$participant_id,
+    FUN = any
+  )
+] <- 1
+
+data_filtered$co_longi <- as.factor(data_filtered $co_longi)
+
+count <- data_filtered %>%
+  group_by(session_id, co_longi) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+
+# créer une variable catégorielle de groupes de ch : homme, fille pas CH, fille ch
+
+data_filtered$ch <- NA
+
+data_filtered$ch[
+  data_filtered$ab_g_stc__cohort_sex == "1"
+] <- 0
+
+data_filtered$ch[
+  data_filtered$ab_g_stc__cohort_sex == "2" &
+  ( data_filtered$ph_y_pds__f_002__05 == 0 |
+    is.na(data_filtered$ph_y_pds__f_002__05)
+    )
+] <- 1
+
+
+data_filtered$ch[
+  data_filtered$ab_g_stc__cohort_sex == "2" &
+  ( data_filtered$ph_y_pds__f_002__05 == 1 |
+      data_filtered$ph_y_pds__f_002__05__01__v1 %in% c(1,2,3,4,5,6)
+  )
+] <- 2
+
+data_filtered$ch <- as.factor(data_filtered$ch)
+
+count <- data_filtered %>%
+  group_by(session_id, ch) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+# créer la variable de CH longitudinale (groupe CH dès que rapporte utilisation de de CH à 1 temps de mesure)
+
+data_filtered$ch_longi <- NA
+
+data_filtered$ch_longi[
+  data_filtered$ab_g_stc__cohort_sex == "1"
+] <- 0
+
+data_filtered$ch_longi[
+  ave(
+    data_filtered$ch == 2,
+    data_filtered$participant_id,
+    FUN = any
+  )
+] <- 2
+
+data_filtered$ch_longi[
+  data_filtered$ab_g_stc__cohort_sex == "2" &
+  !ave(
+    data_filtered$co == 2,
+    data_filtered$participant_id,
+    FUN = any
+  )
+] <- 1
+
+
+data_filtered$ch_longi <- as.factor(data_filtered $ch_longi)
+
+count <- data_filtered %>%
+  group_by(session_id, ch_longi) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+# life events 
+
+cols <- sprintf("mh_y_ple_%03d", 1:34)
+data_filtered[, cols]
+lapply(data_filtered[, cols], unique)
+
+data_filtered$ple_total <- 0
+
+items_num <- c(
+  sprintf("mh_y_ple_%03d", 1:7),
+  sprintf("mh_y_ple_%03d", 9:25)
+)
+
+data_filtered$ple_total <- data_filtered$ple_total +
+  rowSums(data_filtered[, items_num] == 1, na.rm = TRUE)
+
+items_char <- c(
+  "mh_y_ple_008",
+  sprintf("mh_y_ple_%03d", 26:34)
+)
+
+data_filtered$ple_total <- data_filtered$ple_total +
+  rowSums(data_filtered[, items_char] == "1", na.rm = TRUE)
+
+summary(data_filtered$ple_total)
+table(data_filtered$ple_total)
+
+# life events catégoriel
+
+mean_ple <- mean(data_filtered$ple_total, na.rm = TRUE)
+
+sd_ple <- sd(data_filtered$ple_total, na.rm = TRUE)
+
+data_filtered$ple_cat <- ifelse(
+  data_filtered$ple_total > (mean_ple + sd_ple), "high",
+  ifelse(
+    data_filtered$ple_total < (mean_ple - sd_ple), "low",
+    "mean"
+  )
+)
+
+data_filtered$ple_cat <- factor(
+  data_filtered$ple_cat,
+  levels = c("low", "mean", "high")
+)
+
+data_filtered %>% 
+  group_by(co_longi) %>% 
+  summarise(frequence = n(), .groups = "drop")
+
+# session_id continu
+
+data_filtered$session_id_continu <- NA
+
+data_filtered$session_id_continu[
+  data_filtered$session_id == "ses-00A"
+] <- 0
+
+data_filtered$session_id_continu[
+  data_filtered$session_id == "ses-01A"
+] <- 1
+
+data_filtered$session_id_continu[
+  data_filtered$session_id == "ses-02A"
+] <- 2
+
+data_filtered$session_id_continu[
+  data_filtered$session_id == "ses-03A"
+] <- 3
+
+data_filtered$session_id_continu[
+  data_filtered$session_id == "ses-04A"
+] <- 4
+
+data_filtered$session_id_continu[
+  data_filtered$session_id == "ses-05A"
+] <- 5
+
+data_filtered$session_id_continu[
+  data_filtered$session_id == "ses-06A"
+] <- 6
+
+
+
+write.csv(data_filtered, "data_filtered.csv", row.names = FALSE)
+
+```
+
+## 2.3 Covariables
+
+Parmi les covariables potentielles, seules celles qui diffèrent entre les groupes de CO_longi un seuil conservateur de p < .1 seront incluses dans les analyses.
+Variables associées :
+
+- ethnicité
+- revenu
+-importance religion
+- life events
+
+```{r}
+data_filtered <- read.csv("data_filtered.csv")
+
+
+# ethnicité
+freq_ethnicite <- table(data_filtered$co_longi, data_filtered$ab_g_stc__cohort_ethnrace__meim)
+freq_ethnicite
+prop.table(freq_ethnicite, margin = 1) * 100
+
+chi_ethnicite <- table(data_filtered$co_longi,
+                       data_filtered$ab_g_stc__cohort_ethnrace__meim)
+
+chisq.test(chi_ethnicite) # sig
+
+# revenu
+freq_revenu <- table(data_filtered$co_longi, data_filtered$ab_p_demo__income__hhold_001__v01)
+freq_revenu
+prop.table(freq_revenu, margin = 1) * 100
+
+chi_revenu <- table(data_filtered$co_longi,
+                       data_filtered$ab_p_demo__income__hhold_001__v01)
+
+chisq.test(chi_revenu) # sig
+
+
+# importance religion
+freq_impreligion <- table(data_filtered$co_longi, data_filtered$ab_p_demo__relig_003)
+freq_impreligion
+prop.table(freq_impreligion, margin = 1) * 100
+
+chi_impreligion <- table(data_filtered$co_longi,
+                       data_filtered$ab_p_demo__relig_003)
+
+chisq.test(chi_impreligion) # sig
+
+
+# life events
+
+freq_ple <- table(data_filtered$co_longi, data_filtered$ple_cat)
+freq_ple
+prop.table(freq_ple, margin = 1) * 100
+
+chi_ple <- table(data_filtered$co_longi,
+                       data_filtered$ple_cat)
+
+chisq.test(chi_ple) # sig
+
+data_filtered %>% 
+  group_by(co_longi) %>% 
+  summarise(mean(ple_total, na.rm = TRUE))
+
+
+```
+
+## 2.4 Création de la BDD avec les VDs, VIs et covariables définitives
+le tableau de données qui contient les VDS (épaisseur corticale et volume de matière grise, atlas desikan, destrieux et sous-cortical), les VIS et les covariables se domme data_analyses. 
+```{r}
+data_analyses <- data_filtered %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+    
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+    
+    starts_with("mr_y_smri__thk__dsk"),
+    starts_with("mr_y_smri__thk__dst"),
+    starts_with("mr_y_smri__vol__aseg"), # mr_y_smri__vol__aseg__icv_sum TIV est dans ce tableau
+    starts_with("mr_y_smri__vol__dsk"),
+    starts_with("mr_y_smri__vol__dst")
+    
+    
+  )
+
+write.csv(data_analyses, "data_analyses.csv", row.names = FALSE)
+
+
+```
+
+## 2.5 Création des différentes bases de données
+data_CO contient les garçons, les filles qui n'ont jamais utilisé de CO et qui ont leurs règles à T4, ainsi que les utilisatrices de CO uniquement: Toutes les filles ayant rapporté l'utilisation d'une autre forme de CH sont exclues. 
+
+data_CO_clean contient les garçons, les filles qui n'ont jamais utilisé de CO, ainsi que les utilisatrices qui ont commencé après T3 - car seulement 21 personnes ont commencé à T3, ce qui complique l'interprétation des résultats. Les premières utilisations de CO se font donc à T4.
+
+data_ct_dsk : contient seulement les données d'épaisseur corticale avec atlas desikan
+data_ct_dst : contient seulement les données d'épaisseur corticale avec atlas destrieux
+data_vol_aseg : contient seulement les données de volume sous-cortical
+data_vol_dsk : contient seulement les données de volume avec atlas desikan
+data_vol_dst :  contient seulement les données de volume avec atlas destrieux
+
+```{r data_CO}
+data_analyses <- read.csv("data_analyses.csv")
+data_CO <- data_analyses %>%
+  group_by(participant_id) %>%
+  filter(!any(co == 3, na.rm = TRUE)) %>%
+  ungroup()
+
+write.csv(data_CO, "data_CO.csv", row.names = FALSE)
+```
+
+```{r data_CO_clean }
+
+count <- data_CO %>%
+  group_by(session_id, ch) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+data_CO_clean <- data_CO %>%
+  filter(
+    !participant_id %in% (
+      data_CO %>%
+        filter(session_id == "ses-03A", co == 2) %>%
+        pull(participant_id)
+    )
+  )
+
+count <- data_CO_clean %>%
+  group_by(session_id, ch) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+write.csv(data_CO_clean, "data_CO_clean.csv", row.names = FALSE)
+
+
+```
+
+```{r data_ct_dsk}
+data_ct_dsk <- data_CO_clean %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+    
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    mr_y_smri__vol__aseg__icv_sum,
+    
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+    
+    starts_with("mr_y_smri__thk__dsk")
+  )
+
+write.csv(data_ct_dsk, "data_ct_dsk.csv", row.names = FALSE)
+
+```
+
+```{r data_ct_dst}
+
+data_ct_dst <- data_CO_clean %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+    
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    mr_y_smri__vol__aseg__icv_sum,
+    
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+    
+    starts_with("mr_y_smri__thk__dst")
+  )
+
+write.csv(data_ct_dst, "data_ct_dst.csv", row.names = FALSE)
+```
+
+```{r data_vol_aseg}
+
+data_vol_aseg <- data_CO_clean %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+    
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model, # mr_y_smri__vol__aseg__icv_sum est deja dedans
+    
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+    
+    starts_with("mr_y_smri__vol__aseg")
+  )
+
+write.csv(data_vol_aseg, "data_vol_aseg.csv", row.names = FALSE)
+```
+
+```{r data_vol_dsk}
+data_vol_dsk <- data_CO_clean %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+    
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    mr_y_smri__vol__aseg__icv_sum,
+    
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+    
+    starts_with("mr_y_smri__vol__dsk")
+  )
+
+write.csv(data_vol_dsk, "data_vol_dsk.csv", row.names = FALSE)
+```
+
+```{r data_vol_dst}
+data_vol_dst <- data_CO_clean %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+    
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    mr_y_smri__vol__aseg__icv_sum,
+    
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+    
+    starts_with("mr_y_smri__vol__dst")
+  )
+
+write.csv(data_vol_dst, "data_vol_dst.csv", row.names = FALSE)
+```
+
+## 2.6 Analyses descriptives
+
+```{r data_CO_clean}
+
+data_CO_clean <- read.csv("data_CO_clean.csv")
+
+# nombre de personnes dans chaque groupe ####
+count <- data_CO_clean %>%
+  group_by(session_id, co ) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+
+count <- data_CO_clean %>%
+  distinct(participant_id, co_longi) %>%   
+  group_by(co_longi) %>%
+  summarise(
+    nb_participants = n(),               
+    .groups = "drop"
+  )
+
+count <- data_CO_clean %>%
+  group_by(session_id, ch ) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+count <- data_CO_clean %>%
+  distinct(participant_id, ch_longi) %>%   
+  group_by(ch_longi) %>%
+  summarise(
+    nb_participants = n(),               
+    .groups = "drop"
+  )
+
+# sociodémo et covariables ####
+data_descriptives <- data_CO_clean %>% 
+  filter(session_id == "ses-01A")
+
+## ethnicité
+unique(data_descriptives$ab_g_stc__cohort_ethnrace__meim)
+freq_ethnicite <- table(data_descriptives$co_longi, data_descriptives$ab_g_stc__cohort_ethnrace__meim)
+
+freq_ethnicite
+prop_ethnicite <- prop.table(freq_ethnicite, margin = 1) * 100
+
+chi_ethnicite <- table(data_descriptives$co_longi,
+                       data_descriptives$ab_g_stc__cohort_ethnrace__meim)
+chi_ethnicite <- chi_ethnicite[
+  rowSums(chi_ethnicite) > 0,
+  colSums(chi_ethnicite) > 0
+]
+
+chisq.test(chi_ethnicite)
+
+df_pie <- as.data.frame(prop_ethnicite)
+
+colnames(df_pie) <- c("co_longi", "ethnicite", "pourcentage")
+ethnicite <- ggplot(df_pie, aes(x = "", y = pourcentage, fill = ethnicite)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  facet_wrap(~ co_longi) +
+  labs(
+    title = "Répartition des groupes ethniques selon les groupes CO",
+    fill = "Ethnicité"
+  ) +
+  theme_void() +
+  theme(
+    strip.text = element_text(size = 12, face = "bold"),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+ggsave("graph_ethnicite.png",
+       plot = ethnicite,
+       width = 12, height = 6,
+       dpi = 300)
+## revenu
+freq_revenu <- table(data_descriptives$co_longi, data_descriptives$ab_p_demo__income__hhold_001__v01)
+freq_revenu
+prop_revenu <- prop.table(freq_revenu, margin = 1) * 100
+
+chi_revenu <- table(data_descriptives$co_longi,
+                       data_descriptives$ab_p_demo__income__hhold_001__v01)
+
+chi_revenu <- chi_revenu[
+  rowSums(chi_revenu) > 0,
+  colSums(chi_revenu) > 0
+]
+chisq.test(chi_revenu) # sig
+
+df_pie <- as.data.frame(prop_ethnicite)
+
+colnames(df_pie) <- c("co_longi", "revenu", "pourcentage")
+
+df_pie$revenu <- factor(df_pie$revenu,
+                        levels = unique(df_pie$revenu))
+revenu <- ggplot(df_pie, aes(x = "", y = pourcentage, fill = revenu)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  facet_wrap(~ co_longi) +
+  labs(
+    title = "Répartition du revenu selon les groupes CO",
+    fill = "revenu"
+  ) +
+  theme_void() +
+  theme(
+    strip.text = element_text(size = 12, face = "bold"),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+ggsave("graph_revenu.png",
+       plot = revenu,
+       width = 12, height = 6,
+       dpi = 300)
+
+## importance religion
+freq_impreligion <- table(data_descriptives$co_longi, data_descriptives$ab_p_demo__relig_003)
+freq_impreligion
+prop_religiosite <- prop.table(freq_impreligion, margin = 1) * 100
+
+chi_impreligion <- table(data_descriptives$co_longi,
+                       data_descriptives$ab_p_demo__relig_003)
+
+chi_impreligion <- chi_impreligion[
+  rowSums(chi_impreligion) > 0,
+  colSums(chi_impreligion) > 0
+]
+
+chisq.test(chi_impreligion) # sig
+
+df_pie <- as.data.frame(prop_religiosite)
+
+colnames(df_pie) <- c("co_longi", "religiosite", "pourcentage")
+religiosite <- ggplot(df_pie, aes(x = "", y = pourcentage, fill = religiosite)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  facet_wrap(~ co_longi) +
+  labs(
+    title = "Répartition de la religiosité selon les groupes CO",
+    fill = "Religiosité"
+  ) +
+  theme_void() +
+  theme(
+    strip.text = element_text(size = 12, face = "bold"),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+ggsave("graph_religiosite.png",
+       plot = religiosite,
+       width = 12, height = 6,
+       dpi = 300)
+
+```
+
+# 3. Analyses principales
+## 3.1 cortical thickness desikan
+```{r}
+
+data_ct_dsk <- read.csv("data_ct_dsk.csv")
+data_ct_dsk$co_longi <- as.factor(data_ct_dsk$co_longi)
+
+
+colnames(data_ct_dsk)
+
+data_ct_dsk_long <- data_ct_dsk %>%
+  pivot_longer(
+    cols = starts_with("mr_y_smri__thk__dsk__"),
+    names_to = "variable",
+    values_to = "score"
+  ) %>%
+  mutate(
+    hemi = case_when(
+      str_detect(variable, "__lh_") ~ "left",
+      str_detect(variable, "__rh_") ~ "right"
+    ),
+       variable = str_remove(variable, "__lh_.*|__rh_.*")
+  ) %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    mr_y_smri__vol__aseg__icv_sum,
+
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+
+    variable,
+    score,
+    hemi
+  )
+    
+# liste des régions
+regions <- unique(data_ct_dsk_long$variable)
+
+
+# modèle avec temps catégoriel ####
+run_model <- function(reg) {
+  
+  dat <- data_ct_dsk_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+## appliquer à toutes les régions
+models <- map(regions, run_model)
+
+## nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+## anova
+anova_ct_dsk <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_ct_dsk <- bind_rows(anova_ct_dsk)
+
+
+anova_ct_dsk <- anova_ct_dsk %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+## post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_ct_dsk %>%
+  filter(term == "co_longi:session_id", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+### moyennes à chaque temps
+posthoc_ct_dsk <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  ph <- emmeans(model, pairwise ~ co_longi | session_id)
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+
+write.csv(posthoc_ct_dsk, "posthoc_ct_dsk.csv", row.names = FALSE)
+
+### pentes entre les temps
+
+posthoc_ct_dsk_pente <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  emm <- emmeans(model, ~ co_longi * session_id)
+
+  trends_time <- contrast(emm, method = "consec", by = "co_longi")
+
+  ph <- contrast(trends_time, method = "pairwise", by = "contrast")
+
+  as.data.frame(ph) %>%
+    mutate(region = reg)
+
+})
+
+write.csv(posthoc_ct_dsk_pente, "posthoc_ct_dsk_pente.csv", row.names = FALSE)
+
+# modèle avec temps continu ####
+run_model <- function(reg) {
+  
+  dat <- data_ct_dsk_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id_continu * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+# appliquer à toutes les régions
+models <- map(regions, run_model)
+
+# nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+# anova
+anova_ct_dsk_continu <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_ct_dsk_continu <- bind_rows(anova_ct_dsk_continu)
+
+
+anova_ct_dsk_continu <- anova_ct_dsk_continu %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+# post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_ct_dsk_continu %>%
+  filter(term == "co_longi:session_id_continu", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+posthoc_ct_dsk_continu <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  # post-hoc de l'interaction complète
+  ph <- emtrends(model,
+         pairwise ~ co_longi,
+         var = "session_id_continu")
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+write.csv(posthoc_ct_dsk_continu, "posthoc_ct_dsk_continu.csv", row.names = FALSE)
+```
+
+## 3.2 cortical thickness destrieux
+```{r}
+data_ct_dst <- read.csv("data_ct_dst.csv")
+data_ct_dst$co_longi <- as.factor(data_ct_dst$co_longi)
+
+data_ct_dst_long <- data_ct_dst %>%
+  pivot_longer(
+    cols = starts_with("mr_y_smri__thk__dst__"),
+    names_to = "variable",
+    values_to = "score"
+  ) %>%
+  mutate(
+    hemi = case_when(
+      str_detect(variable, "__lh_") ~ "left",
+      str_detect(variable, "__rh_") ~ "right"
+    ),
+       variable = str_remove(variable, "__lh_.*|__rh_.*")
+  ) %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    mr_y_smri__vol__aseg__icv_sum,
+
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+
+    variable,
+    score,
+    hemi
+  )
+    
+# liste des régions
+regions <- unique(data_ct_dst_long$variable)
+
+
+# modèle avec temps catégoriel ####
+run_model <- function(reg) {
+  
+  dat <- data_ct_dst_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+## appliquer à toutes les régions
+models <- map(regions, run_model)
+
+## nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+## anova
+anova_ct_dst <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_ct_dst <- bind_rows(anova_ct_dst)
+
+
+anova_ct_dst <- anova_ct_dst %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+## post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_ct_dst %>%
+  filter(term == "co_longi:session_id", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+### moyennes à chaque temps
+posthoc_ct_dst <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  ph <- emmeans(model, pairwise ~ co_longi | session_id)
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+
+write.csv(posthoc_ct_dst, "posthoc_ct_dst.csv", row.names = FALSE)
+
+### pentes entre les temps
+
+posthoc_ct_dst_pente <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  emm <- emmeans(model, ~ co_longi * session_id)
+
+  trends_time <- contrast(emm, method = "consec", by = "co_longi")
+
+  ph <- contrast(trends_time, method = "pairwise", by = "contrast")
+
+  as.data.frame(ph) %>%
+    mutate(region = reg)
+
+})
+
+write.csv(posthoc_ct_dst_pente, "posthoc_ct_dst_pente.csv", row.names = FALSE)
+
+# modèle avec temps continu ####
+run_model <- function(reg) {
+  
+  dat <- data_ct_dst_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id_continu * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+# appliquer à toutes les régions
+models <- map(regions, run_model)
+
+# nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+# anova
+anova_ct_dst_continu <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_ct_dst_continu <- bind_rows(anova_ct_dst_continu)
+
+
+anova_ct_dst_continu <- anova_ct_dst_continu %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+# post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_ct_dst_continu %>%
+  filter(term == "co_longi:session_id_continu", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+posthoc_ct_dst_continu <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  # post-hoc de l'interaction complète
+  ph <- emtrends(model,
+         pairwise ~ co_longi,
+         var = "session_id_continu")
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+write.csv(posthoc_ct_dst_continu, "posthoc_ct_dst_continu.csv", row.names = FALSE)
+```
+
+## 3.3 volume subcortical
+```{r}
+data_vol_aseg <- read.csv("data_vol_aseg.csv")
+data_vol_aseg$co_longi <- as.factor(data_vol_aseg$co_longi)
+
+cols_no_hemi <- names(data_vol_aseg)[
+  grepl("^mr_y_smri__vol__aseg", names(data_vol_aseg)) &
+  !grepl("__lh_|__rh_", names(data_vol_aseg))
+]
+
+data_vol_aseg_long <- data_vol_aseg %>%
+  pivot_longer(
+    cols = names(data_vol_aseg)[
+      grepl("^mr_y_smri__vol__aseg__", names(data_vol_aseg)) &
+      grepl("__lh_|__rh_", names(data_vol_aseg))
+    ],
+    names_to = "variable",
+    values_to = "score"
+  ) %>%
+  mutate(
+    hemi = case_when(
+      str_detect(variable, "__lh_") ~ "left",
+      str_detect(variable, "__rh_") ~ "right"
+    ),
+    variable = str_remove(variable, "__lh_.*|__rh_.*")
+  ) %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+    
+    all_of(cols_no_hemi),
+
+    variable,
+    score,
+    hemi
+  )
+     
+# liste des régions bilatérales ####
+regions <- unique(data_vol_aseg_long$variable)
+
+
+## modèle avec temps catégoriel  ####
+run_model <- function(reg) {
+  
+  dat <- data_vol_aseg_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+## appliquer à toutes les régions
+models <- map(regions, run_model)
+
+## nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+## anova
+anova_vol_aseg <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_vol_aseg <- bind_rows(anova_vol_aseg)
+
+
+anova_vol_aseg <- anova_vol_aseg %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+## post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_vol_aseg %>%
+  filter(term == "co_longi:session_id", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+### moyennes par temps 
+
+posthoc_vol_aseg <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  ph <- emmeans(model, pairwise ~ co_longi | session_id)
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+
+write.csv(posthoc_vol_aseg, "posthoc_vol_aseg.csv", row.names = FALSE)
+
+### pentes entre les temps
+
+posthoc_vol_aseg_pente <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  emm <- emmeans(model, ~ co_longi * session_id)
+
+  trends_time <- contrast(emm, method = "consec", by = "co_longi")
+
+  ph <- contrast(trends_time, method = "pairwise", by = "contrast")
+
+  as.data.frame(ph) %>%
+    mutate(region = reg)
+
+})
+
+write.csv(posthoc_vol_aseg_pente, "posthoc_vol_aseg_pente.csv", row.names = FALSE)
+
+## modèle avec temps continu ####
+run_model <- function(reg) {
+  
+  dat <- data_vol_aseg_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id_continu * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+# appliquer à toutes les régions
+models <- map(regions, run_model)
+
+# nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+# anova
+anova_vol_aseg_continu <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_vol_aseg_continu <- bind_rows(anova_vol_aseg_continu)
+
+
+anova_vol_aseg_continu <- anova_vol_aseg_continu %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+# post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_vol_aseg_continu %>%
+  filter(term == "co_longi:session_id_continu", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+posthoc_vol_aseg_continu <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  # post-hoc de l'interaction complète
+  ph <- emtrends(model,
+         pairwise ~ co_longi,
+         var = "session_id_continu")
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+write.csv(posthoc_vol_aseg_continu, "posthoc_vol_aseg_continu.csv", row.names = FALSE)
+
+
+
+
+
+# liste des régions unilatérales ####
+print(cols_no_hemi)
+regions <- c("mr_y_smri__vol__aseg__3rdv_sum",
+             "mr_y_smri__vol__aseg__4thv_sum",
+             "mr_y_smri__vol__aseg__avs_sum",
+             "mr_y_smri__vol__aseg__bs_sum",
+             "mr_y_smri__vol__aseg__cca_sum",
+             "mr_y_smri__vol__aseg__ccam_sum",
+             "mr_y_smri__vol__aseg__ccc_sum",
+             "mr_y_smri__vol__aseg__ccp_sum",
+             "mr_y_smri__vol__aseg__ccpm_sum",
+             "mr_y_smri__vol__aseg__csf_sum",
+             "mr_y_smri__vol__aseg__lvs_sum",
+             "mr_y_smri__vol__aseg__scgv_sum",
+             "mr_y_smri__vol__aseg__stv_sum",
+             "mr_y_smri__vol__aseg__whb_sum",
+             "mr_y_smri__vol__aseg__wmh_sum" 
+)
+
+## modèle avec temps catégoriel ####
+run_model <- function(reg) {
+  
+  model <- lmer(
+    reformulate(
+      termlabels = c(
+        "co_longi * session_id",
+        "ab_g_dyn__design_site",
+        "ab_g_dyn__design_mr__model",
+        "mr_y_smri__vol__aseg__icv_sum",
+        "puberty",
+        "ab_g_stc__cohort_ethnrace__meim",
+        "ab_p_demo__income__hhold_001__v01",
+        "ab_p_demo__relig_003",
+        "(1 | participant_id)"
+      ),
+      response = reg
+    ),
+    data = data_vol_aseg,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+## appliquer à toutes les régions
+models <- map(regions, run_model)
+
+## nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+## anova
+anova_vol_aseg_uni <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_vol_aseg_uni <- bind_rows(anova_vol_aseg_uni)
+
+
+anova_vol_aseg_uni <- anova_vol_aseg_uni %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+## post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_vol_aseg_uni %>%
+  filter(term == "co_longi:session_id", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+### moyennes par temps
+
+posthoc_vol_aseg_uni <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  ph <- emmeans(model, pairwise ~ co_longi | session_id)
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+
+write.csv(posthoc_vol_aseg_uni, "posthoc_vol_aseg_uni.csv", row.names = FALSE)
+
+### pentes entre les temps
+
+posthoc_vol_aseg_uni_pente <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  emm <- emmeans(model, ~ co_longi * session_id)
+
+  trends_time <- contrast(emm, method = "consec", by = "co_longi")
+
+  ph <- contrast(trends_time, method = "pairwise", by = "contrast")
+
+  as.data.frame(ph) %>%
+    mutate(region = reg)
+
+})
+
+write.csv(posthoc_vol_aseg_uni_pente, "posthoc_vol_aseg_uni_pente.csv", row.names = FALSE)
+
+
+## modèle avec temps continu ####
+run_model <- function(reg) {
+  
+  model <- lmer(
+    reformulate(
+      termlabels = c(
+        "co_longi * session_id_continu",
+        "ab_g_dyn__design_site",
+        "ab_g_dyn__design_mr__model",
+        "mr_y_smri__vol__aseg__icv_sum",
+        "puberty",
+        "ab_g_stc__cohort_ethnrace__meim",
+        "ab_p_demo__income__hhold_001__v01",
+        "ab_p_demo__relig_003",
+        "(1 | participant_id)"
+      ),
+      response = reg
+    ),
+    data = data_vol_aseg,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+# appliquer à toutes les régions
+models <- map(regions, run_model)
+
+# nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+# anova
+anova_vol_aseg_continu_uni <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_vol_aseg_continu_uni <- bind_rows(anova_vol_aseg_continu_uni)
+
+
+anova_vol_aseg_continu_uni <- anova_vol_aseg_continu_uni %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+# post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_vol_aseg_continu_uni %>%
+  filter(term == "co_longi:session_id_continu", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+posthoc_vol_aseg_continu_uni <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  # post-hoc de l'interaction complète
+  ph <- emtrends(model,
+         pairwise ~ co_longi,
+         var = "session_id_continu")
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+write.csv(posthoc_vol_aseg_continu_uni, "posthoc_vol_aseg_continu_uni.csv", row.names = FALSE)
+```
+
+## 3.4 volume desikan
+```{r}
+data_vol_dsk <- read.csv("data_vol_dsk.csv")
+data_vol_dsk$co_longi <- as.factor(data_vol_dsk$co_longi)
+
+data_vol_dsk_long <- data_vol_dsk %>%
+  pivot_longer(
+    cols = starts_with("mr_y_smri__vol__dsk__"),
+    names_to = "variable",
+    values_to = "score"
+  ) %>%
+  mutate(
+    hemi = case_when(
+      str_detect(variable, "__lh_") ~ "left",
+      str_detect(variable, "__rh_") ~ "right"
+    ),
+       variable = str_remove(variable, "__lh_.*|__rh_.*")
+  ) %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    mr_y_smri__vol__aseg__icv_sum,
+
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+
+    variable,
+    score,
+    hemi
+  )
+    
+# liste des régions
+regions <- unique(data_vol_dsk_long$variable)
+
+
+# modèle avec temps catégoriel ####
+run_model <- function(reg) {
+  
+  dat <- data_vol_dsk_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+## appliquer à toutes les régions
+models <- map(regions, run_model)
+
+## nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+## anova
+anova_vol_dsk <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_vol_dsk <- bind_rows(anova_vol_dsk)
+
+
+anova_vol_dsk <- anova_vol_dsk %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+## post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_vol_dsk %>%
+  filter(term == "co_longi:session_id", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+### moyennes par temps
+
+posthoc_vol_dsk <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  ph <- emmeans(model, pairwise ~ co_longi | session_id)
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+
+write.csv(posthoc_vol_dsk, "posthoc_vol_dsk.csv", row.names = FALSE)
+
+### pentes entre les temps
+
+posthoc_vol_dsk_pente <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  emm <- emmeans(model, ~ co_longi * session_id)
+
+  trends_time <- contrast(emm, method = "consec", by = "co_longi")
+
+  ph <- contrast(trends_time, method = "pairwise", by = "contrast")
+
+  as.data.frame(ph) %>%
+    mutate(region = reg)
+
+})
+
+write.csv(posthoc_vol_dsk_pente, "posthoc_vol_dsk_pente.csv", row.names = FALSE)
+
+# modèle avec temps continu ####
+run_model <- function(reg) {
+  
+  dat <- data_vol_dsk_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id_continu * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+# appliquer à toutes les régions
+models <- map(regions, run_model)
+
+# nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+# anova
+anova_vol_dsk_continu <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_vol_dsk_continu <- bind_rows(anova_vol_dsk_continu)
+
+
+anova_vol_dsk_continu <- anova_vol_dsk_continu %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+# post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_vol_dsk_continu %>%
+  filter(term == "co_longi:session_id_continu", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+posthoc_vol_dsk_continu <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  # post-hoc de l'interaction complète
+  ph <- emtrends(model,
+         pairwise ~ co_longi,
+         var = "session_id_continu")
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+write.csv(posthoc_vol_dsk_continu, "posthoc_vol_dsk_continu.csv", row.names = FALSE)
+```
+
+## 3.5 volume destrieux
+
+```{r}
+data_vol_dst <- read.csv("data_vol_dst.csv")
+data_vol_dst$co_longi <- as.factor(data_vol_dst$co_longi)
+
+data_vol_dst_long <- data_vol_dst %>%
+  pivot_longer(
+    cols = starts_with("mr_y_smri__vol__dst__"),
+    names_to = "variable",
+    values_to = "score"
+  ) %>%
+  mutate(
+    hemi = case_when(
+      str_detect(variable, "__lh_") ~ "left",
+      str_detect(variable, "__rh_") ~ "right"
+    ),
+       variable = str_remove(variable, "__lh_.*|__rh_.*")
+  ) %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    mr_y_smri__vol__aseg__icv_sum,
+
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+
+    variable,
+    score,
+    hemi
+  )
+    
+# liste des régions
+regions <- unique(data_vol_dst_long$variable)
+
+
+# modèle avec temps catégoriel ####
+run_model <- function(reg) {
+  
+  dat <- data_vol_dst_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+## appliquer à toutes les régions
+models <- map(regions, run_model)
+
+## nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+## anova
+anova_vol_dst <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_vol_dst <- bind_rows(anova_vol_dst)
+
+
+anova_vol_dst <- anova_vol_dst %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+## post hoc d'interaction co_longi x session_id
+### moyennes à chaque temps
+sig_regions <- anova_vol_dst %>%
+  filter(term == "co_longi:session_id", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+posthoc_vol_dst <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  ph <- emmeans(model, pairwise ~ co_longi | session_id)
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+
+write.csv(posthoc_vol_dst, "posthoc_vol_dst.csv", row.names = FALSE)
+
+### pentes entre les temps
+
+posthoc_vol_dst_pente <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  emm <- emmeans(model, ~ co_longi * session_id)
+
+  trends_time <- contrast(emm, method = "consec", by = "co_longi")
+
+  ph <- contrast(trends_time, method = "pairwise", by = "contrast")
+
+  as.data.frame(ph) %>%
+    mutate(region = reg)
+
+})
+
+write.csv(posthoc_vol_dst_pente, "posthoc_vol_dst_pente.csv", row.names = FALSE)
+
+# modèle avec temps continu ####
+run_model <- function(reg) {
+  
+  dat <- data_vol_dst_long %>%
+    filter(variable == reg)
+  
+  model <- lmer(
+    score ~ co_longi * session_id_continu * hemi +
+      ab_g_dyn__design_site +
+      ab_g_dyn__design_mr__model +
+      mr_y_smri__vol__aseg__icv_sum +
+      puberty +
+      ab_g_stc__cohort_ethnrace__meim +
+      ab_p_demo__income__hhold_001__v01 +
+      ab_p_demo__relig_003 +
+      (1 | participant_id),
+    data = dat,
+    na.action = na.omit
+  )
+  
+  return(model)
+}
+
+# appliquer à toutes les régions
+models <- map(regions, run_model)
+
+# nommer la liste
+names(models) <- regions
+summaries <- lapply(models, summary)
+
+# anova
+anova_vol_dst_continu <- lapply(names(models), function(nm) {
+  
+  a <- as.data.frame(anova(models[[nm]]))
+  a$term <- rownames(a)
+  a$region <- nm
+  rownames(a) <- NULL
+  
+  a
+})
+
+anova_vol_dst_continu <- bind_rows(anova_vol_dst_continu)
+
+
+anova_vol_dst_continu <- anova_vol_dst_continu %>%
+  mutate(p_value = `Pr(>F)`) %>%
+  group_by(term) %>%
+  mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
+  ungroup()
+
+
+# post hoc d'interaction co_longi x session_id
+
+sig_regions <- anova_vol_dst_continu %>%
+  filter(term == "co_longi:session_id_continu", p_fdr < 0.05) %>%
+  pull(region) %>%
+  unique()
+
+posthoc_vol_dst_continu <- map_dfr(sig_regions, function(reg) {
+
+  model <- models[[reg]]
+
+  # post-hoc de l'interaction complète
+  ph <- emtrends(model,
+         pairwise ~ co_longi,
+         var = "session_id_continu")
+
+  as.data.frame(ph$contrasts) %>%
+    mutate(region = reg)
+})
+
+write.csv(posthoc_vol_dst_continu, "posthoc_vol_dst_continu.csv", row.names = FALSE)
+```
+
+
