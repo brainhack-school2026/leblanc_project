@@ -1,0 +1,298 @@
+---
+title: "Visualizations"
+author: "Roxanne Leblanc"
+date: "2026-05-27"
+output: html_document
+---
+# Importation des librairies
+```{r}
+#install.packages("ggseg")
+library(ggseg)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+```
+
+# Importation des données
+Plusieurs post-hocs ont été faits à partir des interactions co_longi x session_id significatives. 
+Pour l'épaisseur corticale avec les atlas desikan et destrieux, les post-hocs ont été faits avec 1) le temps comme variable catégorielle pour visualiser 1.1) les différences de moyennes entre les groupes à chaque temps de mesure et 1.2) les différences de pentes à travers le temps entre les groupes et 2) le temps comme variable continue. (6 post-hocs)
+
+Pour le volume de matière grise avec les atlas desikan, destrieux, les post-hocs ont été faits avec 1) le temps comme variable catégorielle pour visualiser 1.1) les différences de moyennes entre les groupes à chaque temps de mesure et 1.2) les différences de pentes à travers le temps entre les groupes et 2) le temps comme variable continue. (6 post-hocs)
+
+Pour le volume de matière grise avec la segmentation sous-corticale, les modèles ont été roulés séparément pour les régions retrouvées bilatéralement et unilatéralement, car l'hémisphère ne pouvait être inclus dans le modèle pour les régions unilatérales. Pour chacun des modèles, les post-hocs ont été faits avec 1) le temps comme variable catégorielle pour visualiser 1.1) les différences de moyennes entre les groupes à chaque temps de mesure et 1.2) les différences de pentes à travers le temps entre les groupes et 2) le temps comme variable continue.  (6 post-hocs)
+
+Total de 18 post-hocs - 1 tableau par post-hoc
+
+```{r}
+# épaisseur corticale
+
+posthoc_ct_dsk <- read.csv("posthoc_ct_dsk.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_ct_dsk_pente <- read.csv("posthoc_ct_dsk_pente.csv")# temps catégoriel, différences de pentes entre les groupes
+posthoc_ct_dsk_continu <- read.csv("posthoc_ct_dsk_continu.csv")# temps continu
+
+posthoc_ct_dst <- read.csv("posthoc_ct_dst.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_ct_dst_pente <- read.csv("posthoc_ct_dst_pente.csv")# temps catégoriel, différences de pentes entre les groupes
+posthoc_ct_dst_continu <- read.csv("posthoc_ct_dst_continu.csv")# temps continu
+
+# volume de matière grise
+
+posthoc_vol_dsk <- read.csv("posthoc_vol_dsk.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_dsk_pente <- read.csv("posthoc_vol_dsk_pente.csv")# temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_dsk_continu <- read.csv("posthoc_vol_dsk_continu.csv")# temps continu
+
+posthoc_vol_dst <- read.csv("posthoc_vol_dst.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_dst_pente <- read.csv("posthoc_vol_dst_pente.csv")# temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_dst_continu <- read.csv("posthoc_vol_dst_continu.csv")# temps continu
+
+posthoc_vol_aseg <- read.csv("posthoc_vol_aseg.csv") # régions bilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_aseg_pente <- read.csv("posthoc_vol_aseg_pente.csv")# régions bilatérales,temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_aseg_continu <- read.csv("posthoc_vol_aseg_continu.csv")# régions bilatérales,temps continu
+
+posthoc_vol_aseg_uni <- read.csv("posthoc_vol_aseg_uni.csv") # régions unilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_aseg_uni_pente <- read.csv("posthoc_vol_aseg_uni_pente.csv")# régions unilatérales,temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_aseg_continu_uni <- read.csv("posthoc_vol_aseg_continu_uni.csv")# régions unilatérales,temps continu
+
+```
+
+# temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+```{r ct_dsk_0-1}
+
+posthoc_ct_dsk_0_1 <- posthoc_ct_dsk %>%
+  filter(contrast == "co_longi0 - co_longi1")
+
+posthoc_ct_dsk_0_1_ses02 <- posthoc_ct_dsk_0_1 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_ct_dsk_0_1_ses04 <- posthoc_ct_dsk_0_1 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_ct_dsk_0_1_ses06 <- posthoc_ct_dsk_0_1 %>%
+  filter(session_id == "ses-06A")
+
+plot(dk())
+unique(dk)
+# changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
+```
+
+
+```{r ct_dsk_0-2}
+
+```
+
+
+```{r ct_dsk_1-2}
+
+```
+
+
+```{r ct_dst_0-1}
+
+```
+
+
+```{r ct_dst_0-2}
+
+```
+
+
+```{r ct_dst_1-2}
+
+```
+
+
+```{r vol_dsk_0-1}
+
+```
+
+
+```{r vol_dsk_0-2}
+
+```
+
+
+```{r vol_dsk_1-2}
+
+```
+
+
+```{r vol_dst_0-1}
+
+```
+
+
+```{r vol_dst_0-2}
+
+```
+
+
+```{r vol_dst_1-2}
+
+```
+
+
+```{r vol_aseg_0-1}
+
+```
+
+
+```{r vol_aseg_0-2}
+
+```
+
+
+```{r vol_aseg_1-2}
+
+```
+
+# temps catégoriel, différences de pentes entre les groupes à chaque temps de mesure
+```{r ct_dsk_0-1}
+
+```
+
+
+```{r ct_dsk_0-2}
+
+```
+
+
+```{r ct_dsk_1-2}
+
+```
+
+
+```{r ct_dst_0-1}
+
+```
+
+
+```{r ct_dst_0-2}
+
+```
+
+
+```{r ct_dst_1-2}
+
+```
+
+
+```{r vol_dsk_0-1}
+
+```
+
+
+```{r vol_dsk_0-2}
+
+```
+
+
+```{r vol_dsk_1-2}
+
+```
+
+
+```{r vol_dst_0-1}
+
+```
+
+
+```{r vol_dst_0-2}
+
+```
+
+
+```{r vol_dst_1-2}
+
+```
+
+
+```{r vol_aseg_0-1}
+
+```
+
+
+```{r vol_aseg_0-2}
+
+```
+
+
+```{r vol_aseg_1-2}
+
+```
+
+
+# temps continu
+```{r ct_dsk_0-1}
+
+```
+
+
+```{r ct_dsk_0-2}
+
+```
+
+
+```{r ct_dsk_1-2}
+
+```
+
+
+```{r ct_dst_0-1}
+
+```
+
+
+```{r ct_dst_0-2}
+
+```
+
+
+```{r ct_dst_1-2}
+
+```
+
+
+```{r vol_dsk_0-1}
+
+```
+
+
+```{r vol_dsk_0-2}
+
+```
+
+
+```{r vol_dsk_1-2}
+
+```
+
+
+```{r vol_dst_0-1}
+
+```
+
+
+```{r vol_dst_0-2}
+
+```
+
+
+```{r vol_dst_1-2}
+
+```
+
+
+```{r vol_aseg_0-1}
+
+```
+
+
+```{r vol_aseg_0-2}
+
+```
+
+
+```{r vol_aseg_1-2}
+
+```
+
+
