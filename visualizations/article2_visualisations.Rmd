@@ -26,36 +26,79 @@ Total de 18 post-hocs - 1 tableau par post-hoc
 ```{r}
 # épaisseur corticale
 
-posthoc_ct_dsk <- read.csv("posthoc_ct_dsk.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_ct_dsk_pente <- read.csv("posthoc_ct_dsk_pente.csv")# temps catégoriel, différences de pentes entre les groupes
-posthoc_ct_dsk_continu <- read.csv("posthoc_ct_dsk_continu.csv")# temps continu
+posthoc_ct_dsk <- read.csv("/home/rleblanc/article2_visualisations/posthoc_ct_dsk.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_ct_dsk_pente <- read.csv("/home/rleblanc/article2_visualisations/posthoc_ct_dsk_pente.csv")# temps catégoriel, différences de pentes entre les groupes
+posthoc_ct_dsk_continu <- read.csv("/home/rleblanc/article2_visualisations/posthoc_ct_dsk_continu.csv")# temps continu
 
-posthoc_ct_dst <- read.csv("posthoc_ct_dst.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_ct_dst_pente <- read.csv("posthoc_ct_dst_pente.csv")# temps catégoriel, différences de pentes entre les groupes
-posthoc_ct_dst_continu <- read.csv("posthoc_ct_dst_continu.csv")# temps continu
+posthoc_ct_dst <- read.csv("/home/rleblanc/article2_visualisations/posthoc_ct_dst.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_ct_dst_pente <- read.csv("/home/rleblanc/article2_visualisations/posthoc_ct_dst_pente.csv")# temps catégoriel, différences de pentes entre les groupes
+posthoc_ct_dst_continu <- read.csv("/home/rleblanc/article2_visualisations/posthoc_ct_dst_continu.csv")# temps continu
 
 # volume de matière grise
 
-posthoc_vol_dsk <- read.csv("posthoc_vol_dsk.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_dsk_pente <- read.csv("posthoc_vol_dsk_pente.csv")# temps catégoriel, différences de pentes entre les groupes
-posthoc_vol_dsk_continu <- read.csv("posthoc_vol_dsk_continu.csv")# temps continu
+posthoc_vol_dsk <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_dsk.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_dsk_pente <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_dsk_pente.csv")# temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_dsk_continu <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_dsk_continu.csv")# temps continu
 
-posthoc_vol_dst <- read.csv("posthoc_vol_dst.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_dst_pente <- read.csv("posthoc_vol_dst_pente.csv")# temps catégoriel, différences de pentes entre les groupes
-posthoc_vol_dst_continu <- read.csv("posthoc_vol_dst_continu.csv")# temps continu
+posthoc_vol_dst <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_dst.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_dst_pente <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_dst_pente.csv")# temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_dst_continu <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_dst_continu.csv")# temps continu
 
-posthoc_vol_aseg <- read.csv("posthoc_vol_aseg.csv") # régions bilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_aseg_pente <- read.csv("posthoc_vol_aseg_pente.csv")# régions bilatérales,temps catégoriel, différences de pentes entre les groupes
-posthoc_vol_aseg_continu <- read.csv("posthoc_vol_aseg_continu.csv")# régions bilatérales,temps continu
+posthoc_vol_aseg <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_aseg.csv") # régions bilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_aseg_pente <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_aseg_pente.csv")# régions bilatérales,temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_aseg_continu <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_aseg_continu.csv")# régions bilatérales,temps continu
 
-posthoc_vol_aseg_uni <- read.csv("posthoc_vol_aseg_uni.csv") # régions unilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_aseg_uni_pente <- read.csv("posthoc_vol_aseg_uni_pente.csv")# régions unilatérales,temps catégoriel, différences de pentes entre les groupes
-posthoc_vol_aseg_continu_uni <- read.csv("posthoc_vol_aseg_continu_uni.csv")# régions unilatérales,temps continu
+posthoc_vol_aseg_uni <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_aseg_uni.csv") # régions unilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_aseg_uni_pente <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_aseg_uni_pente.csv")# régions unilatérales,temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_aseg_continu_uni <- read.csv("/home/rleblanc/article2_visualisations/posthoc_vol_aseg_continu_uni.csv")# régions unilatérales,temps continu
 
 ```
 
 # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
 ```{r ct_dsk_0-1}
+ggseg.formats::atlas_labels(dk())
+
+
+# changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
+posthoc_ct_dsk <- posthoc_ct_dsk %>%
+  mutate(region = recode(region,
+
+    "mr_y_smri__thk__dsk__bstmps" = "banks of superior temporal sulcus",
+    "mr_y_smri__thk__dsk__cac"    = "caudal anterior cingulate",
+    "mr_y_smri__thk__dsk__cmfrt"  = "caudal middle frontal",
+    "mr_y_smri__thk__dsk__cn"     = "corpus callosum",
+    "mr_y_smri__thk__dsk__er"     = "entorhinal",
+    "mr_y_smri__thk__dsk__ff"     = "frontal pole",
+    "mr_y_smri__thk__dsk__ic"     = "inferior parietal",
+    "mr_y_smri__thk__dsk__ins"    = "insula",
+    "mr_y_smri__thk__dsk__iprt"   = "inferior parietal",
+    "mr_y_smri__thk__dsk__itmp"   = "inferior temporal",
+    "mr_y_smri__thk__dsk__lg"     = "lingual",
+    "mr_y_smri__thk__dsk__lobfrt" = "lateral orbitofrontal",
+    "mr_y_smri__thk__dsk__locc"   = "lateral occipital",
+    "mr_y_smri__thk__dsk__mobfrt" = "medial orbitofrontal",
+    "mr_y_smri__thk__dsk__mtmp"   = "middle temporal",
+    "mr_y_smri__thk__dsk__pactr"  = "paracentral",
+    "mr_y_smri__thk__dsk__pcc"    = "posterior cingulate",
+    "mr_y_smri__thk__dsk__pcg"    = "precuneus",
+    "mr_y_smri__thk__dsk__pfrt"   = "superior frontal",
+    "mr_y_smri__thk__dsk__ph"     = "parahippocampal",
+    "mr_y_smri__thk__dsk__pob"    = "pars orbitalis",
+    "mr_y_smri__thk__dsk__poctr"  = "postcentral",
+    "mr_y_smri__thk__dsk__pop"    = "pars opercularis",
+    "mr_y_smri__thk__dsk__prcn"   = "precuneus",
+    "mr_y_smri__thk__dsk__prctr"  = "pars triangularis",
+    "mr_y_smri__thk__dsk__ptg"    = "transverse temporal",
+    "mr_y_smri__thk__dsk__ptmp"   = "temporal pole",
+    "mr_y_smri__thk__dsk__rac"    = "rostral anterior cingulate",
+    "mr_y_smri__thk__dsk__rmfrt"  = "rostral middle frontal",
+    "mr_y_smri__thk__dsk__sfrt"   = "superior frontal",
+    "mr_y_smri__thk__dsk__sm"     = "supramarginal",
+    "mr_y_smri__thk__dsk__sprt"   = "superior parietal",
+    "mr_y_smri__thk__dsk__stmp"   = "superior temporal",
+    "mr_y_smri__thk__dsk__ttmp"   = "transverse temporal"
+
+  ))
 
 posthoc_ct_dsk_0_1 <- posthoc_ct_dsk %>%
   filter(contrast == "co_longi0 - co_longi1")
@@ -70,12 +113,103 @@ posthoc_ct_dsk_0_1_ses06 <- posthoc_ct_dsk_0_1 %>%
   filter(session_id == "ses-06A")
 
 plot(dk())
-unique(dk)
-# changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
+
+dk()
+str(dk())
+
+# 2
+ggplot(posthoc_ct_dsk_0_1_ses02) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+
+ggplot(posthoc_ct_dsk_0_1_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+# 4
+ggplot(posthoc_ct_dsk_0_1_ses04) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+
+ggplot(posthoc_ct_dsk_0_1_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+# 6
+ggplot(posthoc_ct_dsk_0_1_ses06) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+
+ggplot(posthoc_ct_dsk_0_1_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
 ```
 
 
 ```{r ct_dsk_0-2}
+posthoc_ct_dsk_0_2 <- posthoc_ct_dsk %>%
+  filter(contrast == "co_longi0 - co_longi2")
+
+posthoc_ct_dsk_0_2_ses02 <- posthoc_ct_dsk_0_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_ct_dsk_0_2_ses04 <- posthoc_ct_dsk_0_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_ct_dsk_0_2_ses06 <- posthoc_ct_dsk_0_2 %>%
+  filter(session_id == "ses-06A")
+
+# 2
+ggplot(posthoc_ct_dsk_0_2_ses02) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+
+ggplot(posthoc_ct_dsk_0_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+# 4
+ggplot(posthoc_ct_dsk_0_2_ses04) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+
+ggplot(posthoc_ct_dsk_0_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+# 6
+ggplot(posthoc_ct_dsk_0_2_ses06) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+
+ggplot(posthoc_ct_dsk_0_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
 
 ```
 
