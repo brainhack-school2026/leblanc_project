@@ -11,6 +11,11 @@ library(ggseg)
 library(dplyr)
 library(ggplot2)
 library(stringr)
+#install.packages("remotes")
+#remotes::install_github("ggsegverse/ggsegDestrieux")
+library(ggsegDestrieux)
+library(ggseg3d)
+
 ```
 
 # Importation des données
@@ -56,7 +61,7 @@ posthoc_vol_aseg_continu_uni <- read.csv("/home/rleblanc/article2_visualisations
 
 # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
 ```{r ct_dsk_0-1}
-ggseg.formats::atlas_labels(dk())
+ggseg.formats::atlas_regions(dk())
 
 
 # changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
@@ -66,10 +71,10 @@ posthoc_ct_dsk <- posthoc_ct_dsk %>%
     "mr_y_smri__thk__dsk__bstmps" = "banks of superior temporal sulcus",
     "mr_y_smri__thk__dsk__cac"    = "caudal anterior cingulate",
     "mr_y_smri__thk__dsk__cmfrt"  = "caudal middle frontal",
-    "mr_y_smri__thk__dsk__cn"     = "corpus callosum",
+    "mr_y_smri__thk__dsk__cn"     = "cuneus",
     "mr_y_smri__thk__dsk__er"     = "entorhinal",
-    "mr_y_smri__thk__dsk__ff"     = "frontal pole",
-    "mr_y_smri__thk__dsk__ic"     = "inferior parietal",
+    "mr_y_smri__thk__dsk__ff"     = "fusiform",
+    "mr_y_smri__thk__dsk__ic"     = "isthmuscingulate",
     "mr_y_smri__thk__dsk__ins"    = "insula",
     "mr_y_smri__thk__dsk__iprt"   = "inferior parietal",
     "mr_y_smri__thk__dsk__itmp"   = "inferior temporal",
@@ -79,17 +84,17 @@ posthoc_ct_dsk <- posthoc_ct_dsk %>%
     "mr_y_smri__thk__dsk__mobfrt" = "medial orbitofrontal",
     "mr_y_smri__thk__dsk__mtmp"   = "middle temporal",
     "mr_y_smri__thk__dsk__pactr"  = "paracentral",
-    "mr_y_smri__thk__dsk__pcc"    = "posterior cingulate",
-    "mr_y_smri__thk__dsk__pcg"    = "precuneus",
-    "mr_y_smri__thk__dsk__pfrt"   = "superior frontal",
+    "mr_y_smri__thk__dsk__pcc"    = "pericalcarine",
+    "mr_y_smri__thk__dsk__pcg"    = "posterior cingulate",
+    "mr_y_smri__thk__dsk__pfrt"   = "frontal pole", 
     "mr_y_smri__thk__dsk__ph"     = "parahippocampal",
     "mr_y_smri__thk__dsk__pob"    = "pars orbitalis",
     "mr_y_smri__thk__dsk__poctr"  = "postcentral",
     "mr_y_smri__thk__dsk__pop"    = "pars opercularis",
     "mr_y_smri__thk__dsk__prcn"   = "precuneus",
-    "mr_y_smri__thk__dsk__prctr"  = "pars triangularis",
-    "mr_y_smri__thk__dsk__ptg"    = "transverse temporal",
-    "mr_y_smri__thk__dsk__ptmp"   = "temporal pole",
+    "mr_y_smri__thk__dsk__prctr"  = "precentral",
+    "mr_y_smri__thk__dsk__ptg"    = "pars triangularis",
+    "mr_y_smri__thk__dsk__ptmp"   = "temporal pole", 
     "mr_y_smri__thk__dsk__rac"    = "rostral anterior cingulate",
     "mr_y_smri__thk__dsk__rmfrt"  = "rostral middle frontal",
     "mr_y_smri__thk__dsk__sfrt"   = "superior frontal",
@@ -113,9 +118,6 @@ posthoc_ct_dsk_0_1_ses06 <- posthoc_ct_dsk_0_1 %>%
   filter(session_id == "ses-06A")
 
 plot(dk())
-
-dk()
-str(dk())
 
 # 2
 ggplot(posthoc_ct_dsk_0_1_ses02) +
@@ -220,16 +222,359 @@ ggplot(posthoc_ct_dsk_0_2_ses06 %>% filter(p.value < 0.05)) +
 
 
 ```{r ct_dst_0-1}
+ggseg.formats::atlas_regions(destrieux())
 
+
+# changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
+posthoc_ct_dst <- posthoc_ct_dst %>%
+  mutate(region = recode(region,
+
+  "mr_y_smri__thk__dst__gcn"    = "G_cuneus",
+  "mr_y_smri__thk__dst__gcpd"   = "G_cingul-Post-dorsal",
+  "mr_y_smri__thk__dst__gcpv"   = "G_cingul-Post-ventral",
+  "mr_y_smri__thk__dst__gfio"   = "G_front_inf-Opercular",
+  "mr_y_smri__thk__dst__gfiob"  = "G_front_inf-Orbital",
+  "mr_y_smri__thk__dst__gfit"   = "G_front_inf-Triangul",
+  "mr_y_smri__thk__dst__gfm"    = "G_front_middle",
+  "mr_y_smri__thk__dst__gfs"    = "G_front_sup",
+  "mr_y_smri__thk__dst__gilsci" = "G_Ins_lg_and_S_cent_ins",
+  "mr_y_smri__thk__dst__gis"    = "G_insular_short",
+  "mr_y_smri__thk__dst__go"     = "G_orbital",
+  "mr_y_smri__thk__dst__gom"    = "G_occipital_middle",
+  "mr_y_smri__thk__dst__gos"    = "G_occipital_sup",
+  "mr_y_smri__thk__dst__gotlf"  = "G_oc-temp_lat-fusifor",
+  "mr_y_smri__thk__dst__gotml"  = "G_oc-temp_med-Lingual",
+  "mr_y_smri__thk__dst__gotmp"  = "G_oc-temp_med-Parahip",
+  "mr_y_smri__thk__dst__gpc"    = "G_postcentral",
+  "mr_y_smri__thk__dst__gpia"   = "G_pariet_inf-Angular",
+  "mr_y_smri__thk__dst__gpis"   = "G_pariet_inf-Supramar",
+  "mr_y_smri__thk__dst__gprcn"  = "G_precuneus",
+  "mr_y_smri__thk__dst__gprct"  = "G_precentral",
+  "mr_y_smri__thk__dst__gps"    = "G_parietal_sup",
+  "mr_y_smri__thk__dst__gr"     = "G_rectus",
+  "mr_y_smri__thk__dst__gs"     = "G_subcallosal",
+  "mr_y_smri__thk__dst__gsca"   = "G_and_S_cingul-Ant",
+  "mr_y_smri__thk__dst__gscma"  = "G_and_S_cingul-Mid-Ant",
+  "mr_y_smri__thk__dst__gscmp"  = "G_and_S_cingul-Mid-Post",
+  "mr_y_smri__thk__dst__gsfm"   = "G_and_S_frontomargin",
+  "mr_y_smri__thk__dst__gsoi"   = "G_and_S_occipital_inf",
+  "mr_y_smri__thk__dst__gspc"   = "G_and_S_paracentral",
+  "mr_y_smri__thk__dst__gssc"   = "G_and_S_subcentral",
+  "mr_y_smri__thk__dst__gstf"   = "G_and_S_transv_frontopol",
+  "mr_y_smri__thk__dst__gti"    = "G_temporal_inf",
+  "mr_y_smri__thk__dst__gtm"    = "G_temporal_middle",
+  "mr_y_smri__thk__dst__gtsgtt" = "G_temp_sup-G_T_transv",
+  "mr_y_smri__thk__dst__gtsl"   = "G_temp_sup-Lateral",
+  "mr_y_smri__thk__dst__gtspp"  = "G_temp_sup-Plan_polar",
+  "mr_y_smri__thk__dst__gtspt"  = "G_temp_sup-Plan_tempo",
+  "mr_y_smri__thk__dst__lfah"   = "Lat_Fis-ant-Horizont",
+  "mr_y_smri__thk__dst__lfav"   = "Lat_Fis-ant-Vertical",
+  "mr_y_smri__thk__dst__lfp"    = "Lat_Fis-post",
+  "mr_y_smri__thk__dst__pocc"   = "Pole_occipital",
+  "mr_y_smri__thk__dst__ptmp"   = "Pole_temporal",
+  "mr_y_smri__thk__dst__sc"     = "S_central",
+  "mr_y_smri__thk__dst__scc"    = "S_calcarine",
+  "mr_y_smri__thk__dst__scia"   = "S_circular_insula_ant",
+  "mr_y_smri__thk__dst__scii"   = "S_circular_insula_inf",
+  "mr_y_smri__thk__dst__scis"   = "S_circular_insula_sup",
+  "mr_y_smri__thk__dst__scm"    = "S_cingul-Marginalis",
+  "mr_y_smri__thk__dst__scta"   = "S_collat_transv_ant",
+  "mr_y_smri__thk__dst__sctp"   = "S_collat_transv_post",
+  "mr_y_smri__thk__dst__sfi"    = "S_front_inf",
+  "mr_y_smri__thk__dst__sfm"    = "S_front_middle",
+  "mr_y_smri__thk__dst__sfs"    = "S_front_sup",
+  "mr_y_smri__thk__dst__sipj"   = "S_interm_prim-Jensen",
+  "mr_y_smri__thk__dst__sipt"   = "S_intrapariet_and_P_trans",
+  "mr_y_smri__thk__dst__soa"    = "S_occipital_ant",
+  "mr_y_smri__thk__dst__sohs"   = "S_orbital-H_Shaped",
+  "mr_y_smri__thk__dst__sol"    = "S_orbital_lateral",
+  "mr_y_smri__thk__dst__somo"   = "S_orbital_med-olfact",
+  "mr_y_smri__thk__dst__soml"   = "S_oc_middle_and_Lunatus",
+  "mr_y_smri__thk__dst__sost"   = "S_oc_sup_and_transversal",
+  "mr_y_smri__thk__dst__sotl"   = "S_oc-temp_lat",
+  "mr_y_smri__thk__dst__sotml"  = "S_oc-temp_med_and_Lingual",
+  "mr_y_smri__thk__dst__spc"    = "S_pericallosal",
+  "mr_y_smri__thk__dst__spct"   = "S_postcentral",
+  "mr_y_smri__thk__dst__spo"    = "S_parieto_occipital",
+  "mr_y_smri__thk__dst__sprip"  = "S_precentral-inf-part",
+  "mr_y_smri__thk__dst__sprsp"  = "S_precentral-sup-part",
+  "mr_y_smri__thk__dst__sso"    = "S_suborbital",
+  "mr_y_smri__thk__dst__ssp"    = "S_subparietal",
+  "mr_y_smri__thk__dst__sti"    = "S_temporal_inf",
+  "mr_y_smri__thk__dst__sts"    = "S_temporal_sup",
+  "mr_y_smri__thk__dst__stt"    = "S_temporal_transverse"
+
+  ))
+
+posthoc_ct_dst_0_1 <- posthoc_ct_dst %>%
+  filter(contrast == "co_longi0 - co_longi1")
+
+posthoc_ct_dst_0_1_ses02 <- posthoc_ct_dst_0_1 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_ct_dst_0_1_ses04 <- posthoc_ct_dst_0_1 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_ct_dst_0_1_ses06 <- posthoc_ct_dst_0_1 %>%
+  filter(session_id == "ses-06A")
+
+plot(destrieux())
+
+# 2
+
+c01_ses02_p1 <- ggplot(posthoc_ct_dst_0_1_ses02) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "c01_ses02_p1.png",
+  plot = c01_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+c01_ses02_p05 <- ggplot(posthoc_ct_dst_0_1_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c01_ses02_p05.png",
+  plot = c01_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+c01_ses04_p1 <- ggplot(posthoc_ct_dst_0_1_ses04) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c01_ses04_p1.png",
+  plot = c01_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+c01_ses04_p05 <- ggplot(posthoc_ct_dst_0_1_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c01_ses04_p05.png",
+  plot = c01_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+c01_ses06_p1 <- ggplot(posthoc_ct_dst_0_1_ses06) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "c01_ses06_p1.png",
+  plot = c01_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+c01_ses06_p05 <-  ggplot(posthoc_ct_dst_0_1_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "c01_ses06_p05.png",
+  plot = c01_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
 ```
 
 
 ```{r ct_dst_0-2}
 
+posthoc_ct_dst_0_2 <- posthoc_ct_dst %>%
+  filter(contrast == "co_longi0 - co_longi2")
+
+posthoc_ct_dst_0_2_ses02 <- posthoc_ct_dst_0_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_ct_dst_0_2_ses04 <- posthoc_ct_dst_0_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_ct_dst_0_2_ses06 <- posthoc_ct_dst_0_2 %>%
+  filter(session_id == "ses-06A")
+
+# 2
+
+c02_ses02_p1 <- ggplot(posthoc_ct_dst_0_2_ses02) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "c02_ses02_p1.png",
+  plot = c02_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+c02_ses02_p05 <- ggplot(posthoc_ct_dst_0_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c02_ses02_p05.png",
+  plot = c02_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+c02_ses04_p1 <- ggplot(posthoc_ct_dst_0_2_ses04) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c02_ses04_p1.png",
+  plot = c02_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+c02_ses04_p05 <- ggplot(posthoc_ct_dst_0_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c02_ses04_p05.png",
+  plot = c02_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+c02_ses06_p1 <- ggplot(posthoc_ct_dst_0_2_ses06) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "c02_ses06_p1.png",
+  plot = c02_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+c02_ses06_p05 <-  ggplot(posthoc_ct_dst_0_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c02_ses06_p05.png",
+  plot = c02_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
 ```
 
 
 ```{r ct_dst_1-2}
+
+posthoc_ct_dst_1_2 <- posthoc_ct_dst %>%
+  filter(contrast == "co_longi1 - co_longi2")
+
+posthoc_ct_dst_1_2_ses02 <- posthoc_ct_dst_1_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_ct_dst_1_2_ses04 <- posthoc_ct_dst_1_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_ct_dst_1_2_ses06 <- posthoc_ct_dst_1_2 %>%
+  filter(session_id == "ses-06A")
+
+# 2
+
+c12_ses02_p1 <- ggplot(posthoc_ct_dst_1_2_ses02) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "c12_ses02_p1.png",
+  plot = c12_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+c12_ses02_p05 <- ggplot(posthoc_ct_dst_1_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c12_ses02_p05.png",
+  plot = c12_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+c12_ses04_p1 <- ggplot(posthoc_ct_dst_1_2_ses04) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c12_ses04_p1.png",
+  plot = c12_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+c12_ses04_p05 <- ggplot(posthoc_ct_dst_1_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c12_ses04_p05.png",
+  plot = c12_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+c12_ses06_p1 <- ggplot(posthoc_ct_dst_1_2_ses06) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "c12_ses06_p1.png",
+  plot = c12_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+c12_ses06_p05 <-  ggplot(posthoc_ct_dst_1_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "c12_ses06_p05.png",
+  plot = c12_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
 
 ```
 
