@@ -1,0 +1,107 @@
+---
+title: "01_prepare_data"
+author: "Roxanne Leblanc"
+date: "2026-05-21"
+output: pdf_document
+---
+
+# 1. Preparation of database
+## 1.1 Librairies
+```{r}
+
+library(dplyr)
+library(readr)
+library(emmeans)
+library(ggplot2)
+library(stringr)
+library(tidyr)
+library(lme4)
+library(lmerTest)
+library(purrr)
+library(broom.mixed)
+options(scipen = 999)
+
+```
+
+## 1.2 Import data
+Execute one line at the time because the files are heavy. 
+This data can be accessed via NBCD datahub with a valid Data Use Certificate. 
+```{r}
+# VIs
+ph_y_pds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_pds.tsv") 
+
+# VD
+## épaisseur corticale
+mr_y_smri__thk__dsk <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__thk__dsk.tsv") # Desikan
+mr_y_smri__thk__dst <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__thk__dst.tsv") # Destrieux
+## volume
+mr_y_smri__vol__aseg <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__aseg.tsv") # sous-corticale
+mr_y_smri__vol__dsk <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__dsk.tsv") # Desikan
+mr_y_smri__vol__dst <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__dst.tsv") # Destrieux
+
+# exclusion images IRM
+mr_y_qc__incl <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_qc__incl.tsv") 
+# critères d'exclusion ABCD
+ab_p_screen <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_p_screen.tsv")
+ab_p_screen <- ab_p_screen %>%
+  rename(session_id_screen = session_id)
+
+# covariables potentielles
+ab_g_dyn <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_g_dyn.tsv")
+ab_g_stc <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_g_stc.tsv")
+ab_p_demo <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_p_demo.tsv")
+mh_p_ders <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_p_ders.tsv")
+mh_p_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_p_ple.tsv")
+mh_y_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_ple.tsv")
+mh_y_bpm <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_bpm.tsv")
+mh_y_erq <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_erq.tsv")
+ph_p_covid <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_covid.tsv")
+ph_y_covid <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_covid.tsv")
+#ph_p_meds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_meds.tsv")
+#ph_y_meds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_meds.tsv")
+ph_p_otbi <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_otbi.tsv")
+ph_p_sex <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_sex.tsv")
+ph_y_sex <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_sex.tsv")
+su_y_mysu <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/su_y_mysu.tsv")
+su_y_mysu <- su_y_mysu %>%
+  rename(session_id_su_y_mysu = session_id)
+mh_y_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_ple.tsv")
+
+```
+
+
+## 1.3 Merge data
+
+The database containing all the data is named data.
+
+```{r}
+data <- ph_y_pds %>%
+  left_join(ab_g_dyn,   by = c("participant_id", "session_id")) %>%
+  left_join(ab_g_stc,   by = "participant_id") %>%  
+  left_join(ab_p_demo, by = c("participant_id", "session_id")) %>%
+  left_join(ab_p_screen, by = "participant_id") %>%
+  left_join(mh_p_ders, by = c("participant_id", "session_id")) %>%
+  left_join(mh_p_ple,  by = c("participant_id", "session_id")) %>%
+  left_join(mh_y_ple,  by = c("participant_id", "session_id")) %>%
+  left_join(mh_y_bpm,  by = c("participant_id", "session_id")) %>%
+  left_join(mh_y_erq,  by = c("participant_id", "session_id")) %>%
+  left_join(ph_p_covid, by = c("participant_id", "session_id")) %>%
+  left_join(ph_y_covid, by = c("participant_id", "session_id")) %>%
+  #left_join(ph_p_meds, by = c("participant_id", "session_id")) %>%
+  #left_join(ph_y_meds, by = c("participant_id", "session_id")) %>%
+  left_join(ph_p_otbi, by = c("participant_id", "session_id")) %>%
+  left_join(ph_p_sex,  by = c("participant_id", "session_id")) %>%
+  left_join(ph_y_sex,  by = c("participant_id", "session_id")) %>% 
+  left_join(mr_y_smri__thk__dsk,  by = c("participant_id", "session_id")) %>% 
+  left_join(mr_y_smri__thk__dst,  by = c("participant_id", "session_id")) %>%
+  left_join(mr_y_smri__vol__aseg,  by = c("participant_id", "session_id")) %>%
+  left_join(mr_y_smri__vol__dsk,  by = c("participant_id", "session_id")) %>%
+  left_join(mr_y_smri__vol__dst,  by = c("participant_id", "session_id")) %>%
+  left_join(mr_y_qc__incl,  by = c("participant_id", "session_id"))
+  
+
+  #left_join(su_y_mysu, by = c("participant_id"))
+
+write.csv(data,"../data/raw/data.csv",row.names = FALSE)
+```
+
