@@ -322,74 +322,74 @@ plot(destrieux())
 
 # 2
 
-c01_ses02_p1 <- ggplot(posthoc_ct_dst_0_1_ses02) +
+ct_dst_c01_ses02_p1 <- ggplot(posthoc_ct_dst_0_1_ses02) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "c01_ses02_p1.png",
-  plot = c01_ses02_p1,
+  filename = "ct_dst_c01_ses02_p1.png",
+  plot = ct_dst_c01_ses02_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
-c01_ses02_p05 <- ggplot(posthoc_ct_dst_0_1_ses02 %>% filter(p.value < 0.05)) +
+ct_dst_c01_ses02_p05 <- ggplot(posthoc_ct_dst_0_1_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c01_ses02_p05.png",
-  plot = c01_ses02_p05,
+  filename = "ct_dst_c01_ses02_p05.png",
+  plot = ct_dst_c01_ses02_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
 
 # 4
-c01_ses04_p1 <- ggplot(posthoc_ct_dst_0_1_ses04) +
+ct_dst_c01_ses04_p1 <- ggplot(posthoc_ct_dst_0_1_ses04) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c01_ses04_p1.png",
-  plot = c01_ses04_p1,
+  filename = "ct_dst_c01_ses04_p1.png",
+  plot = ct_dst_c01_ses04_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
-c01_ses04_p05 <- ggplot(posthoc_ct_dst_0_1_ses04 %>% filter(p.value < 0.05)) +
+ct_dst_c01_ses04_p05 <- ggplot(posthoc_ct_dst_0_1_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c01_ses04_p05.png",
-  plot = c01_ses04_p05,
+  filename = "ct_dst_c01_ses04_p05.png",
+  plot = ct_dst_c01_ses04_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
 # 6
-c01_ses06_p1 <- ggplot(posthoc_ct_dst_0_1_ses06) +
+ct_dst_c01_ses06_p1 <- ggplot(posthoc_ct_dst_0_1_ses06) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "c01_ses06_p1.png",
-  plot = c01_ses06_p1,
+  filename = "ct_dst_c01_ses06_p1.png",
+  plot = ct_dst_c01_ses06_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
-c01_ses06_p05 <-  ggplot(posthoc_ct_dst_0_1_ses06 %>% filter(p.value < 0.05)) +
+ct_dst_c01_ses06_p05 <-  ggplot(posthoc_ct_dst_0_1_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 ggsave(
-  filename = "c01_ses06_p05.png",
-  plot = c01_ses06_p05,
+  filename = "ct_dst_c01_ses06_p05.png",
+  plot = ct_dst_c01_ses06_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 ```
@@ -411,76 +411,76 @@ posthoc_ct_dst_0_2_ses06 <- posthoc_ct_dst_0_2 %>%
 
 # 2
 
-c02_ses02_p1 <- ggplot(posthoc_ct_dst_0_2_ses02) +
+ct_dst_c02_ses02_p1 <- ggplot(posthoc_ct_dst_0_2_ses02) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "c02_ses02_p1.png",
-  plot = c02_ses02_p1,
+  filename = "ct_dst_c02_ses02_p1.png",
+  plot = ct_dst_c02_ses02_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
-c02_ses02_p05 <- ggplot(posthoc_ct_dst_0_2_ses02 %>% filter(p.value < 0.05)) +
+ct_dst_c02_ses02_p05 <- ggplot(posthoc_ct_dst_0_2_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c02_ses02_p05.png",
-  plot = c02_ses02_p05,
+  filename = "ct_dst_c02_ses02_p05.png",
+  plot = ct_dst_c02_ses02_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
 
 # 4
-c02_ses04_p1 <- ggplot(posthoc_ct_dst_0_2_ses04) +
+ct_dst_c02_ses04_p1 <- ggplot(posthoc_ct_dst_0_2_ses04) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c02_ses04_p1.png",
-  plot = c02_ses04_p1,
+  filename = "ct_dst_c02_ses04_p1.png",
+  plot = ct_dst_c02_ses04_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
-c02_ses04_p05 <- ggplot(posthoc_ct_dst_0_2_ses04 %>% filter(p.value < 0.05)) +
+ct_dst_c02_ses04_p05 <- ggplot(posthoc_ct_dst_0_2_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c02_ses04_p05.png",
-  plot = c02_ses04_p05,
+  filename = "ct_dst_c02_ses04_p05.png",
+  plot = ct_dst_c02_ses04_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
 # 6
-c02_ses06_p1 <- ggplot(posthoc_ct_dst_0_2_ses06) +
+ct_dst_c02_ses06_p1 <- ggplot(posthoc_ct_dst_0_2_ses06) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "c02_ses06_p1.png",
-  plot = c02_ses06_p1,
+  filename = "ct_dst_c02_ses06_p1.png",
+  plot = ct_dst_c02_ses06_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
-c02_ses06_p05 <-  ggplot(posthoc_ct_dst_0_2_ses06 %>% filter(p.value < 0.05)) +
+ct_dst_c02_ses06_p05 <-  ggplot(posthoc_ct_dst_0_2_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c02_ses06_p05.png",
-  plot = c02_ses06_p05,
+  filename = "ct_dst_c02_ses06_p05.png",
+  plot = ct_dst_c02_ses06_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
@@ -503,76 +503,76 @@ posthoc_ct_dst_1_2_ses06 <- posthoc_ct_dst_1_2 %>%
 
 # 2
 
-c12_ses02_p1 <- ggplot(posthoc_ct_dst_1_2_ses02) +
+ct_dst_c12_ses02_p1 <- ggplot(posthoc_ct_dst_1_2_ses02) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "c12_ses02_p1.png",
-  plot = c12_ses02_p1,
+  filename = "ct_dst_c12_ses02_p1.png",
+  plot = ct_dst_c12_ses02_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
-c12_ses02_p05 <- ggplot(posthoc_ct_dst_1_2_ses02 %>% filter(p.value < 0.05)) +
+ct_dst_c12_ses02_p05 <- ggplot(posthoc_ct_dst_1_2_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c12_ses02_p05.png",
-  plot = c12_ses02_p05,
+  filename = "ct_dst_c12_ses02_p05.png",
+  plot = ct_dst_c12_ses02_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
 
 # 4
-c12_ses04_p1 <- ggplot(posthoc_ct_dst_1_2_ses04) +
+ct_dst_c12_ses04_p1 <- ggplot(posthoc_ct_dst_1_2_ses04) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c12_ses04_p1.png",
-  plot = c12_ses04_p1,
+  filename = "ct_dst_c12_ses04_p1.png",
+  plot = ct_dst_c12_ses04_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
-c12_ses04_p05 <- ggplot(posthoc_ct_dst_1_2_ses04 %>% filter(p.value < 0.05)) +
+ct_dst_c12_ses04_p05 <- ggplot(posthoc_ct_dst_1_2_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c12_ses04_p05.png",
-  plot = c12_ses04_p05,
+  filename = "ct_dst_c12_ses04_p05.png",
+  plot = ct_dst_c12_ses04_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
 # 6
-c12_ses06_p1 <- ggplot(posthoc_ct_dst_1_2_ses06) +
+ct_dst_c12_ses06_p1 <- ggplot(posthoc_ct_dst_1_2_ses06) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "c12_ses06_p1.png",
-  plot = c12_ses06_p1,
+  filename = "ct_dst_c12_ses06_p1.png",
+  plot = ct_dst_c12_ses06_p1,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
-c12_ses06_p05 <-  ggplot(posthoc_ct_dst_1_2_ses06 %>% filter(p.value < 0.05)) +
+ct_dst_c12_ses06_p05 <-  ggplot(posthoc_ct_dst_1_2_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "c12_ses06_p05.png",
-  plot = c12_ses06_p05,
+  filename = "ct_dst_c12_ses06_p05.png",
+  plot = ct_dst_c12_ses06_p05,
   path = "/home/rleblanc/leblanc_project/results"
 )
 
@@ -591,20 +591,363 @@ ggsave(
 
 ```{r vol_dsk_1-2}
 
+
+
 ```
 
 
 ```{r vol_dst_0-1}
+ggseg.formats::atlas_regions(destrieux())
+
+# changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
+posthoc_vol_dst <- posthoc_vol_dst %>%
+  mutate(region = recode(region,
+  "mr_y_smri__vol__dst__gcn"    = "G_cuneus",
+  "mr_y_smri__vol__dst__gcpd"   = "G_cingul-Post-dorsal",
+  "mr_y_smri__vol__dst__gcpv"   = "G_cingul-Post-ventral",
+  "mr_y_smri__vol__dst__gfio"   = "G_front_inf-Opercular",
+  "mr_y_smri__vol__dst__gfiob"  = "G_front_inf-Orbital",
+  "mr_y_smri__vol__dst__gfit"   = "G_front_inf-Triangul",
+  "mr_y_smri__vol__dst__gfm"    = "G_front_middle",
+  "mr_y_smri__vol__dst__gfs"    = "G_front_sup",
+  "mr_y_smri__vol__dst__gilsci" = "G_Ins_lg_and_S_cent_ins",
+  "mr_y_smri__vol__dst__gis"    = "G_insular_short",
+  "mr_y_smri__vol__dst__go"     = "G_orbital",
+  "mr_y_smri__vol__dst__gom"    = "G_occipital_middle",
+  "mr_y_smri__vol__dst__gos"    = "G_occipital_sup",
+  "mr_y_smri__vol__dst__gotlf"  = "G_oc-temp_lat-fusifor",
+  "mr_y_smri__vol__dst__gotml"  = "G_oc-temp_med-Lingual",
+  "mr_y_smri__vol__dst__gotmp"  = "G_oc-temp_med-Parahip",
+  "mr_y_smri__vol__dst__gpc"    = "G_postcentral",
+  "mr_y_smri__vol__dst__gpia"   = "G_pariet_inf-Angular",
+  "mr_y_smri__vol__dst__gpis"   = "G_pariet_inf-Supramar",
+  "mr_y_smri__vol__dst__gprcn"  = "G_precuneus",
+  "mr_y_smri__vol__dst__gprct"  = "G_precentral",
+  "mr_y_smri__vol__dst__gps"    = "G_parietal_sup",
+  "mr_y_smri__vol__dst__gr"     = "G_rectus",
+  "mr_y_smri__vol__dst__gs"     = "G_subcallosal",
+  "mr_y_smri__vol__dst__gsca"   = "G_and_S_cingul-Ant",
+  "mr_y_smri__vol__dst__gscma"  = "G_and_S_cingul-Mid-Ant",
+  "mr_y_smri__vol__dst__gscmp"  = "G_and_S_cingul-Mid-Post",
+  "mr_y_smri__vol__dst__gsfm"   = "G_and_S_frontomargin",
+  "mr_y_smri__vol__dst__gsoi"   = "G_and_S_occipital_inf",
+  "mr_y_smri__vol__dst__gspc"   = "G_and_S_paracentral",
+  "mr_y_smri__vol__dst__gssc"   = "G_and_S_subcentral",
+  "mr_y_smri__vol__dst__gstf"   = "G_and_S_transv_frontopol",
+  "mr_y_smri__vol__dst__gti"    = "G_temporal_inf",
+  "mr_y_smri__vol__dst__gtm"    = "G_temporal_middle",
+  "mr_y_smri__vol__dst__gtsgtt" = "G_temp_sup-G_T_transv",
+  "mr_y_smri__vol__dst__gtsl"   = "G_temp_sup-Lateral",
+  "mr_y_smri__vol__dst__gtspp"  = "G_temp_sup-Plan_polar",
+  "mr_y_smri__vol__dst__gtspt"  = "G_temp_sup-Plan_tempo",
+  "mr_y_smri__vol__dst__lfah"   = "Lat_Fis-ant-Horizont",
+  "mr_y_smri__vol__dst__lfav"   = "Lat_Fis-ant-Vertical",
+  "mr_y_smri__vol__dst__lfp"    = "Lat_Fis-post",
+  "mr_y_smri__vol__dst__pocc"   = "Pole_occipital",
+  "mr_y_smri__vol__dst__ptmp"   = "Pole_temporal",
+  "mr_y_smri__vol__dst__sc"     = "S_central",
+  "mr_y_smri__vol__dst__scc"    = "S_calcarine",
+  "mr_y_smri__vol__dst__scia"   = "S_circular_insula_ant",
+  "mr_y_smri__vol__dst__scii"   = "S_circular_insula_inf",
+  "mr_y_smri__vol__dst__scis"   = "S_circular_insula_sup",
+  "mr_y_smri__vol__dst__scm"    = "S_cingul-Marginalis",
+  "mr_y_smri__vol__dst__scta"   = "S_collat_transv_ant",
+  "mr_y_smri__vol__dst__sctp"   = "S_collat_transv_post",
+  "mr_y_smri__vol__dst__sfi"    = "S_front_inf",
+  "mr_y_smri__vol__dst__sfm"    = "S_front_middle",
+  "mr_y_smri__vol__dst__sfs"    = "S_front_sup",
+  "mr_y_smri__vol__dst__sipj"   = "S_interm_prim-Jensen",
+  "mr_y_smri__vol__dst__sipt"   = "S_intrapariet_and_P_trans",
+  "mr_y_smri__vol__dst__soa"    = "S_occipital_ant",
+  "mr_y_smri__vol__dst__sohs"   = "S_orbital-H_Shaped",
+  "mr_y_smri__vol__dst__sol"    = "S_orbital_lateral",
+  "mr_y_smri__vol__dst__soml"   = "S_oc_middle_and_Lunatus",
+  "mr_y_smri__vol__dst__somo"   = "S_orbital_med-olfact",
+  "mr_y_smri__vol__dst__sost"   = "S_oc_sup_and_transversal",
+  "mr_y_smri__vol__dst__sotl"   = "S_oc-temp_lat",
+  "mr_y_smri__vol__dst__sotml"  = "S_oc-temp_med_and_Lingual",
+  "mr_y_smri__vol__dst__spc"    = "S_pericallosal",
+  "mr_y_smri__vol__dst__spct"   = "S_postcentral",
+  "mr_y_smri__vol__dst__spo"    = "S_parieto_occipital",
+  "mr_y_smri__vol__dst__sprip"  = "S_precentral-inf-part",
+  "mr_y_smri__vol__dst__sprsp"  = "S_precentral-sup-part",
+  "mr_y_smri__vol__dst__sso"    = "S_suborbital",
+  "mr_y_smri__vol__dst__ssp"    = "S_subparietal",
+  "mr_y_smri__vol__dst__sti"    = "S_temporal_inf",
+  "mr_y_smri__vol__dst__sts"    = "S_temporal_sup",
+  "mr_y_smri__vol__dst__stt"    = "S_temporal_transverse"
+
+  ))
+
+posthoc_vol_dst_0_1 <- posthoc_vol_dst %>%
+  filter(contrast == "co_longi0 - co_longi1")
+
+posthoc_vol_dst_0_1_ses02 <- posthoc_vol_dst_0_1 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_dst_0_1_ses04 <- posthoc_vol_dst_0_1 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_dst_0_1_ses06 <- posthoc_vol_dst_0_1 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_dst_c01_ses02_p1 <- ggplot(posthoc_vol_dst_0_1_ses02) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c01_ses02_p1.png",
+  plot = vol_dst_c01_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c01_ses02_p05 <- ggplot(posthoc_vol_dst_0_1_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c01_ses02_p05.png",
+  plot = vol_dst_c01_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+vol_dst_c01_ses04_p1 <- ggplot(posthoc_vol_dst_0_1_ses04) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c01_ses04_p1.png",
+  plot = vol_dst_c01_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c01_ses04_p05 <- ggplot(posthoc_vol_dst_0_1_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c01_ses04_p05.png",
+  plot = vol_dst_c01_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+vol_dst_c01_ses06_p1 <- ggplot(posthoc_vol_dst_0_1_ses06) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c01_ses06_p1.png",
+  plot = vol_dst_c01_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c01_ses06_p05 <-  ggplot(posthoc_vol_dst_0_1_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c01_ses06_p05.png",
+  plot = vol_dst_c01_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
 
 ```
 
 
 ```{r vol_dst_0-2}
 
+posthoc_vol_dst_0_2 <- posthoc_vol_dst %>%
+  filter(contrast == "co_longi0 - co_longi2")
+
+posthoc_vol_dst_0_2_ses02 <- posthoc_vol_dst_0_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_dst_0_2_ses04 <- posthoc_vol_dst_0_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_dst_0_2_ses06 <- posthoc_vol_dst_0_2 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_dst_c02_ses02_p1 <- ggplot(posthoc_vol_dst_0_2_ses02) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c02_ses02_p1.png",
+  plot = vol_dst_c02_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c02_ses02_p05 <- ggplot(posthoc_vol_dst_0_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c02_ses02_p05.png",
+  plot = vol_dst_c02_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+vol_dst_c02_ses04_p1 <- ggplot(posthoc_vol_dst_0_2_ses04) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c02_ses04_p1.png",
+  plot = vol_dst_c02_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c02_ses04_p05 <- ggplot(posthoc_vol_dst_0_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c02_ses04_p05.png",
+  plot = vol_dst_c02_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+vol_dst_c02_ses06_p1 <- ggplot(posthoc_vol_dst_0_2_ses06) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c02_ses06_p1.png",
+  plot = vol_dst_c02_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c02_ses06_p05 <-  ggplot(posthoc_vol_dst_0_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c02_ses06_p05.png",
+  plot = vol_dst_c02_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
 ```
 
 
 ```{r vol_dst_1-2}
+posthoc_vol_dst_1_2 <- posthoc_vol_dst %>%
+  filter(contrast == "co_longi1 - co_longi2")
+
+posthoc_vol_dst_1_2_ses02 <- posthoc_vol_dst_1_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_dst_1_2_ses04 <- posthoc_vol_dst_1_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_dst_1_2_ses06 <- posthoc_vol_dst_1_2 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_dst_c12_ses02_p1 <- ggplot(posthoc_vol_dst_1_2_ses02) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c12_ses02_p1.png",
+  plot = vol_dst_c12_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c12_ses02_p05 <- ggplot(posthoc_vol_dst_1_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c12_ses02_p05.png",
+  plot = vol_dst_c12_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+vol_dst_c12_ses04_p1 <- ggplot(posthoc_vol_dst_1_2_ses04) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c12_ses04_p1.png",
+  plot = vol_dst_c12_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c12_ses04_p05 <- ggplot(posthoc_vol_dst_1_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dst_c12_ses04_p05.png",
+  plot = vol_dst_c12_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+vol_dst_c12_ses06_p1 <- ggplot(posthoc_vol_dst_1_2_ses06) +
+  geom_brain(
+    atlas = destrieux(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c12_ses06_p1.png",
+  plot = vol_dst_c12_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_dst_c12_ses06_p05 <-  ggplot(posthoc_vol_dst_1_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = destrieux(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dst_c12_ses06_p05.png",
+  plot = vol_dst_c12_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
 
 ```
 
@@ -686,15 +1029,302 @@ ggsave(
 
 ```{r vol_aseg_0-1}
 
+ggseg.formats::atlas_regions(aseg())
+plot(aseg())
+
+# changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
+posthoc_vol_aseg <- posthoc_vol_aseg %>%
+  mutate(region = recode(region,
+ "mr_y_smri__vol__aseg__ab"   = "accumbens area",
+  "mr_y_smri__vol__aseg__ag"   = "Amygdala",
+  "mr_y_smri__vol__aseg__cd"   = "Caudate",
+  "mr_y_smri__vol__aseg__hc"   = "Hippocampus",
+  "mr_y_smri__vol__aseg__pl"   = "Pallidum",
+  "mr_y_smri__vol__aseg__pt"   = "Putamen",
+  "mr_y_smri__vol__aseg__th"   = "Thalamus",
+  "mr_y_smri__vol__aseg__vdc"  = "ventraldc",
+
+  "mr_y_smri__vol__aseg__bs"   = "Brain Stem",
+
+  "mr_y_smri__vol__aseg__cca"  = "cc anterior",
+  "mr_y_smri__vol__aseg__ccc"  = "cc central",
+  "mr_y_smri__vol__aseg__ccam" = "cc mid anterior",
+  "mr_y_smri__vol__aseg__ccpm" = "cc mid posterior",
+  "mr_y_smri__vol__aseg__ccp"  = "cc posterior"
+
+  ))
+
+posthoc_vol_aseg_0_1 <- posthoc_vol_aseg %>%
+  filter(contrast == "co_longi0 - co_longi1")
+
+posthoc_vol_aseg_0_1_ses02 <- posthoc_vol_aseg_0_1 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_aseg_0_1_ses04 <- posthoc_vol_aseg_0_1 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_aseg_0_1_ses06 <- posthoc_vol_aseg_0_1 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_aseg_c01_ses02_p1 <- ggplot(posthoc_vol_aseg_0_1_ses02) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c01_ses02_p1.png",
+  plot = vol_aseg_c01_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c01_ses02_p05 <- ggplot(posthoc_vol_aseg_0_1_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c01_ses02_p05.png",
+  plot = vol_aseg_c01_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+vol_aseg_c01_ses04_p1 <- ggplot(posthoc_vol_aseg_0_1_ses04) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c01_ses04_p1.png",
+  plot = vol_aseg_c01_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c01_ses04_p05 <- ggplot(posthoc_vol_aseg_0_1_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c01_ses04_p05.png",
+  plot = vol_aseg_c01_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+vol_aseg_c01_ses06_p1 <- ggplot(posthoc_vol_aseg_0_1_ses06) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c01_ses06_p1.png",
+  plot = vol_aseg_c01_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c01_ses06_p05 <-  ggplot(posthoc_vol_aseg_0_1_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c01_ses06_p05.png",
+  plot = vol_aseg_c01_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
 ```
 
 
 ```{r vol_aseg_0-2}
 
+posthoc_vol_aseg_0_2 <- posthoc_vol_aseg %>%
+  filter(contrast == "co_longi0 - co_longi2")
+
+posthoc_vol_aseg_0_2_ses02 <- posthoc_vol_aseg_0_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_aseg_0_2_ses04 <- posthoc_vol_aseg_0_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_aseg_0_2_ses06 <- posthoc_vol_aseg_0_2 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_aseg_c02_ses02_p1 <- ggplot(posthoc_vol_aseg_0_2_ses02) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c02_ses02_p1.png",
+  plot = vol_aseg_c02_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c02_ses02_p05 <- ggplot(posthoc_vol_aseg_0_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c02_ses02_p05.png",
+  plot = vol_aseg_c02_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+vol_aseg_c02_ses04_p1 <- ggplot(posthoc_vol_aseg_0_2_ses04) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c02_ses04_p1.png",
+  plot = vol_aseg_c02_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c02_ses04_p05 <- ggplot(posthoc_vol_aseg_0_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c02_ses04_p05.png",
+  plot = vol_aseg_c02_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+vol_aseg_c02_ses06_p1 <- ggplot(posthoc_vol_aseg_0_2_ses06) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c02_ses06_p1.png",
+  plot = vol_aseg_c02_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c02_ses06_p05 <-  ggplot(posthoc_vol_aseg_0_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c02_ses06_p05.png",
+  plot = vol_aseg_c02_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
 ```
 
 
 ```{r vol_aseg_1-2}
+
+posthoc_vol_aseg_1_2 <- posthoc_vol_aseg %>%
+  filter(contrast == "co_longi1 - co_longi2")
+
+posthoc_vol_aseg_1_2_ses02 <- posthoc_vol_aseg_1_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_aseg_1_2_ses04 <- posthoc_vol_aseg_1_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_aseg_1_2_ses06 <- posthoc_vol_aseg_1_2 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_aseg_c12_ses02_p1 <- ggplot(posthoc_vol_aseg_1_2_ses02) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c12_ses02_p1.png",
+  plot = vol_aseg_c12_ses02_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c12_ses02_p05 <- ggplot(posthoc_vol_aseg_1_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c12_ses02_p05.png",
+  plot = vol_aseg_c12_ses02_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+
+# 4
+vol_aseg_c12_ses04_p1 <- ggplot(posthoc_vol_aseg_1_2_ses04) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c12_ses04_p1.png",
+  plot = vol_aseg_c12_ses04_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c12_ses04_p05 <- ggplot(posthoc_vol_aseg_1_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_c12_ses04_p05.png",
+  plot = vol_aseg_c12_ses04_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+# 6
+vol_aseg_c12_ses06_p1 <- ggplot(posthoc_vol_aseg_1_2_ses06) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c12_ses06_p1.png",
+  plot = vol_aseg_c12_ses06_p1,
+  path = "/home/rleblanc/leblanc_project/results"
+)
+
+vol_aseg_c12_ses06_p05 <-  ggplot(posthoc_vol_aseg_1_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_c12_ses06_p05.png",
+  plot = vol_aseg_c12_ses06_p05,
+  path = "/home/rleblanc/leblanc_project/results"
+)
 
 ```
 
