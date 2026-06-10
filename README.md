@@ -1,5 +1,18 @@
 # leblanc_project
 
+# INSTRUCTIONS 
+
+1. Clone the repository.
+2. Open the project in R.
+3. Run:
+
+   install.packages("renv")   # if needed
+   renv::restore()
+
+4. Run:
+
+   make
+
 ## short bio for the Git module exercices
 
 I am a Ph. D. student in neuropsychology. I will be working on IRMs data to analyze the effects of oral contraceptives on brain development during adolescence. 
