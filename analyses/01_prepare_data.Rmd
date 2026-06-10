@@ -18,7 +18,7 @@ library(tidyr)
 library(lme4)
 library(lmerTest)
 library(purrr)
-library(broom.mixed)
+library(here)
 options(scipen = 999)
 
 ```
@@ -28,44 +28,45 @@ Execute one line at the time because the files are heavy.
 This data can be accessed via NBCD datahub with a valid Data Use Certificate. 
 ```{r}
 # VIs
-ph_y_pds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_pds.tsv") 
+
+ph_y_pds <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ph_y_pds.tsv") 
 
 # VD
 ## épaisseur corticale
-mr_y_smri__thk__dsk <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__thk__dsk.tsv") # Desikan
-mr_y_smri__thk__dst <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__thk__dst.tsv") # Destrieux
+mr_y_smri__thk__dsk <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mr_y_smri__thk__dsk.tsv") # Desikan
+mr_y_smri__thk__dst <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mr_y_smri__thk__dst.tsv") # Destrieux
 ## volume
-mr_y_smri__vol__aseg <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__aseg.tsv") # sous-corticale
-mr_y_smri__vol__dsk <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__dsk.tsv") # Desikan
-mr_y_smri__vol__dst <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_smri__vol__dst.tsv") # Destrieux
+mr_y_smri__vol__aseg <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mr_y_smri__vol__aseg.tsv") # sous-corticale
+mr_y_smri__vol__dsk <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mr_y_smri__vol__dsk.tsv") # Desikan
+mr_y_smri__vol__dst <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mr_y_smri__vol__dst.tsv") # Destrieux
 
 # exclusion images IRM
-mr_y_qc__incl <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mr_y_qc__incl.tsv") 
+mr_y_qc__incl <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mr_y_qc__incl.tsv") 
 # critères d'exclusion ABCD
-ab_p_screen <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_p_screen.tsv")
+ab_p_screen <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ab_p_screen.tsv")
 ab_p_screen <- ab_p_screen %>%
   rename(session_id_screen = session_id)
 
 # covariables potentielles
-ab_g_dyn <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_g_dyn.tsv")
-ab_g_stc <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_g_stc.tsv")
-ab_p_demo <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ab_p_demo.tsv")
-mh_p_ders <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_p_ders.tsv")
-mh_p_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_p_ple.tsv")
-mh_y_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_ple.tsv")
-mh_y_bpm <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_bpm.tsv")
-mh_y_erq <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_erq.tsv")
-ph_p_covid <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_covid.tsv")
-ph_y_covid <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_covid.tsv")
+ab_g_dyn <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ab_g_dyn.tsv")
+ab_g_stc <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ab_g_stc.tsv")
+ab_p_demo <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ab_p_demo.tsv")
+mh_p_ders <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mh_p_ders.tsv")
+mh_p_ple <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mh_p_ple.tsv")
+mh_y_ple <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mh_y_ple.tsv")
+mh_y_bpm <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mh_y_bpm.tsv")
+mh_y_erq <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mh_y_erq.tsv")
+ph_p_covid <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ph_p_covid.tsv")
+ph_y_covid <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ph_y_covid.tsv")
 #ph_p_meds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_meds.tsv")
 #ph_y_meds <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_meds.tsv")
-ph_p_otbi <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_otbi.tsv")
-ph_p_sex <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_p_sex.tsv")
-ph_y_sex <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/ph_y_sex.tsv")
-su_y_mysu <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/su_y_mysu.tsv")
+ph_p_otbi <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ph_p_otbi.tsv")
+ph_p_sex <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ph_p_sex.tsv")
+ph_y_sex <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/ph_y_sex.tsv")
+su_y_mysu <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/su_y_mysu.tsv")
 su_y_mysu <- su_y_mysu %>%
   rename(session_id_su_y_mysu = session_id)
-mh_y_ple <- read_tsv("/shared/release/abcd/dairc_files/rawdata/phenotype/mh_y_ple.tsv")
+mh_y_ple <- read_tsv("/shared/release/abcd/v7.0/rawdata/phenotype/mh_y_ple.tsv")
 
 ```
 
@@ -102,6 +103,10 @@ data <- ph_y_pds %>%
 
   #left_join(su_y_mysu, by = c("participant_id"))
 
-write.csv(data,"../data/raw/data.csv",row.names = FALSE)
+dir.create(here("data", "raw"), recursive = TRUE, showWarnings = FALSE)
+dir.create(here("data", "processed"), recursive = TRUE, showWarnings = FALSE)
+
+write.csv(data,here("data/raw/data.csv"),row.names = FALSE)
+
 ```
 

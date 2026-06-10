@@ -8,7 +8,8 @@ output: pdf_document
 # 2. Analyses préliminaires
 Import data
 ```{r}
-data <- read.csv("../data/raw/data.csv")
+data <- read.csv(here("data", "raw", "data.csv"))
+
 ```
 
 ## 2.1 Retirer les participants sur la base des critères d'exclusion
@@ -17,17 +18,17 @@ Retrait des participants screenés sur la base des critères suivants :
 (ii) avoir une contre-indication à l’imagerie par résonance magnétique (implants ferromagnétiques irréversibles ou appareils dentaires, claustrophobie) - 2 exclusions
 (iii) présenter un trouble neurologique majeur - 13 exclusions
 (iv) avoir un âge gestationnel inférieur à 28 semaines ou un poids à la naissance inférieur à 1200 grammes - 0 exclusions
-(v) avoir présenté des complications à la naissance ayant entraîné une hospitalisation de plus d’un mois - 2=0 exclusions
+(v) avoir présenté des complications à la naissance ayant entraîné une hospitalisation de plus d’un mois - 0 exclusions
 (vi) avoir une vision non corrigée - 0 exclusions
-(vii) avoir un diagnostic actuel de schizophrénie, de trouble du spectre autistique modéré ou sévère, de déficience intellectuelle, ou un trouble connu lié à l’alcool ou aux substances - 224 exclusions
+(vii) avoir un diagnostic actuel de schizophrénie, de trouble du spectre autistique modéré ou sévère, de déficience intellectuelle, ou un trouble connu lié à l’alcool ou aux substances - 226 exclusions
 (viii) avoir initié une contraception hormonale avant T0/ne pas avoir répondu à la question/avoir répondu je sais pas - 52 exclusions
 (ix) prendre une médication susceptible d’influencer le développement cérébral (pas sûre)
 (x) présenter une condition neurologique diagnostiquée
-(xi) avoir subi un traumatisme crânien - 348 exclusions
-(xii) avoir des images IRM recommandées comme exclusion - 719 exclusions
-(xiii) ne pas avoir de données concernant la prise de CO/avoir des données incohérentes (ex: rapporter une utilisation de CH dans la question 1, mais pas dans la question 2) - 103 exclusions
+(xi) avoir subi un traumatisme crânien - 404 exclusions
+(xii) avoir des images IRM recommandées comme exclusion - 425 exclusions
+(xiii) ne pas avoir de données concernant la prise de CO/avoir des données incohérentes (ex: rapporter une utilisation de CH dans la question 1, mais pas dans la question 2) - 122 exclusions
 
-11 866 participants potentiels ont été screenés. Après exclusion, on a un échantillon de 10 492. particicipants.
+11 858 participants potentiels ont été screenés. Après exclusion, on a un échantillon de 10 691. particicipants.
 la nouvelle base de données avec seulement les participant inclus se nomme data_filtered.
 ```{r}
 
@@ -223,7 +224,7 @@ data <- data %>%
 ) %>% 
 ungroup()
 
-sum(unique(data$participant_id[data$exclu_tbi == "1"]) %>% length()) # 348 ppt exclus
+sum(unique(data$participant_id[data$exclu_tbi == "1"]) %>% length()) # 404 ppt exclus
 
 # inclusion image IRM
 data <- data %>%
@@ -237,7 +238,7 @@ data <- data %>%
   ) %>%
   ungroup()
 
-sum(unique(data$participant_id[data$exclu_irm == "1"]) %>% length()) # 719 ppts exclus
+sum(unique(data$participant_id[data$exclu_irm == "1"]) %>% length()) # 425 ppts exclus
 
 # donnée CO
 
@@ -278,7 +279,7 @@ data <- data %>%
   ) %>%
   ungroup()
 
-sum(unique(data$participant_id[data$exclu_co_incoherent == "1"]) %>% length()) # 103 ppt
+sum(unique(data$participant_id[data$exclu_co_incoherent == "1"]) %>% length()) # 122 ppt
 
 
 # création de la base de données sans les participants exclus : data_filtered
@@ -583,7 +584,7 @@ data_filtered$session_id_continu[
 
 
 
-write.csv(data_filtered,"../data/processed/data_filtered.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_filtered.csv"), row.names = FALSE)
 
 ```
 
@@ -684,7 +685,7 @@ data_analyses <- data_filtered %>%
     
   )
 
-write.csv(data_filtered,"../data/processed/data_analyses.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_analyses.csv"), row.names = FALSE)
 
 ```
 
@@ -705,7 +706,7 @@ data_CO <- data_analyses %>%
   filter(!any(co == 3, na.rm = TRUE)) %>%
   ungroup()
 
-write.csv(data_filtered,"../data/processed/data_CO.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_CO.csv"), row.names = FALSE)
 ```
 
 ```{r data_CO_clean }
@@ -727,7 +728,7 @@ count <- data_CO_clean %>%
   group_by(session_id, ch) %>%
   summarise(frequence = n(), .groups = "drop")
 
-write.csv(data_filtered,"../data/processed/data_CO_clean.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_CO_clean.csv"), row.names = FALSE)
 
 
 ```
@@ -759,7 +760,7 @@ data_ct_dsk <- data_CO_clean %>%
     starts_with("mr_y_smri__thk__dsk")
   )
 
-write.csv(data_filtered,"../data/processed/data_ct_dsk.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_ct_dsk.csv"), row.names = FALSE)
 
 ```
 
@@ -791,7 +792,7 @@ data_ct_dst <- data_CO_clean %>%
     starts_with("mr_y_smri__thk__dst")
   )
 
-write.csv(data_filtered,"../data/processed/data_ct_dst.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_ct_dst.csv"), row.names = FALSE)
 ```
 
 ```{r data_vol_aseg}
@@ -821,7 +822,7 @@ data_vol_aseg <- data_CO_clean %>%
     starts_with("mr_y_smri__vol__aseg")
   )
 
-write.csv(data_filtered,"../data/processed/data_vol_aseg.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_vol_aseg.csv"), row.names = FALSE)
 ```
 
 ```{r data_vol_dsk}
@@ -851,7 +852,7 @@ data_vol_dsk <- data_CO_clean %>%
     starts_with("mr_y_smri__vol__dsk")
   )
 
-write.csv(data_filtered,"../data/processed/data_vol_dsk.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_vol_dsk.csv"), row.names = FALSE)
 ```
 
 ```{r data_vol_dst}
@@ -881,7 +882,7 @@ data_vol_dst <- data_CO_clean %>%
     starts_with("mr_y_smri__vol__dst")
   )
 
-write.csv(data_filtered,"../data/processed/data_vol_dst.csv", row.names = FALSE)
+write.csv(data_filtered,here("data/processed/data_vol_dst.csv"), row.names = FALSE)
 ```
 
 ## 2.6 Analyses descriptives

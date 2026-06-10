@@ -10,11 +10,11 @@ output: pdf_document
 # 3. Analyses principales
 Import data
 ```{r}
-data_ct_dsk <- read.csv("../data/processed/data_ct_dsk.csv")
-data_ct_dst <- read.csv("../data/processed/data_ct_dst.csv")
-data_vol_aseg <- read.csv("../data/processed/data_vol_aseg.csv")
-data_vol_dsk <- read.csv("../data/processed/data_vol_dsk.csv")
-data_vol_dst <- read.csv("../data/processed/data_vol_dst.csv")
+data_ct_dsk <- read.csv(here("data_ct_dsk", "processed", "data_ct_dsk.csv"))
+data_ct_dst <- read.csv(here("data_ct_dst", "processed", "data_ct_dst.csv"))
+data_vol_aseg <- read.csv(here("data_vol_aseg", "processed", "data_vol_aseg.csv"))
+data_vol_dsk <- read.csv(here("data_vol_dsk", "processed", "data_vol_dsk.csv"))
+data_vol_dst <- read.csv(here("data_vol_dst", "processed", "data_vol_dst.csv"))
 ```
 
 ## 3.1 cortical thickness desikan
@@ -132,14 +132,14 @@ posthoc_ct_dsk <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
-  ph <- emmeans(model, pairwise ~ co_longi | session_id)
+  ph <- emmeans(model, pairwise ~ co_longi | session_id, rg.limit = 200000)
 
   as.data.frame(ph$contrasts) %>%
     mutate(region = reg)
 })
 
 
-write.csv(posthoc_ct_dsk, "../results/tables/posthoc_ct_dsk.csv", row.names = FALSE)
+write.csv(posthoc_ct_dsk, here("results/tables/posthoc_ct_dsk.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
@@ -147,7 +147,7 @@ posthoc_ct_dsk_pente <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
-  emm <- emmeans(model, ~ co_longi * session_id)
+  emm <- emmeans(model, ~ co_longi * session_id, rg.limit = 200000)
 
   trends_time <- contrast(emm, method = "consec", by = "co_longi")
 
@@ -158,7 +158,7 @@ posthoc_ct_dsk_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_ct_dsk_pente, "../results/tables/posthoc_ct_dsk_pente.csv", row.names = FALSE)
+write.csv(posthoc_ct_dsk_pente, here("results/tables/posthoc_ct_dsk_pente.csv"), row.names = FALSE)
 
 # modèle avec temps continu ####
 run_model <- function(reg) {
@@ -225,18 +225,24 @@ posthoc_ct_dsk_continu <- map_dfr(sig_regions, function(reg) {
   # post-hoc de l'interaction complète
   ph <- emtrends(model,
          pairwise ~ co_longi,
-         var = "session_id_continu")
+         var = "session_id_continu", rg.limit = 200000)
 
   as.data.frame(ph$contrasts) %>%
     mutate(region = reg)
 })
 
-write.csv(posthoc_ct_dsk_continu, "../results/tables/posthoc_ct_dsk_continu.csv", row.names = FALSE)
+write.csv(posthoc_ct_dsk_continu, here("results/tables/posthoc_ct_dsk_continu.csv"), row.names = FALSE)
 ```
 
 ## 3.2 cortical thickness destrieux
 ```{r}
 data_ct_dst$co_longi <- as.factor(data_ct_dst$co_longi)
+
+data_ct_dst <- data_ct_dst %>%
+  mutate(across(
+    starts_with("mr_y_smri__thk__dst__"),
+    ~ as.numeric(na_if(as.character(.x), "n/a"))
+  ))
 
 data_ct_dst_long <- data_ct_dst %>%
   pivot_longer(
@@ -345,14 +351,14 @@ posthoc_ct_dst <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
-  ph <- emmeans(model, pairwise ~ co_longi | session_id)
+  ph <- emmeans(model, pairwise ~ co_longi | session_id, rg.limit = 200000)
 
   as.data.frame(ph$contrasts) %>%
     mutate(region = reg)
 })
 
 
-write.csv(posthoc_ct_dst, "../results/tables/posthoc_ct_dst.csv", row.names = FALSE)
+write.csv(posthoc_ct_dst, here("results/tables/posthoc_ct_dst.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
@@ -360,7 +366,7 @@ posthoc_ct_dst_pente <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
-  emm <- emmeans(model, ~ co_longi * session_id)
+  emm <- emmeans(model, ~ co_longi * session_id, rg.limit = 200000)
 
   trends_time <- contrast(emm, method = "consec", by = "co_longi")
 
@@ -371,9 +377,9 @@ posthoc_ct_dst_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_ct_dst_pente, "../results/tables/posthoc_ct_dst_pente.csv", row.names = FALSE)
+write.csv(posthoc_ct_dst_pente, here("results/tables/posthoc_ct_dst_pente.csv"), row.names = FALSE)
 
-# modèle avec temps continu ####
+# modèle avec temps continu ####  
 run_model <- function(reg) {
   
   dat <- data_ct_dst_long %>%
