@@ -6,6 +6,16 @@ output: html_document
 ---
 
 # Importation des données
+Unzip les fichiers de données.
+```{r}
+
+unzip(
+  here("results", "tables", "tables.zip"),
+  exdir = here("results", "tables")
+)
+
+```
+
 Plusieurs post-hocs ont été faits à partir des interactions co_longi x session_id significatives. 
 Pour l'épaisseur corticale avec les atlas desikan et destrieux, les post-hocs ont été faits avec 1) le temps comme variable catégorielle pour visualiser 1.1) les différences de moyennes entre les groupes à chaque temps de mesure et 1.2) les différences de pentes à travers le temps entre les groupes et 2) le temps comme variable continue. (6 post-hocs)
 
