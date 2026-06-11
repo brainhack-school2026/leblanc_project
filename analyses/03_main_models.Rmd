@@ -10,11 +10,11 @@ output: pdf_document
 # 3. Analyses principales
 Import data
 ```{r}
-data_ct_dsk <- read.csv(here("data_ct_dsk", "processed", "data_ct_dsk.csv"))
-data_ct_dst <- read.csv(here("data_ct_dst", "processed", "data_ct_dst.csv"))
-data_vol_aseg <- read.csv(here("data_vol_aseg", "processed", "data_vol_aseg.csv"))
-data_vol_dsk <- read.csv(here("data_vol_dsk", "processed", "data_vol_dsk.csv"))
-data_vol_dst <- read.csv(here("data_vol_dst", "processed", "data_vol_dst.csv"))
+data_ct_dsk <- read.csv(here("data", "processed", "data_ct_dsk.csv"))
+data_ct_dst <- read.csv(here("data", "processed", "data_ct_dst.csv"))
+data_vol_aseg <- read.csv(here("data", "processed", "data_vol_aseg.csv"))
+data_vol_dsk <- read.csv(here("data", "processed", "data_vol_dsk.csv"))
+data_vol_dst <- read.csv(here("data", "processed", "data_vol_dst.csv"))
 ```
 
 ## 3.1 cortical thickness desikan
@@ -450,7 +450,7 @@ posthoc_ct_dst_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_ct_dst_continu, "../results/tables/posthoc_ct_dst_continu.csv", row.names = FALSE)
+write.csv(posthoc_ct_dst_continu, here("results/tables/posthoc_ct_dst_continu.csv"), row.names = FALSE)
 ```
 
 ## 3.3 volume subcortical
@@ -581,7 +581,7 @@ posthoc_vol_aseg <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_vol_aseg, "../results/tables/posthoc_vol_aseg.csv", row.names = FALSE)
+write.csv(posthoc_vol_aseg, here("results/tables/posthoc_vol_aseg.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
@@ -600,7 +600,7 @@ posthoc_vol_aseg_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_vol_aseg_pente, "../results/tables/posthoc_vol_aseg_pente.csv", row.names = FALSE)
+write.csv(posthoc_vol_aseg_pente, here("results/tables/posthoc_vol_aseg_pente.csv"), row.names = FALSE)
 
 ## modèle avec temps continu ####
 run_model <- function(reg) {
@@ -673,7 +673,7 @@ posthoc_vol_aseg_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_vol_aseg_continu, "../results/tables/posthoc_vol_aseg_continu.csv", row.names = FALSE)
+write.csv(posthoc_vol_aseg_continu, here("results/tables/posthoc_vol_aseg_continu.csv"), row.names = FALSE)
 
 
 
@@ -771,7 +771,7 @@ posthoc_vol_aseg_uni <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_vol_aseg_uni, "../results/tables/posthoc_vol_aseg_uni.csv", row.names = FALSE)
+write.csv(posthoc_vol_aseg_uni, here("results/tables/posthoc_vol_aseg_uni.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
@@ -790,7 +790,7 @@ posthoc_vol_aseg_uni_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_vol_aseg_uni_pente, "../results/tables/posthoc_vol_aseg_uni_pente.csv", row.names = FALSE)
+write.csv(posthoc_vol_aseg_uni_pente, here("results/tables/posthoc_vol_aseg_uni_pente.csv"), row.names = FALSE)
 
 
 ## modèle avec temps continu ####
@@ -866,7 +866,7 @@ posthoc_vol_aseg_continu_uni <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_vol_aseg_continu_uni, "../results/tables/posthoc_vol_aseg_continu_uni.csv", row.names = FALSE)
+write.csv(posthoc_vol_aseg_continu_uni, here("results/tables/posthoc_vol_aseg_continu_uni.csv"), row.names = FALSE)
 ```
 
 ## 3.4 volume desikan
@@ -988,7 +988,7 @@ posthoc_vol_dsk <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_vol_dsk, "../results/tables/posthoc_vol_dsk.csv", row.names = FALSE)
+write.csv(posthoc_vol_dsk, here("results/tables/posthoc_vol_dsk.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
@@ -1007,7 +1007,7 @@ posthoc_vol_dsk_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_vol_dsk_pente, "../results/tables/posthoc_vol_dsk_pente.csv", row.names = FALSE)
+write.csv(posthoc_vol_dsk_pente, here("results/tables/posthoc_vol_dsk_pente.csv"), row.names = FALSE)
 
 # modèle avec temps continu ####
 run_model <- function(reg) {
@@ -1080,7 +1080,7 @@ posthoc_vol_dsk_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_vol_dsk_continu, "../results/tables/posthoc_vol_dsk_continu.csv", row.names = FALSE)
+write.csv(posthoc_vol_dsk_continu, here("results/tables/posthoc_vol_dsk_continu.csv"), row.names = FALSE)
 ```
 
 ## 3.5 volume destrieux
@@ -1201,7 +1201,7 @@ posthoc_vol_dst <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_vol_dst, "../results/tables/posthoc_vol_dst.csv", row.names = FALSE)
+write.csv(posthoc_vol_dst, here("results/tables/posthoc_vol_dst.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
@@ -1220,7 +1220,7 @@ posthoc_vol_dst_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_vol_dst_pente, "../results/tables/posthoc_vol_dst_pente.csv", row.names = FALSE)
+write.csv(posthoc_vol_dst_pente, here("results/tables/posthoc_vol_dst_pente.csv"), row.names = FALSE)
 
 # modèle avec temps continu ####
 run_model <- function(reg) {
@@ -1293,6 +1293,6 @@ posthoc_vol_dst_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_vol_dst_continu, "../results/tables/posthoc_vol_dst_continu.csv", row.names = FALSE)
+write.csv(posthoc_vol_dst_continu, here("results/tables/posthoc_vol_dst_continu.csv"), row.names = FALSE)
 ```
 

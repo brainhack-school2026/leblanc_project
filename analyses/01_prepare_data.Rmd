@@ -21,6 +21,13 @@ library(purrr)
 library(here)
 options(scipen = 999)
 
+library(ggseg)
+library(ggsegDestrieux)
+library(ggseg3d)
+
+```
+
+
 ```
 
 ## 1.2 Import data

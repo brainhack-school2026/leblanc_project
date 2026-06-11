@@ -9,7 +9,6 @@ output: pdf_document
 Import data
 ```{r}
 data <- read.csv(here("data", "raw", "data.csv"))
-
 ```
 
 ## 2.1 Retirer les participants sur la base des critères d'exclusion

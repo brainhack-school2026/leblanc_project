@@ -4,19 +4,6 @@ author: "Roxanne Leblanc"
 date: "2026-05-27"
 output: html_document
 ---
-# Importation des librairies
-```{r}
-#install.packages("ggseg")
-library(ggseg)
-library(dplyr)
-library(ggplot2)
-library(stringr)
-#install.packages("remotes")
-#remotes::install_github("ggsegverse/ggsegDestrieux")
-library(ggsegDestrieux)
-library(ggseg3d)
-
-```
 
 # Importation des données
 Plusieurs post-hocs ont été faits à partir des interactions co_longi x session_id significatives. 
@@ -31,31 +18,31 @@ Total de 18 post-hocs - 1 tableau par post-hoc
 ```{r}
 # épaisseur corticale
 
-posthoc_ct_dsk <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_ct_dsk.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_ct_dsk_pente <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_ct_dsk_pente.csv")# temps catégoriel, différences de pentes entre les groupes
-posthoc_ct_dsk_continu <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_ct_dsk_continu.csv")# temps continu
+posthoc_ct_dsk <- read.csv(here("results", "tables", "posthoc_ct_dsk.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_ct_dsk_pente <- read.csv(here("results", "tables", "posthoc_ct_dsk_pente.csv"))# temps catégoriel, différences de pentes entre les groupes
+posthoc_ct_dsk_continu <- read.csv(here("results", "tables", "posthoc_ct_dsk_continu.csv"))# temps continu
 
-posthoc_ct_dst <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_ct_dst.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_ct_dst_pente <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_ct_dst_pente.csv")# temps catégoriel, différences de pentes entre les groupes
-posthoc_ct_dst_continu <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_ct_dst_continu.csv")# temps continu
+posthoc_ct_dst <- read.csv(here("results", "tables", "posthoc_ct_dst.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_ct_dst_pente <- read.csv(here("results", "tables", "posthoc_ct_dst_pente.csv")) # temps catégoriel, différences de pentes entre les groupes
+posthoc_ct_dst_continu <- read.csv(here("results", "tables", "posthoc_ct_dst_continu.csv"))# temps continu
 
 # volume de matière grise
 
-posthoc_vol_dsk <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_dsk.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_dsk_pente <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_dsk_pente.csv")# temps catégoriel, différences de pentes entre les groupes
-posthoc_vol_dsk_continu <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_dsk_continu.csv")# temps continu
+posthoc_vol_dsk <- read.csv(here("results", "tables", "posthoc_vol_dsk.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_dsk_pente <- read.csv(here("results", "tables"," posthoc_vol_dsk_pente.csv")) # temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_dsk_continu <- read.csv(here("results", "tables", "posthoc_vol_dsk_continu.csv")) # temps continu
 
-posthoc_vol_dst <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_dst.csv") # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_dst_pente <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_dst_pente.csv")# temps catégoriel, différences de pentes entre les groupes
-posthoc_vol_dst_continu <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_dst_continu.csv")# temps continu
+posthoc_vol_dst <- read.csv(here("results", "tables", "posthoc_vol_dst.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_dst_pente <- read.csv(here("results", "tables", "posthoc_vol_dst_pente.csv")) # temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_dst_continu <- read.csv(here("results", "tables", "posthoc_vol_dst_continu.csv"))# temps continu
 
-posthoc_vol_aseg <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_aseg.csv") # régions bilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_aseg_pente <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_aseg_pente.csv")# régions bilatérales,temps catégoriel, différences de pentes entre les groupes
-posthoc_vol_aseg_continu <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_aseg_continu.csv")# régions bilatérales,temps continu
+posthoc_vol_aseg <- read.csv(here("results", "tables", "posthoc_vol_aseg.csv")) # régions bilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_aseg_pente <- read.csv(here("results", "tables", "posthoc_vol_aseg_pente.csv")) # régions bilatérales,temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_aseg_continu <- read.csv(here("results", "tables", "posthoc_vol_aseg_continu.csv")) # régions bilatérales,temps continu
 
-posthoc_vol_aseg_uni <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_aseg_uni.csv") # régions unilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_aseg_uni_pente <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_aseg_uni_pente.csv")# régions unilatérales,temps catégoriel, différences de pentes entre les groupes
-posthoc_vol_aseg_continu_uni <- read.csv("/home/rleblanc/leblanc_project/results/tables/posthoc_vol_aseg_continu_uni.csv")# régions unilatérales,temps continu
+posthoc_vol_aseg_uni <- read.csv(here("results", "tables", "posthoc_vol_aseg_uni.csv")) # régions unilatérales, temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_vol_aseg_uni_pente <- read.csv(here("results", "tables", "posthoc_vol_aseg_uni_pente.csv")) # régions unilatérales,temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_aseg_continu_uni <- read.csv(here("results", "tables", "posthoc_vol_aseg_continu_uni.csv")) # régions unilatérales,temps continu
 
 ```
 
@@ -330,8 +317,8 @@ ct_dst_c01_ses02_p1 <- ggplot(posthoc_ct_dst_0_1_ses02) +
 ggsave(
   filename = "ct_dst_c01_ses02_p1.png",
   plot = ct_dst_c01_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
-)
+  path = here("results/brainmaps"
+))
 
 ct_dst_c01_ses02_p05 <- ggplot(posthoc_ct_dst_0_1_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
@@ -342,7 +329,7 @@ ct_dst_c01_ses02_p05 <- ggplot(posthoc_ct_dst_0_1_ses02 %>% filter(p.value < 0.0
 ggsave(
   filename = "ct_dst_c01_ses02_p05.png",
   plot = ct_dst_c01_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -356,7 +343,7 @@ ct_dst_c01_ses04_p1 <- ggplot(posthoc_ct_dst_0_1_ses04) +
 ggsave(
   filename = "ct_dst_c01_ses04_p1.png",
   plot = ct_dst_c01_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 ct_dst_c01_ses04_p05 <- ggplot(posthoc_ct_dst_0_1_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
@@ -367,7 +354,7 @@ ct_dst_c01_ses04_p05 <- ggplot(posthoc_ct_dst_0_1_ses04 %>% filter(p.value < 0.0
 ggsave(
   filename = "ct_dst_c01_ses04_p05.png",
   plot = ct_dst_c01_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -379,7 +366,7 @@ ct_dst_c01_ses06_p1 <- ggplot(posthoc_ct_dst_0_1_ses06) +
 ggsave(
   filename = "ct_dst_c01_ses06_p1.png",
   plot = ct_dst_c01_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ct_dst_c01_ses06_p05 <-  ggplot(posthoc_ct_dst_0_1_ses06 %>% filter(p.value < 0.05)) +
@@ -390,7 +377,7 @@ ct_dst_c01_ses06_p05 <-  ggplot(posthoc_ct_dst_0_1_ses06 %>% filter(p.value < 0.
 ggsave(
   filename = "ct_dst_c01_ses06_p05.png",
   plot = ct_dst_c01_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 ```
 
@@ -419,7 +406,7 @@ ct_dst_c02_ses02_p1 <- ggplot(posthoc_ct_dst_0_2_ses02) +
 ggsave(
   filename = "ct_dst_c02_ses02_p1.png",
   plot = ct_dst_c02_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ct_dst_c02_ses02_p05 <- ggplot(posthoc_ct_dst_0_2_ses02 %>% filter(p.value < 0.05)) +
@@ -431,7 +418,7 @@ ct_dst_c02_ses02_p05 <- ggplot(posthoc_ct_dst_0_2_ses02 %>% filter(p.value < 0.0
 ggsave(
   filename = "ct_dst_c02_ses02_p05.png",
   plot = ct_dst_c02_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -445,7 +432,7 @@ ct_dst_c02_ses04_p1 <- ggplot(posthoc_ct_dst_0_2_ses04) +
 ggsave(
   filename = "ct_dst_c02_ses04_p1.png",
   plot = ct_dst_c02_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ct_dst_c02_ses04_p05 <- ggplot(posthoc_ct_dst_0_2_ses04 %>% filter(p.value < 0.05)) +
@@ -457,7 +444,7 @@ ct_dst_c02_ses04_p05 <- ggplot(posthoc_ct_dst_0_2_ses04 %>% filter(p.value < 0.0
 ggsave(
   filename = "ct_dst_c02_ses04_p05.png",
   plot = ct_dst_c02_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -469,7 +456,7 @@ ct_dst_c02_ses06_p1 <- ggplot(posthoc_ct_dst_0_2_ses06) +
 ggsave(
   filename = "ct_dst_c02_ses06_p1.png",
   plot = ct_dst_c02_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ct_dst_c02_ses06_p05 <-  ggplot(posthoc_ct_dst_0_2_ses06 %>% filter(p.value < 0.05)) +
@@ -481,7 +468,7 @@ ct_dst_c02_ses06_p05 <-  ggplot(posthoc_ct_dst_0_2_ses06 %>% filter(p.value < 0.
 ggsave(
   filename = "ct_dst_c02_ses06_p05.png",
   plot = ct_dst_c02_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ```
@@ -511,7 +498,7 @@ ct_dst_c12_ses02_p1 <- ggplot(posthoc_ct_dst_1_2_ses02) +
 ggsave(
   filename = "ct_dst_c12_ses02_p1.png",
   plot = ct_dst_c12_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ct_dst_c12_ses02_p05 <- ggplot(posthoc_ct_dst_1_2_ses02 %>% filter(p.value < 0.05)) +
@@ -523,7 +510,7 @@ ct_dst_c12_ses02_p05 <- ggplot(posthoc_ct_dst_1_2_ses02 %>% filter(p.value < 0.0
 ggsave(
   filename = "ct_dst_c12_ses02_p05.png",
   plot = ct_dst_c12_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -537,7 +524,7 @@ ct_dst_c12_ses04_p1 <- ggplot(posthoc_ct_dst_1_2_ses04) +
 ggsave(
   filename = "ct_dst_c12_ses04_p1.png",
   plot = ct_dst_c12_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ct_dst_c12_ses04_p05 <- ggplot(posthoc_ct_dst_1_2_ses04 %>% filter(p.value < 0.05)) +
@@ -549,7 +536,7 @@ ct_dst_c12_ses04_p05 <- ggplot(posthoc_ct_dst_1_2_ses04 %>% filter(p.value < 0.0
 ggsave(
   filename = "ct_dst_c12_ses04_p05.png",
   plot = ct_dst_c12_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -561,7 +548,7 @@ ct_dst_c12_ses06_p1 <- ggplot(posthoc_ct_dst_1_2_ses06) +
 ggsave(
   filename = "ct_dst_c12_ses06_p1.png",
   plot = ct_dst_c12_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ct_dst_c12_ses06_p05 <-  ggplot(posthoc_ct_dst_1_2_ses06 %>% filter(p.value < 0.05)) +
@@ -573,7 +560,7 @@ ct_dst_c12_ses06_p05 <-  ggplot(posthoc_ct_dst_1_2_ses06 %>% filter(p.value < 0.
 ggsave(
   filename = "ct_dst_c12_ses06_p05.png",
   plot = ct_dst_c12_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ```
@@ -702,7 +689,7 @@ vol_dst_c01_ses02_p1 <- ggplot(posthoc_vol_dst_0_1_ses02) +
 ggsave(
   filename = "vol_dst_c01_ses02_p1.png",
   plot = vol_dst_c01_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_dst_c01_ses02_p05 <- ggplot(posthoc_vol_dst_0_1_ses02 %>% filter(p.value < 0.05)) +
@@ -714,7 +701,7 @@ vol_dst_c01_ses02_p05 <- ggplot(posthoc_vol_dst_0_1_ses02 %>% filter(p.value < 0
 ggsave(
   filename = "vol_dst_c01_ses02_p05.png",
   plot = vol_dst_c01_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -728,7 +715,7 @@ vol_dst_c01_ses04_p1 <- ggplot(posthoc_vol_dst_0_1_ses04) +
 ggsave(
   filename = "vol_dst_c01_ses04_p1.png",
   plot = vol_dst_c01_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_dst_c01_ses04_p05 <- ggplot(posthoc_vol_dst_0_1_ses04 %>% filter(p.value < 0.05)) +
@@ -740,7 +727,7 @@ vol_dst_c01_ses04_p05 <- ggplot(posthoc_vol_dst_0_1_ses04 %>% filter(p.value < 0
 ggsave(
   filename = "vol_dst_c01_ses04_p05.png",
   plot = vol_dst_c01_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -752,7 +739,7 @@ vol_dst_c01_ses06_p1 <- ggplot(posthoc_vol_dst_0_1_ses06) +
 ggsave(
   filename = "vol_dst_c01_ses06_p1.png",
   plot = vol_dst_c01_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_dst_c01_ses06_p05 <-  ggplot(posthoc_vol_dst_0_1_ses06 %>% filter(p.value < 0.05)) +
@@ -763,7 +750,7 @@ vol_dst_c01_ses06_p05 <-  ggplot(posthoc_vol_dst_0_1_ses06 %>% filter(p.value < 
 ggsave(
   filename = "vol_dst_c01_ses06_p05.png",
   plot = vol_dst_c01_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ```
@@ -794,7 +781,7 @@ vol_dst_c02_ses02_p1 <- ggplot(posthoc_vol_dst_0_2_ses02) +
 ggsave(
   filename = "vol_dst_c02_ses02_p1.png",
   plot = vol_dst_c02_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path =here("results/brainmaps")
 )
 
 vol_dst_c02_ses02_p05 <- ggplot(posthoc_vol_dst_0_2_ses02 %>% filter(p.value < 0.05)) +
@@ -806,7 +793,7 @@ vol_dst_c02_ses02_p05 <- ggplot(posthoc_vol_dst_0_2_ses02 %>% filter(p.value < 0
 ggsave(
   filename = "vol_dst_c02_ses02_p05.png",
   plot = vol_dst_c02_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -820,7 +807,7 @@ vol_dst_c02_ses04_p1 <- ggplot(posthoc_vol_dst_0_2_ses04) +
 ggsave(
   filename = "vol_dst_c02_ses04_p1.png",
   plot = vol_dst_c02_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_dst_c02_ses04_p05 <- ggplot(posthoc_vol_dst_0_2_ses04 %>% filter(p.value < 0.05)) +
@@ -832,7 +819,7 @@ vol_dst_c02_ses04_p05 <- ggplot(posthoc_vol_dst_0_2_ses04 %>% filter(p.value < 0
 ggsave(
   filename = "vol_dst_c02_ses04_p05.png",
   plot = vol_dst_c02_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -844,7 +831,7 @@ vol_dst_c02_ses06_p1 <- ggplot(posthoc_vol_dst_0_2_ses06) +
 ggsave(
   filename = "vol_dst_c02_ses06_p1.png",
   plot = vol_dst_c02_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_dst_c02_ses06_p05 <-  ggplot(posthoc_vol_dst_0_2_ses06 %>% filter(p.value < 0.05)) +
@@ -855,7 +842,7 @@ vol_dst_c02_ses06_p05 <-  ggplot(posthoc_vol_dst_0_2_ses06 %>% filter(p.value < 
 ggsave(
   filename = "vol_dst_c02_ses06_p05.png",
   plot = vol_dst_c02_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ```
@@ -885,7 +872,7 @@ vol_dst_c12_ses02_p1 <- ggplot(posthoc_vol_dst_1_2_ses02) +
 ggsave(
   filename = "vol_dst_c12_ses02_p1.png",
   plot = vol_dst_c12_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_dst_c12_ses02_p05 <- ggplot(posthoc_vol_dst_1_2_ses02 %>% filter(p.value < 0.05)) +
@@ -897,7 +884,7 @@ vol_dst_c12_ses02_p05 <- ggplot(posthoc_vol_dst_1_2_ses02 %>% filter(p.value < 0
 ggsave(
   filename = "vol_dst_c12_ses02_p05.png",
   plot = vol_dst_c12_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -911,7 +898,7 @@ vol_dst_c12_ses04_p1 <- ggplot(posthoc_vol_dst_1_2_ses04) +
 ggsave(
   filename = "vol_dst_c12_ses04_p1.png",
   plot = vol_dst_c12_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_dst_c12_ses04_p05 <- ggplot(posthoc_vol_dst_1_2_ses04 %>% filter(p.value < 0.05)) +
@@ -923,7 +910,7 @@ vol_dst_c12_ses04_p05 <- ggplot(posthoc_vol_dst_1_2_ses04 %>% filter(p.value < 0
 ggsave(
   filename = "vol_dst_c12_ses04_p05.png",
   plot = vol_dst_c12_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -935,7 +922,7 @@ vol_dst_c12_ses06_p1 <- ggplot(posthoc_vol_dst_1_2_ses06) +
 ggsave(
   filename = "vol_dst_c12_ses06_p1.png",
   plot = vol_dst_c12_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_dst_c12_ses06_p05 <-  ggplot(posthoc_vol_dst_1_2_ses06 %>% filter(p.value < 0.05)) +
@@ -946,7 +933,7 @@ vol_dst_c12_ses06_p05 <-  ggplot(posthoc_vol_dst_1_2_ses06 %>% filter(p.value < 
 ggsave(
   filename = "vol_dst_c12_ses06_p05.png",
   plot = vol_dst_c12_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ```
@@ -1077,7 +1064,7 @@ vol_aseg_c01_ses02_p1 <- ggplot(posthoc_vol_aseg_0_1_ses02) +
 ggsave(
   filename = "vol_aseg_c01_ses02_p1.png",
   plot = vol_aseg_c01_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_aseg_c01_ses02_p05 <- ggplot(posthoc_vol_aseg_0_1_ses02 %>% filter(p.value < 0.05)) +
@@ -1089,7 +1076,7 @@ vol_aseg_c01_ses02_p05 <- ggplot(posthoc_vol_aseg_0_1_ses02 %>% filter(p.value <
 ggsave(
   filename = "vol_aseg_c01_ses02_p05.png",
   plot = vol_aseg_c01_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -1103,7 +1090,7 @@ vol_aseg_c01_ses04_p1 <- ggplot(posthoc_vol_aseg_0_1_ses04) +
 ggsave(
   filename = "vol_aseg_c01_ses04_p1.png",
   plot = vol_aseg_c01_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_aseg_c01_ses04_p05 <- ggplot(posthoc_vol_aseg_0_1_ses04 %>% filter(p.value < 0.05)) +
@@ -1115,7 +1102,7 @@ vol_aseg_c01_ses04_p05 <- ggplot(posthoc_vol_aseg_0_1_ses04 %>% filter(p.value <
 ggsave(
   filename = "vol_aseg_c01_ses04_p05.png",
   plot = vol_aseg_c01_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -1127,7 +1114,7 @@ vol_aseg_c01_ses06_p1 <- ggplot(posthoc_vol_aseg_0_1_ses06) +
 ggsave(
   filename = "vol_aseg_c01_ses06_p1.png",
   plot = vol_aseg_c01_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_aseg_c01_ses06_p05 <-  ggplot(posthoc_vol_aseg_0_1_ses06 %>% filter(p.value < 0.05)) +
@@ -1138,7 +1125,7 @@ vol_aseg_c01_ses06_p05 <-  ggplot(posthoc_vol_aseg_0_1_ses06 %>% filter(p.value 
 ggsave(
   filename = "vol_aseg_c01_ses06_p05.png",
   plot = vol_aseg_c01_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -1170,7 +1157,7 @@ vol_aseg_c02_ses02_p1 <- ggplot(posthoc_vol_aseg_0_2_ses02) +
 ggsave(
   filename = "vol_aseg_c02_ses02_p1.png",
   plot = vol_aseg_c02_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_aseg_c02_ses02_p05 <- ggplot(posthoc_vol_aseg_0_2_ses02 %>% filter(p.value < 0.05)) +
@@ -1182,7 +1169,7 @@ vol_aseg_c02_ses02_p05 <- ggplot(posthoc_vol_aseg_0_2_ses02 %>% filter(p.value <
 ggsave(
   filename = "vol_aseg_c02_ses02_p05.png",
   plot = vol_aseg_c02_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -1196,7 +1183,7 @@ vol_aseg_c02_ses04_p1 <- ggplot(posthoc_vol_aseg_0_2_ses04) +
 ggsave(
   filename = "vol_aseg_c02_ses04_p1.png",
   plot = vol_aseg_c02_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path =  here("results/brainmaps")
 )
 
 vol_aseg_c02_ses04_p05 <- ggplot(posthoc_vol_aseg_0_2_ses04 %>% filter(p.value < 0.05)) +
@@ -1208,7 +1195,7 @@ vol_aseg_c02_ses04_p05 <- ggplot(posthoc_vol_aseg_0_2_ses04 %>% filter(p.value <
 ggsave(
   filename = "vol_aseg_c02_ses04_p05.png",
   plot = vol_aseg_c02_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -1220,7 +1207,7 @@ vol_aseg_c02_ses06_p1 <- ggplot(posthoc_vol_aseg_0_2_ses06) +
 ggsave(
   filename = "vol_aseg_c02_ses06_p1.png",
   plot = vol_aseg_c02_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_aseg_c02_ses06_p05 <-  ggplot(posthoc_vol_aseg_0_2_ses06 %>% filter(p.value < 0.05)) +
@@ -1231,7 +1218,7 @@ vol_aseg_c02_ses06_p05 <-  ggplot(posthoc_vol_aseg_0_2_ses06 %>% filter(p.value 
 ggsave(
   filename = "vol_aseg_c02_ses06_p05.png",
   plot = vol_aseg_c02_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ```
@@ -1262,7 +1249,7 @@ vol_aseg_c12_ses02_p1 <- ggplot(posthoc_vol_aseg_1_2_ses02) +
 ggsave(
   filename = "vol_aseg_c12_ses02_p1.png",
   plot = vol_aseg_c12_ses02_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_aseg_c12_ses02_p05 <- ggplot(posthoc_vol_aseg_1_2_ses02 %>% filter(p.value < 0.05)) +
@@ -1274,7 +1261,7 @@ vol_aseg_c12_ses02_p05 <- ggplot(posthoc_vol_aseg_1_2_ses02 %>% filter(p.value <
 ggsave(
   filename = "vol_aseg_c12_ses02_p05.png",
   plot = vol_aseg_c12_ses02_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 
@@ -1288,7 +1275,7 @@ vol_aseg_c12_ses04_p1 <- ggplot(posthoc_vol_aseg_1_2_ses04) +
 ggsave(
   filename = "vol_aseg_c12_ses04_p1.png",
   plot = vol_aseg_c12_ses04_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_aseg_c12_ses04_p05 <- ggplot(posthoc_vol_aseg_1_2_ses04 %>% filter(p.value < 0.05)) +
@@ -1300,7 +1287,7 @@ vol_aseg_c12_ses04_p05 <- ggplot(posthoc_vol_aseg_1_2_ses04 %>% filter(p.value <
 ggsave(
   filename = "vol_aseg_c12_ses04_p05.png",
   plot = vol_aseg_c12_ses04_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 # 6
@@ -1312,7 +1299,7 @@ vol_aseg_c12_ses06_p1 <- ggplot(posthoc_vol_aseg_1_2_ses06) +
 ggsave(
   filename = "vol_aseg_c12_ses06_p1.png",
   plot = vol_aseg_c12_ses06_p1,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 vol_aseg_c12_ses06_p05 <-  ggplot(posthoc_vol_aseg_1_2_ses06 %>% filter(p.value < 0.05)) +
@@ -1323,7 +1310,7 @@ vol_aseg_c12_ses06_p05 <-  ggplot(posthoc_vol_aseg_1_2_ses06 %>% filter(p.value 
 ggsave(
   filename = "vol_aseg_c12_ses06_p05.png",
   plot = vol_aseg_c12_ses06_p05,
-  path = "/home/rleblanc/leblanc_project/results/brainmaps"
+  path = here("results/brainmaps")
 )
 
 ```
