@@ -15,6 +15,7 @@ Open R or RStudio and run :
 
 install.packages("renv") # if needed
 renv::restore()
+install.packages("rmarkdown") # if needed
 ```
 
 ## 3. Run the full analysis pipeline
@@ -46,7 +47,7 @@ make brainmaps
 ```
 From the terminal, run :
 
-jupyter notebook visualisations/visualisations.ipynb
+jupyter notebook visualizations/visualisations.ipynb
 
 And then run the jupyter notebook.
 ```

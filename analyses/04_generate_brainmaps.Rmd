@@ -5,6 +5,27 @@ date: "2026-05-27"
 output: html_document
 ---
 
+```{r}
+
+library(dplyr)
+library(readr)
+library(emmeans)
+library(ggplot2)
+library(stringr)
+library(tidyr)
+library(lme4)
+library(lmerTest)
+library(purrr)
+library(here)
+options(scipen = 999)
+
+library(ggseg)
+library(ggsegDestrieux)
+library(ggseg3d)
+
+library(zip)
+```
+
 # Importation des données
 Unzip les fichiers de données.
 ```{r}
@@ -26,7 +47,7 @@ Total de 18 post-hocs - 1 tableau par post-hoc
 ```{r}
 # épaisseur corticale
 
-posthoc_ct_dsk <- read.csv(here("results", "tables","tmp", "posthoc_ct_dsk.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_ct_dsk <- read.csv(here("results", "tables", "posthoc_ct_dsk.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
 posthoc_ct_dsk_pente <- read.csv(here("results", "tables", "posthoc_ct_dsk_pente.csv"))# temps catégoriel, différences de pentes entre les groupes
 posthoc_ct_dsk_continu <- read.csv(here("results", "tables", "posthoc_ct_dsk_continu.csv"))# temps continu
 
@@ -37,7 +58,7 @@ posthoc_ct_dst_continu <- read.csv(here("results", "tables", "posthoc_ct_dst_con
 # volume de matière grise
 
 posthoc_vol_dsk <- read.csv(here("results", "tables", "posthoc_vol_dsk.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-posthoc_vol_dsk_pente <- read.csv(here("results", "tables"," posthoc_vol_dsk_pente.csv")) # temps catégoriel, différences de pentes entre les groupes
+posthoc_vol_dsk_pente <- read.csv(here("results", "tables","posthoc_vol_dsk_pente.csv")) # temps catégoriel, différences de pentes entre les groupes
 posthoc_vol_dsk_continu <- read.csv(here("results", "tables", "posthoc_vol_dsk_continu.csv")) # temps continu
 
 posthoc_vol_dst <- read.csv(here("results", "tables", "posthoc_vol_dst.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
@@ -55,7 +76,7 @@ posthoc_vol_aseg_continu_uni <- read.csv(here("results", "tables", "posthoc_vol_
 ```
 
 # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
-```{r ct_dsk_0-1}
+```{r cat_moy_ct_dsk_0-1}
 ggseg.formats::atlas_regions(dk())
 
 
@@ -156,7 +177,7 @@ ggplot(posthoc_ct_dsk_0_1_ses06 %>% filter(p.value < 0.05)) +
 ```
 
 
-```{r ct_dsk_0-2}
+```{r cat_moy_ct_dsk_0-2}
 posthoc_ct_dsk_0_2 <- posthoc_ct_dsk %>%
   filter(contrast == "co_longi0 - co_longi2")
 
@@ -211,12 +232,12 @@ ggplot(posthoc_ct_dsk_0_2_ses06 %>% filter(p.value < 0.05)) +
 ```
 
 
-```{r ct_dsk_1-2}
+```{r cat_moy_ct_dsk_1-2}
 
 ```
 
 
-```{r ct_dst_0-1}
+```{r cat_moy_ct_dst_0-1}
 ggseg.formats::atlas_regions(destrieux())
 
 
@@ -390,7 +411,7 @@ ggsave(
 ```
 
 
-```{r ct_dst_0-2}
+```{r cat_moy_ct_dst_0-2}
 
 posthoc_ct_dst_0_2 <- posthoc_ct_dst %>%
   filter(contrast == "co_longi0 - co_longi2")
@@ -482,7 +503,7 @@ ggsave(
 ```
 
 
-```{r ct_dst_1-2}
+```{r cat_moy_ct_dst_1-2}
 
 posthoc_ct_dst_1_2 <- posthoc_ct_dst %>%
   filter(contrast == "co_longi1 - co_longi2")
@@ -574,24 +595,24 @@ ggsave(
 ```
 
 
-```{r vol_dsk_0-1}
+```{r cat_moy_vol_dsk_0-1}
 
 ```
 
 
-```{r vol_dsk_0-2}
+```{r cat_moy_vol_dsk_0-2}
 
 ```
 
 
-```{r vol_dsk_1-2}
+```{r cat_moy_vol_dsk_1-2}
 
 
 
 ```
 
 
-```{r vol_dst_0-1}
+```{r cat_moy_vol_dst_0-1}
 ggseg.formats::atlas_regions(destrieux())
 
 # changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
@@ -764,7 +785,7 @@ ggsave(
 ```
 
 
-```{r vol_dst_0-2}
+```{r cat_moy_vol_dst_0-2}
 
 posthoc_vol_dst_0_2 <- posthoc_vol_dst %>%
   filter(contrast == "co_longi0 - co_longi2")
@@ -856,7 +877,7 @@ ggsave(
 ```
 
 
-```{r vol_dst_1-2}
+```{r cat_moy_vol_dst_1-2}
 posthoc_vol_dst_1_2 <- posthoc_vol_dst %>%
   filter(contrast == "co_longi1 - co_longi2")
 
@@ -947,82 +968,82 @@ ggsave(
 ```
 
 
-```{r vol_aseg_0-1}
+```{r cat_moy_vol_aseg_0-1}
 
 ```
 
 
-```{r vol_aseg_0-2}
+```{r cat_moy_vol_aseg_0-2}
 
 ```
 
 
-```{r vol_aseg_1-2}
+```{r cat_moy_vol_aseg_1-2}
 
 ```
 
 # temps catégoriel, différences de pentes entre les groupes à chaque temps de mesure
-```{r ct_dsk_0-1}
+```{r cat_pen_ct_dsk_0-1}
 
 ```
 
 
-```{r ct_dsk_0-2}
+```{r cat_pen_ct_dsk_0-2}
 
 ```
 
 
-```{r ct_dsk_1-2}
+```{r cat_pen_ct_dsk_1-2}
 
 ```
 
 
-```{r ct_dst_0-1}
+```{r cat_pen_ct_dst_0-1}
 
 ```
 
 
-```{r ct_dst_0-2}
+```{r cat_pen_ct_dst_0-2}
 
 ```
 
 
-```{r ct_dst_1-2}
+```{r cat_pen_ct_dst_1-2}
 
 ```
 
 
-```{r vol_dsk_0-1}
+```{r cat_pen_vol_dsk_0-1}
 
 ```
 
 
-```{r vol_dsk_0-2}
+```{r cat_pen_vol_dsk_0-2}
 
 ```
 
 
-```{r vol_dsk_1-2}
+```{r cat_pen_vol_dsk_1-2}
 
 ```
 
 
-```{r vol_dst_0-1}
+```{r cat_pen_vol_dst_0-1}
 
 ```
 
 
-```{r vol_dst_0-2}
+```{r cat_pen_vol_dst_0-2}
 
 ```
 
 
-```{r vol_dst_1-2}
+```{r cat_pen_vol_dst_1-2}
 
 ```
 
 
-```{r vol_aseg_0-1}
+```{r cat_pen_vol_aseg_0-1}
 
 ggseg.formats::atlas_regions(aseg())
 plot(aseg())
@@ -1140,7 +1161,7 @@ ggsave(
 ```
 
 
-```{r vol_aseg_0-2}
+```{r cat_pen_vol_aseg_0-2}
 
 posthoc_vol_aseg_0_2 <- posthoc_vol_aseg %>%
   filter(contrast == "co_longi0 - co_longi2")
@@ -1232,7 +1253,7 @@ ggsave(
 ```
 
 
-```{r vol_aseg_1-2}
+```{r cat_pen_vol_aseg_1-2}
 
 posthoc_vol_aseg_1_2 <- posthoc_vol_aseg %>%
   filter(contrast == "co_longi1 - co_longi2")
@@ -1325,77 +1346,77 @@ ggsave(
 
 
 # temps continu
-```{r ct_dsk_0-1}
+```{r cont_ct_dsk_0-1}
 
 ```
 
 
-```{r ct_dsk_0-2}
+```{r cont_ct_dsk_0-2}
 
 ```
 
 
-```{r ct_dsk_1-2}
+```{r cont_ct_dsk_1-2}
 
 ```
 
 
-```{r ct_dst_0-1}
+```{r cont_ct_dst_0-1}
 
 ```
 
 
-```{r ct_dst_0-2}
+```{r cont_ct_dst_0-2}
 
 ```
 
 
-```{r ct_dst_1-2}
+```{r cont_ct_dst_1-2}
 
 ```
 
 
-```{r vol_dsk_0-1}
+```{r cont_vol_dsk_0-1}
 
 ```
 
 
-```{r vol_dsk_0-2}
+```{r cont_vol_dsk_0-2}
 
 ```
 
 
-```{r vol_dsk_1-2}
+```{r cont_vol_dsk_1-2}
 
 ```
 
 
-```{r vol_dst_0-1}
+```{r cont_vol_dst_0-1}
 
 ```
 
 
-```{r vol_dst_0-2}
+```{r cont_vol_dst_0-2}
 
 ```
 
 
-```{r vol_dst_1-2}
+```{r cont_vol_dst_1-2}
 
 ```
 
 
-```{r vol_aseg_0-1}
+```{r cont_vol_aseg_0-1}
 
 ```
 
 
-```{r vol_aseg_0-2}
+```{r cont_vol_aseg_0-2}
 
 ```
 
 
-```{r vol_aseg_1-2}
+```{r cont_vol_aseg_1-2}
 
 ```
 
