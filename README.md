@@ -14,7 +14,7 @@
    make
 
 # Architecture of the repo
-
+```
 leblanc_project/
 │
 ├── data/
@@ -52,9 +52,9 @@ leblanc_project/
 └── visualisations/
     └── visualisations.ipynb
         └── Interactive visualization tool for exploring brain maps
-
+```
 # Workflow
-
+```
 Raw data
     ↓
 01_prepare_data.Rmd
@@ -76,7 +76,7 @@ Brain maps (results/brainmaps)
 visualisations.ipynb
     ↓
 Interactive brain map visualization
-
+```
 # Project presentation
 
 I am a Ph. D. student in neuropsychology. I will be working on IRMs data to analyze the effects of oral contraceptives on brain development during adolescence. 
