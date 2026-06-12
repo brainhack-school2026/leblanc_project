@@ -8,12 +8,10 @@ output: html_document
 # Importation des données
 Unzip les fichiers de données.
 ```{r}
-
-unzip(
-  here("results", "tables", "tables.zip"),
+utils::unzip(
+  zipfile = here("results", "tables", "tables.zip"),
   exdir = here("results", "tables")
 )
-
 ```
 
 Plusieurs post-hocs ont été faits à partir des interactions co_longi x session_id significatives. 
@@ -28,7 +26,7 @@ Total de 18 post-hocs - 1 tableau par post-hoc
 ```{r}
 # épaisseur corticale
 
-posthoc_ct_dsk <- read.csv(here("results", "tables", "posthoc_ct_dsk.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
+posthoc_ct_dsk <- read.csv(here("results", "tables","tmp", "posthoc_ct_dsk.csv")) # temps catégoriel, différences de moyennes entre les groupes à chaque temps de mesure
 posthoc_ct_dsk_pente <- read.csv(here("results", "tables", "posthoc_ct_dsk_pente.csv"))# temps catégoriel, différences de pentes entre les groupes
 posthoc_ct_dsk_continu <- read.csv(here("results", "tables", "posthoc_ct_dsk_continu.csv"))# temps continu
 
@@ -1401,4 +1399,16 @@ ggsave(
 
 ```
 
+
+# Suppression des fichiers tables csv 
+
+```{r}
+csv_files <- list.files(
+  here("results", "tables"),
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+file.remove(csv_files)
+```
 

@@ -1296,9 +1296,9 @@ posthoc_vol_dst_continu <- map_dfr(sig_regions, function(reg) {
 write.csv(posthoc_vol_dst_continu, here("results/tables/posthoc_vol_dst_continu.csv"), row.names = FALSE)
 ```
 
-Zip les fichiers de résultats
+Zip les fichiers de résultats et supprime les csv
 ```{r}
-zip(
+zip::zip(
   zipfile = here("results", "tables", "tables.zip"),
   files = list.files(
     here("results", "tables"),
@@ -1307,5 +1307,13 @@ zip(
   ),
   root = here("results", "tables")
 )
+
+csv_files <- list.files(
+  here("results", "tables"),
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+file.remove(csv_files)
 ```
 
