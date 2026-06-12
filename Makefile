@@ -39,7 +39,7 @@ models: results/tables/tables.zip
 # 4. BRAINS MAPS
 # --------------------------
 results/brainmaps/.done: results/tables/tables.zip
-	Rscript -e "rmarkdown::render('analyses/04_generate_brainmaps.Rmd')"
+	R -e "rmarkdown::render('analyses/04_generate_brainmaps.Rmd')"
 	touch results/brainmaps/.done
 
 brainmaps: results/brainmaps/.done

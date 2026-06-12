@@ -2,22 +2,60 @@
 
 # INSTRUCTIONS 
 
-1. Clone the repository.
-2. Open the project in R.
-3. Run:
+## 1. Clone the repository
 
-   install.packages("renv")   # if needed
-   renv::restore()
+```bash
+git clone <repo-url>
+cd leblanc_project
+```
+## 2. Set up R environment
+```
+Open R or RStudio and run :
 
-4. Run:
 
-   make
+install.packages("renv") # if needed
+renv::restore()
+```
 
+## 3. Run the full analysis pipeline
+
+```
+From the trerminal (in the root of the repository) :
+
+make
+
+This runs the full workflow:
+
+01_prepare_data.Rmd
+02_preliminary_analyses.Rmd
+03_main_models.Rmd
+04_generate_brainmaps.Rmd
+```
+
+## 4. Run individual steps (optional)
+```
+make merge
+make clean
+make models
+make brainmaps
+
+```
+
+## 5. Visualize results with interactive tool
+
+```
+From the terminal, run :
+
+jupyter notebook visualisations/visualisations.ipynb
+
+And then run the jupyter notebook.
+```
+ 
 # Architecture of the repo
 ```
 leblanc_project/
-│
-├── data/
+
+│├── data/
 │   ├── .gitkeep
 │   ├── raw/
 │   │   └── (empty; raw ABCD data not included)
