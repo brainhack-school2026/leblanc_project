@@ -1,6 +1,29 @@
 # leblanc_project
 
+tested with R version 4.5.2
+
 # INSTRUCTIONS 
+```
+System Requirements
+
+In addition to the R packages managed by renv, this project requires several system dependencies.
+
+Ubuntu / Debian
+sudo apt update
+sudo apt install gdal-bin libx11-dev pandoc
+
+These packages are required by:
+
+ggseg / sf → gdal-bin
+clipr → libx11-dev
+knitr / rmarkdown → pandoc
+
+You can verify that the required system dependencies are available by running:
+
+renv::restore()
+
+If any system packages are missing, renv will report them.
+```
 
 ## 1. Clone the repository
 
@@ -12,13 +35,21 @@ cd leblanc_project
 ```
 Open R or RStudio and run :
 
-
 install.packages("renv") # if needed
 renv::restore()
-install.packages("rmarkdown") # if needed
 ```
+## 3. Verify installation
+```
+In R or Rstudio, run : 
 
-## 3. Run the full analysis pipeline (Requires an active DUC for the ABCD data)
+renv::status()
+
+Expected output:
+
+No issues found -- the project is in a consistent state.
+
+```
+## 4. Run the full analysis pipeline (Requires an active DUC for the ABCD data)
 
 ```
 If you have an active Data Use certification (DUC) for the ABCD data, from the trerminal (in the root of the repository) :
@@ -33,7 +64,7 @@ This runs the full workflow:
 04_generate_brainmaps.Rmd
 ```
 
-## 4. Run individual steps 
+## 5. Run individual steps 
 ```
 
 If you do not have an active DUC for the ABCD data, you can run make brainmaps to be able to use the interactive visualization tool.  
@@ -44,7 +75,7 @@ make brainmaps
 
 ```
 
-## 5. Visualize results with interactive tool
+## 6. Visualize results with interactive tool
 
 ```
 From the terminal, run :
