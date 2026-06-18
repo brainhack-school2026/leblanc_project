@@ -18,10 +18,10 @@ renv::restore()
 install.packages("rmarkdown") # if needed
 ```
 
-## 3. Run the full analysis pipeline
+## 3. Run the full analysis pipeline (Requires an active DUC for the ABCD data)
 
 ```
-From the trerminal (in the root of the repository) :
+If you have an active Data Use certification (DUC) for the ABCD data, from the trerminal (in the root of the repository) :
 
 make
 
@@ -33,8 +33,10 @@ This runs the full workflow:
 04_generate_brainmaps.Rmd
 ```
 
-## 4. Run individual steps (optional)
+## 4. Run individual steps 
 ```
+
+If you do not have an active DUC for the ABCD data, you can run make brainmaps to be able to use the interactive visualization tool.  
 make merge
 make clean
 make models
