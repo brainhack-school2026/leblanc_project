@@ -128,7 +128,7 @@ sig_regions <- anova_ct_dsk %>%
   unique()
 
 ### moyennes à chaque temps
-posthoc_ct_dsk <- map_dfr(sig_regions, function(reg) {
+posthoc_ct_dsk_mean_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -139,11 +139,11 @@ posthoc_ct_dsk <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_ct_dsk, here("results/tables/posthoc_ct_dsk.csv"), row.names = FALSE)
+write.csv(posthoc_ct_dsk_mean_bi, here("results/tables/posthoc_ct_dsk_mean_bi.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
-posthoc_ct_dsk_pente <- map_dfr(sig_regions, function(reg) {
+posthoc_ct_dsk_pente_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -158,7 +158,7 @@ posthoc_ct_dsk_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_ct_dsk_pente, here("results/tables/posthoc_ct_dsk_pente.csv"), row.names = FALSE)
+write.csv(posthoc_ct_dsk_pente_bi, here("results/tables/posthoc_ct_dsk_pente_bi.csv"), row.names = FALSE)
 
 # modèle avec temps continu ####
 run_model <- function(reg) {
@@ -218,7 +218,7 @@ sig_regions <- anova_ct_dsk_continu %>%
   pull(region) %>%
   unique()
 
-posthoc_ct_dsk_continu <- map_dfr(sig_regions, function(reg) {
+posthoc_ct_dsk_continu_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -231,7 +231,7 @@ posthoc_ct_dsk_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_ct_dsk_continu, here("results/tables/posthoc_ct_dsk_continu.csv"), row.names = FALSE)
+write.csv(posthoc_ct_dsk_continu_bi, here("results/tables/posthoc_ct_dsk_continu_bi.csv"), row.names = FALSE)
 ```
 
 ## 3.2 cortical thickness destrieux
@@ -347,7 +347,7 @@ sig_regions <- anova_ct_dst %>%
   unique()
 
 ### moyennes à chaque temps
-posthoc_ct_dst <- map_dfr(sig_regions, function(reg) {
+posthoc_ct_dst_mean_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -358,11 +358,11 @@ posthoc_ct_dst <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_ct_dst, here("results/tables/posthoc_ct_dst.csv"), row.names = FALSE)
+write.csv(posthoc_ct_dst_mean_bi, here("results/tables/posthoc_ct_dst_mean_bi.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
-posthoc_ct_dst_pente <- map_dfr(sig_regions, function(reg) {
+posthoc_ct_dst_pente_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -377,7 +377,7 @@ posthoc_ct_dst_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_ct_dst_pente, here("results/tables/posthoc_ct_dst_pente.csv"), row.names = FALSE)
+write.csv(posthoc_ct_dst_pente_bi, here("results/tables/posthoc_ct_dst_pente_bi.csv"), row.names = FALSE)
 
 # modèle avec temps continu ####  
 run_model <- function(reg) {
@@ -437,7 +437,7 @@ sig_regions <- anova_ct_dst_continu %>%
   pull(region) %>%
   unique()
 
-posthoc_ct_dst_continu <- map_dfr(sig_regions, function(reg) {
+posthoc_ct_dst_continu_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -450,7 +450,7 @@ posthoc_ct_dst_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_ct_dst_continu, here("results/tables/posthoc_ct_dst_continu.csv"), row.names = FALSE)
+write.csv(posthoc_ct_dst_continu_bi, here("results/tables/posthoc_ct_dst_continu_bi.csv"), row.names = FALSE)
 ```
 
 ## 3.3 volume subcortical
@@ -541,7 +541,7 @@ names(models) <- regions
 summaries <- lapply(models, summary)
 
 ## anova
-anova_vol_aseg <- lapply(names(models), function(nm) {
+anova_vol_aseg_bi <- lapply(names(models), function(nm) {
   
   a <- as.data.frame(anova(models[[nm]]))
   a$term <- rownames(a)
@@ -551,10 +551,10 @@ anova_vol_aseg <- lapply(names(models), function(nm) {
   a
 })
 
-anova_vol_aseg <- bind_rows(anova_vol_aseg)
+anova_vol_aseg_bi <- bind_rows(anova_vol_aseg_bi)
 
 
-anova_vol_aseg <- anova_vol_aseg %>%
+anova_vol_aseg_bi <- anova_vol_aseg_bi %>%
   mutate(p_value = `Pr(>F)`) %>%
   group_by(term) %>%
   mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
@@ -563,14 +563,14 @@ anova_vol_aseg <- anova_vol_aseg %>%
 
 ## post hoc d'interaction co_longi x session_id
 
-sig_regions <- anova_vol_aseg %>%
+sig_regions <- anova_vol_aseg_bi %>%
   filter(term == "co_longi:session_id", p_fdr < 0.05) %>%
   pull(region) %>%
   unique()
 
 ### moyennes par temps 
 
-posthoc_vol_aseg <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_aseg_mean_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -581,11 +581,11 @@ posthoc_vol_aseg <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_vol_aseg, here("results/tables/posthoc_vol_aseg.csv"), row.names = FALSE)
+write.csv(posthoc_vol_aseg_mean_bi, here("results/tables/posthoc_vol_aseg_mean_bi.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
-posthoc_vol_aseg_pente <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_aseg_pente_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -600,7 +600,7 @@ posthoc_vol_aseg_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_vol_aseg_pente, here("results/tables/posthoc_vol_aseg_pente.csv"), row.names = FALSE)
+write.csv(posthoc_vol_aseg_pente_bi, here("results/tables/posthoc_vol_aseg_pente_bi.csv"), row.names = FALSE)
 
 ## modèle avec temps continu ####
 run_model <- function(reg) {
@@ -633,7 +633,7 @@ names(models) <- regions
 summaries <- lapply(models, summary)
 
 # anova
-anova_vol_aseg_continu <- lapply(names(models), function(nm) {
+anova_vol_aseg_continu_bi <- lapply(names(models), function(nm) {
   
   a <- as.data.frame(anova(models[[nm]]))
   a$term <- rownames(a)
@@ -643,10 +643,10 @@ anova_vol_aseg_continu <- lapply(names(models), function(nm) {
   a
 })
 
-anova_vol_aseg_continu <- bind_rows(anova_vol_aseg_continu)
+anova_vol_aseg_continu_bi <- bind_rows(anova_vol_aseg_continu_bi)
 
 
-anova_vol_aseg_continu <- anova_vol_aseg_continu %>%
+anova_vol_aseg_continu_bi <- anova_vol_aseg_continu_bi %>%
   mutate(p_value = `Pr(>F)`) %>%
   group_by(term) %>%
   mutate(p_fdr = p.adjust(p_value, method = "fdr")) %>%
@@ -655,12 +655,12 @@ anova_vol_aseg_continu <- anova_vol_aseg_continu %>%
 
 # post hoc d'interaction co_longi x session_id
 
-sig_regions <- anova_vol_aseg_continu %>%
+sig_regions <- anova_vol_aseg_continu_bi %>%
   filter(term == "co_longi:session_id_continu", p_fdr < 0.05) %>%
   pull(region) %>%
   unique()
 
-posthoc_vol_aseg_continu <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_aseg_continu_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -673,7 +673,7 @@ posthoc_vol_aseg_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_vol_aseg_continu, here("results/tables/posthoc_vol_aseg_continu.csv"), row.names = FALSE)
+write.csv(posthoc_vol_aseg_continu_bi, here("results/tables/posthoc_vol_aseg_continu_bi.csv"), row.names = FALSE)
 
 
 
@@ -760,7 +760,7 @@ sig_regions <- anova_vol_aseg_uni %>%
 
 ### moyennes par temps
 
-posthoc_vol_aseg_uni <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_aseg_mean_uni <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -771,11 +771,11 @@ posthoc_vol_aseg_uni <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_vol_aseg_uni, here("results/tables/posthoc_vol_aseg_uni.csv"), row.names = FALSE)
+write.csv(posthoc_vol_aseg_mean_uni, here("results/tables/posthoc_vol_aseg_mean_uni.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
-posthoc_vol_aseg_uni_pente <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_aseg_pente_uni <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -790,7 +790,7 @@ posthoc_vol_aseg_uni_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_vol_aseg_uni_pente, here("results/tables/posthoc_vol_aseg_uni_pente.csv"), row.names = FALSE)
+write.csv(posthoc_vol_aseg_pente_uni, here("results/tables/posthoc_vol_aseg_pente_uni.csv"), row.names = FALSE)
 
 
 ## modèle avec temps continu ####
@@ -977,7 +977,7 @@ sig_regions <- anova_vol_dsk %>%
 
 ### moyennes par temps
 
-posthoc_vol_dsk <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_dsk_mean_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -988,11 +988,11 @@ posthoc_vol_dsk <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_vol_dsk, here("results/tables/posthoc_vol_dsk.csv"), row.names = FALSE)
+write.csv(posthoc_vol_dsk_mean_bi, here("results/tables/posthoc_vol_dsk_mean_bi.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
-posthoc_vol_dsk_pente <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_dsk_pente_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -1007,7 +1007,7 @@ posthoc_vol_dsk_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_vol_dsk_pente, here("results/tables/posthoc_vol_dsk_pente.csv"), row.names = FALSE)
+write.csv(posthoc_vol_dsk_pente_bi, here("results/tables/posthoc_vol_dsk_pente_bi.csv"), row.names = FALSE)
 
 # modèle avec temps continu ####
 run_model <- function(reg) {
@@ -1067,7 +1067,7 @@ sig_regions <- anova_vol_dsk_continu %>%
   pull(region) %>%
   unique()
 
-posthoc_vol_dsk_continu <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_dsk_continu_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -1080,7 +1080,7 @@ posthoc_vol_dsk_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_vol_dsk_continu, here("results/tables/posthoc_vol_dsk_continu.csv"), row.names = FALSE)
+write.csv(posthoc_vol_dsk_continu_bi, here("results/tables/posthoc_vol_dsk_continu_bi.csv"), row.names = FALSE)
 ```
 
 ## 3.5 volume destrieux
@@ -1190,7 +1190,7 @@ sig_regions <- anova_vol_dst %>%
   pull(region) %>%
   unique()
 
-posthoc_vol_dst <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_dst_mean_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -1201,11 +1201,11 @@ posthoc_vol_dst <- map_dfr(sig_regions, function(reg) {
 })
 
 
-write.csv(posthoc_vol_dst, here("results/tables/posthoc_vol_dst.csv"), row.names = FALSE)
+write.csv(posthoc_vol_dst_mean_bi, here("results/tables/posthoc_vol_dst_mean_bi.csv"), row.names = FALSE)
 
 ### pentes entre les temps
 
-posthoc_vol_dst_pente <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_dst_pente_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -1220,7 +1220,7 @@ posthoc_vol_dst_pente <- map_dfr(sig_regions, function(reg) {
 
 })
 
-write.csv(posthoc_vol_dst_pente, here("results/tables/posthoc_vol_dst_pente.csv"), row.names = FALSE)
+write.csv(posthoc_vol_dst_pente_bi, here("results/tables/posthoc_vol_dst_pente_bi.csv"), row.names = FALSE)
 
 # modèle avec temps continu ####
 run_model <- function(reg) {
@@ -1280,7 +1280,7 @@ sig_regions <- anova_vol_dst_continu %>%
   pull(region) %>%
   unique()
 
-posthoc_vol_dst_continu <- map_dfr(sig_regions, function(reg) {
+posthoc_vol_dst_continu_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
 
@@ -1293,7 +1293,7 @@ posthoc_vol_dst_continu <- map_dfr(sig_regions, function(reg) {
     mutate(region = reg)
 })
 
-write.csv(posthoc_vol_dst_continu, here("results/tables/posthoc_vol_dst_continu.csv"), row.names = FALSE)
+write.csv(posthoc_vol_dst_continu_bi, here("results/tables/posthoc_vol_dst_continu_bi.csv"), row.names = FALSE)
 ```
 
 Zip les fichiers de résultats et supprime les csv

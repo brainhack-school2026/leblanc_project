@@ -136,43 +136,74 @@ posthoc_ct_dsk_0_1_ses06 <- posthoc_ct_dsk_0_1 %>%
 plot(dk())
 
 # 2
-ggplot(posthoc_ct_dsk_0_1_ses02) +
+
+ct_dsk_c01_ses01_p1 <- ggplot(posthoc_ct_dsk_0_1_ses02) +
   geom_brain(
     atlas = dk(),
     mapping = aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c01_ses02_p1.png",
+  plot = ct_dsk_c01_ses02_p1,
+  path = here("results/brainmaps"
+))
 
-ggplot(posthoc_ct_dsk_0_1_ses02 %>% filter(p.value < 0.05)) +
+ct_dsk_c01_ses02_p05 <- ggplot(posthoc_ct_dsk_0_1_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = dk(),
     aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c01_ses02_p05.png",
+  plot = ct_dsk_c01_ses02_p05,
+  path = here("results/brainmaps"
+))
 
 # 4
-ggplot(posthoc_ct_dsk_0_1_ses04) +
+ct_dsk_c01_ses04_p1 <- ggplot(posthoc_ct_dsk_0_1_ses04) +
   geom_brain(
     atlas = dk(),
     mapping = aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c01_ses04_p1.png",
+  plot = ct_dsk_c01_ses04_p1,
+  path = here("results/brainmaps"
+))
 
-ggplot(posthoc_ct_dsk_0_1_ses04 %>% filter(p.value < 0.05)) +
+ct_dsk_c01_ses04_p05 <- ggplot(posthoc_ct_dsk_0_1_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = dk(),
     aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c01_ses04_p05.png",
+  plot = ct_dsk_c01_ses04_p05,
+  path = here("results/brainmaps"
+))
 
 # 6
-ggplot(posthoc_ct_dsk_0_1_ses06) +
+ct_dsk_c01_ses06_p1 <- ggplot(posthoc_ct_dsk_0_1_ses06) +
   geom_brain(
     atlas = dk(),
     mapping = aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c01_ses06_p1.png",
+  plot = ct_dsk_c01_ses06_p1,
+  path = here("results/brainmaps"
+))
 
-ggplot(posthoc_ct_dsk_0_1_ses06 %>% filter(p.value < 0.05)) +
+ct_dsk_c01_ses06_p05 <- ggplot(posthoc_ct_dsk_0_1_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = dk(),
     aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c01_ses06_p05.png",
+  plot = ct_dsk_c01_ses06_p05,
+  path = here("results/brainmaps"
+))
 
 ```
 
@@ -191,48 +222,159 @@ posthoc_ct_dsk_0_2_ses06 <- posthoc_ct_dsk_0_2 %>%
   filter(session_id == "ses-06A")
 
 # 2
-ggplot(posthoc_ct_dsk_0_2_ses02) +
+ct_dsk_c02_ses02_p1 <- ggplot(posthoc_ct_dsk_0_2_ses02) +
   geom_brain(
     atlas = dk(),
     mapping = aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c02_ses02_p1.png",
+  plot = ct_dsk_c02_ses02_p1,
+  path = here("results/brainmaps"
+))
 
-ggplot(posthoc_ct_dsk_0_2_ses02 %>% filter(p.value < 0.05)) +
+ct_dsk_c02_ses02_p05 <- ggplot(posthoc_ct_dsk_0_2_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = dk(),
     aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c02_ses02_p05.png",
+  plot = ct_dsk_c02_ses02_p05,
+  path = here("results/brainmaps"
+))
 
 # 4
-ggplot(posthoc_ct_dsk_0_2_ses04) +
+ct_dsk_c02_ses04_p1 <- ggplot(posthoc_ct_dsk_0_2_ses04) +
   geom_brain(
     atlas = dk(),
     mapping = aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c02_ses04_p1.png",
+  plot = ct_dsk_c02_ses04_p1,
+  path = here("results/brainmaps"
+))
 
-ggplot(posthoc_ct_dsk_0_2_ses04 %>% filter(p.value < 0.05)) +
+ct_dsk_c02_ses04_p05 <- ggplot(posthoc_ct_dsk_0_2_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = dk(),
     aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c02_ses04_p05.png",
+  plot = ct_dsk_c02_ses04_p05,
+  path = here("results/brainmaps"
+))
 
 # 6
-ggplot(posthoc_ct_dsk_0_2_ses06) +
+ct_dsk_c02_ses06_p1 <- ggplot(posthoc_ct_dsk_0_2_ses06) +
   geom_brain(
     atlas = dk(),
     mapping = aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c02_ses06_p1.png",
+  plot = ct_dsk_c02_ses06_p1,
+  path = here("results/brainmaps"
+))
 
-ggplot(posthoc_ct_dsk_0_2_ses06 %>% filter(p.value < 0.05)) +
+ct_dsk_c02_ses06_p05 <- ggplot(posthoc_ct_dsk_0_2_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = dk(),
     aes(fill = estimate)
   )
+ggsave(
+  filename = "ct_dsk_mean_bi_c02_ses06_p05.png",
+  plot = ct_dsk_c02_ses06_p05,
+  path = here("results/brainmaps"
+))
 
 ```
 
 
 ```{r cat_moy_ct_dsk_1-2}
+
+posthoc_ct_dsk_1_2 <- posthoc_ct_dsk %>%
+  filter(contrast == "co_longi1 - co_longi2")
+
+posthoc_ct_dsk_1_2_ses02 <- posthoc_ct_dsk_1_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_ct_dsk_1_2_ses04 <- posthoc_ct_dsk_1_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_ct_dsk_1_2_ses06 <- posthoc_ct_dsk_1_2 %>%
+  filter(session_id == "ses-06A")
+
+# 2
+ct_dsk_c12_ses02_p1 <- ggplot(posthoc_ct_dsk_1_2_ses02) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_mean_bi_c12_ses02_p1.png",
+  plot = ct_dsk_c12_ses02_p1,
+  path = here("results/brainmaps"
+))
+
+ct_dsk_c12_ses02_p05 <- ggplot(posthoc_ct_dsk_1_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_mean_bi_c12_ses02_p05.png",
+  plot = ct_dsk_c12_ses02_p05,
+  path = here("results/brainmaps"
+))
+
+# 4
+ct_dsk_c12_ses04_p1 <- ggplot(posthoc_ct_dsk_1_2_ses04) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_mean_bi_c12_ses04_p1.png",
+  plot = ct_dsk_c12_ses04_p1,
+  path = here("results/brainmaps"
+))
+
+ct_dsk_c12_ses04_p05 <- ggplot(posthoc_ct_dsk_1_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_mean_bi_c12_ses04_p05.png",
+  plot = ct_dsk_c12_ses04_p05,
+  path = here("results/brainmaps"
+))
+
+# 6
+ct_dsk_c12_ses06_p1 <- ggplot(posthoc_ct_dsk_1_2_ses06) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_mean_bi_c12_ses06_p1.png",
+  plot = ct_dsk_c12_ses06_p1,
+  path = here("results/brainmaps"
+))
+
+ct_dsk_c12_ses06_p05 <- ggplot(posthoc_ct_dsk_1_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_mean_bi_c12_ses06_p05.png",
+  plot = ct_dsk_c12_ses06_p05,
+  path = here("results/brainmaps"
+))
 
 ```
 
@@ -344,7 +486,7 @@ ct_dst_c01_ses02_p1 <- ggplot(posthoc_ct_dst_0_1_ses02) +
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "ct_dst_c01_ses02_p1.png",
+  filename = "ct_dst_mean_bi_c01_ses02_p1.png",
   plot = ct_dst_c01_ses02_p1,
   path = here("results/brainmaps"
 ))
@@ -356,7 +498,7 @@ ct_dst_c01_ses02_p05 <- ggplot(posthoc_ct_dst_0_1_ses02 %>% filter(p.value < 0.0
   )
 
 ggsave(
-  filename = "ct_dst_c01_ses02_p05.png",
+  filename = "ct_dst_mean_bi_c01_ses02_p05.png",
   plot = ct_dst_c01_ses02_p05,
   path = here("results/brainmaps")
 )
@@ -370,7 +512,7 @@ ct_dst_c01_ses04_p1 <- ggplot(posthoc_ct_dst_0_1_ses04) +
   )
 
 ggsave(
-  filename = "ct_dst_c01_ses04_p1.png",
+  filename = "ct_dst_mean_bi_c01_ses04_p1.png",
   plot = ct_dst_c01_ses04_p1,
   path = here("results/brainmaps")
 )
@@ -381,7 +523,7 @@ ct_dst_c01_ses04_p05 <- ggplot(posthoc_ct_dst_0_1_ses04 %>% filter(p.value < 0.0
   )
 
 ggsave(
-  filename = "ct_dst_c01_ses04_p05.png",
+  filename = "ct_dst_mean_bi_c01_ses04_p05.png",
   plot = ct_dst_c01_ses04_p05,
   path = here("results/brainmaps")
 )
@@ -393,7 +535,7 @@ ct_dst_c01_ses06_p1 <- ggplot(posthoc_ct_dst_0_1_ses06) +
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "ct_dst_c01_ses06_p1.png",
+  filename = "ct_dst_mean_bi_c01_ses06_p1.png",
   plot = ct_dst_c01_ses06_p1,
   path = here("results/brainmaps")
 )
@@ -404,7 +546,7 @@ ct_dst_c01_ses06_p05 <-  ggplot(posthoc_ct_dst_0_1_ses06 %>% filter(p.value < 0.
     aes(fill = estimate)
   )
 ggsave(
-  filename = "ct_dst_c01_ses06_p05.png",
+  filename = "ct_dst_mean_bi_c01_ses06_p05.png",
   plot = ct_dst_c01_ses06_p05,
   path = here("results/brainmaps")
 )
@@ -433,7 +575,7 @@ ct_dst_c02_ses02_p1 <- ggplot(posthoc_ct_dst_0_2_ses02) +
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "ct_dst_c02_ses02_p1.png",
+  filename = "ct_dst_mean_bi_c02_ses02_p1.png",
   plot = ct_dst_c02_ses02_p1,
   path = here("results/brainmaps")
 )
@@ -445,7 +587,7 @@ ct_dst_c02_ses02_p05 <- ggplot(posthoc_ct_dst_0_2_ses02 %>% filter(p.value < 0.0
   )
 
 ggsave(
-  filename = "ct_dst_c02_ses02_p05.png",
+  filename = "ct_dst_mean_bi_c02_ses02_p05.png",
   plot = ct_dst_c02_ses02_p05,
   path = here("results/brainmaps")
 )
@@ -459,7 +601,7 @@ ct_dst_c02_ses04_p1 <- ggplot(posthoc_ct_dst_0_2_ses04) +
   )
 
 ggsave(
-  filename = "ct_dst_c02_ses04_p1.png",
+  filename = "ct_dst_mean_bi_c02_ses04_p1.png",
   plot = ct_dst_c02_ses04_p1,
   path = here("results/brainmaps")
 )
@@ -471,7 +613,7 @@ ct_dst_c02_ses04_p05 <- ggplot(posthoc_ct_dst_0_2_ses04 %>% filter(p.value < 0.0
   )
 
 ggsave(
-  filename = "ct_dst_c02_ses04_p05.png",
+  filename = "ct_dst_mean_bi_c02_ses04_p05.png",
   plot = ct_dst_c02_ses04_p05,
   path = here("results/brainmaps")
 )
@@ -483,7 +625,7 @@ ct_dst_c02_ses06_p1 <- ggplot(posthoc_ct_dst_0_2_ses06) +
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "ct_dst_c02_ses06_p1.png",
+  filename = "ct_dst_mean_bi_c02_ses06_p1.png",
   plot = ct_dst_c02_ses06_p1,
   path = here("results/brainmaps")
 )
@@ -495,7 +637,7 @@ ct_dst_c02_ses06_p05 <-  ggplot(posthoc_ct_dst_0_2_ses06 %>% filter(p.value < 0.
   )
 
 ggsave(
-  filename = "ct_dst_c02_ses06_p05.png",
+  filename = "ct_dst_mean_bi_c02_ses06_p05.png",
   plot = ct_dst_c02_ses06_p05,
   path = here("results/brainmaps")
 )
@@ -525,7 +667,7 @@ ct_dst_c12_ses02_p1 <- ggplot(posthoc_ct_dst_1_2_ses02) +
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "ct_dst_c12_ses02_p1.png",
+  filename = "ct_dst_mean_bi_c12_ses02_p1.png",
   plot = ct_dst_c12_ses02_p1,
   path = here("results/brainmaps")
 )
@@ -537,7 +679,7 @@ ct_dst_c12_ses02_p05 <- ggplot(posthoc_ct_dst_1_2_ses02 %>% filter(p.value < 0.0
   )
 
 ggsave(
-  filename = "ct_dst_c12_ses02_p05.png",
+  filename = "ct_dst_mean_bi_c12_ses02_p05.png",
   plot = ct_dst_c12_ses02_p05,
   path = here("results/brainmaps")
 )
@@ -551,7 +693,7 @@ ct_dst_c12_ses04_p1 <- ggplot(posthoc_ct_dst_1_2_ses04) +
   )
 
 ggsave(
-  filename = "ct_dst_c12_ses04_p1.png",
+  filename = "ct_dst_mean_bi_c12_ses04_p1.png",
   plot = ct_dst_c12_ses04_p1,
   path = here("results/brainmaps")
 )
@@ -563,7 +705,7 @@ ct_dst_c12_ses04_p05 <- ggplot(posthoc_ct_dst_1_2_ses04 %>% filter(p.value < 0.0
   )
 
 ggsave(
-  filename = "ct_dst_c12_ses04_p05.png",
+  filename = "ct_dst_mean_bi_c12_ses04_p05.png",
   plot = ct_dst_c12_ses04_p05,
   path = here("results/brainmaps")
 )
@@ -575,7 +717,7 @@ ct_dst_c12_ses06_p1 <- ggplot(posthoc_ct_dst_1_2_ses06) +
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "ct_dst_c12_ses06_p1.png",
+  filename = "ct_dst_mean_bi_c12_ses06_p1.png",
   plot = ct_dst_c12_ses06_p1,
   path = here("results/brainmaps")
 )
@@ -587,7 +729,7 @@ ct_dst_c12_ses06_p05 <-  ggplot(posthoc_ct_dst_1_2_ses06 %>% filter(p.value < 0.
   )
 
 ggsave(
-  filename = "ct_dst_c12_ses06_p05.png",
+  filename = "ct_dst_mean_bi_c12_ses06_p05.png",
   plot = ct_dst_c12_ses06_p05,
   path = here("results/brainmaps")
 )
@@ -597,17 +739,270 @@ ggsave(
 
 ```{r cat_moy_vol_dsk_0-1}
 
+posthoc_vol_dsk_0_1 <- posthoc_ct_dst %>%
+  filter(contrast == "co_longi0 - co_longi1")
+
+posthoc_vol_dsk_0_1_ses02 <- posthoc_vol_dsk_0_1 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_dsk_0_1_ses04 <- posthoc_vol_dsk_0_1 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_dsk_0_1_ses06 <- posthoc_vol_dsk_0_1 %>%
+  filter(session_id == "ses-06A")
+
+# 2
+
+vol_dsk_mean_c01_ses02_p1 <- ggplot(posthoc_vol_dsk_0_1_ses02) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c01_ses02_p1.png",
+  plot = vol_dsk_c01_ses02_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c01_ses02_p05 <- ggplot(posthoc_vol_dsk_0_1_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c01_ses02_p05.png",
+  plot = vol_dsk_mean_c01_ses02_p05,
+  path = here("results/brainmaps")
+)
+
+# 4
+vol_dsk_mean_c01_ses04_p1 <- ggplot(posthoc_vol_dsk_0_1_ses04) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c01_ses04_p1.png",
+  plot = vol_dsk_mean_c01_ses04_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c01_ses04_p05 <- ggplot(posthoc_vol_dsk_0_1_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c01_ses04_p05.png",
+  plot = vol_dsk_mean_c01_ses04_p05,
+  path = here("results/brainmaps")
+)
+
+# 6
+vol_dsk_mean_c01_ses06_p1 <- ggplot(posthoc_vol_dsk_0_1_ses06) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c01_ses06_p1.png",
+  plot = vol_dsk_mean_c01_ses06_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c01_ses06_p05 <- ggplot(posthoc_vol_dsk_0_1_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c01_ses06_p05.png",
+  plot = vol_dsk_mean_c01_ses06_p05,
+  path = here("results/brainmaps")
+)
+
 ```
 
 
 ```{r cat_moy_vol_dsk_0-2}
+
+posthoc_vol_dsk_0_2 <- posthoc_ct_dst %>%
+  filter(contrast == "co_longi0 - co_longi2")
+
+posthoc_vol_dsk_0_2_ses02 <- posthoc_vol_dsk_0_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_dsk_0_2_ses04 <- posthoc_vol_dsk_0_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_dsk_0_2_ses06 <- posthoc_vol_dsk_0_2 %>%
+  filter(session_id == "ses-06A")
+
+# 2
+
+vol_dsk_mean_c02_ses02_p1 <- ggplot(posthoc_vol_dsk_0_2_ses02) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c02_ses02_p1.png",
+  plot = vol_dsk_mean_c02_ses02_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c02_ses02_p05 <- ggplot(posthoc_vol_dsk_0_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c02_ses02_p05.png",
+  plot = vol_dsk_mean_c02_ses02_p05,
+  path = here("results/brainmaps")
+)
+
+# 4
+vol_dsk_mean_c02_ses04_p1 <- ggplot(posthoc_vol_dsk_0_2_ses04) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c02_ses04_p1.png",
+  plot = vol_dsk_mean_c02_ses04_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c02_ses04_p05 <- ggplot(posthoc_vol_dsk_0_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c02_ses04_p05.png",
+  plot = vol_dsk_mean_c02_ses04_p05,
+  path = here("results/brainmaps")
+)
+
+# 6
+vol_dsk_mean_c02_ses06_p1 <- ggplot(posthoc_vol_dsk_0_2_ses06) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c02_ses06_p1.png",
+  plot = vol_dsk_mean_c02_ses06_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c02_ses06_p05 <- ggplot(posthoc_vol_dsk_0_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c02_ses06_p05.png",
+  plot = vol_dsk_mean_c02_ses06_p05,
+  path = here("results/brainmaps")
+)
 
 ```
 
 
 ```{r cat_moy_vol_dsk_1-2}
 
+posthoc_vol_dsk_1_2 <- posthoc_ct_dst %>%
+  filter(contrast == "co_longi1 - co_longi2")
 
+posthoc_vol_dsk_1_2_ses02 <- posthoc_vol_dsk_1_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_dsk_1_2_ses04 <- posthoc_vol_dsk_1_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_dsk_1_2_ses06 <- posthoc_vol_dsk_1_2 %>%
+  filter(session_id == "ses-06A")
+
+# 2
+
+vol_dsk_mean_c12_ses02_p1 <- ggplot(posthoc_vol_dsk_1_2_ses02) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c12_ses02_p1.png",
+  plot = vol_dsk_mean_c12_ses02_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c12_ses02_p05 <- ggplot(posthoc_vol_dsk_1_2_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c12_ses02_p05.png",
+  plot = vol_dsk_mean_c12_ses02_p05,
+  path = here("results/brainmaps")
+)
+
+# 4
+vol_dsk_mean_c12_ses04_p1 <- ggplot(posthoc_vol_dsk_1_2_ses04) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c12_ses04_p1.png",
+  plot = vol_dsk_mean_c12_ses04_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c12_ses04_p05 <- ggplot(posthoc_vol_dsk_1_2_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c12_ses04_p05.png",
+  plot = vol_dsk_mean_c12_ses04_p05,
+  path = here("results/brainmaps")
+)
+
+# 6
+vol_dsk_mean_c12_ses06_p1 <- ggplot(posthoc_vol_dsk_1_2_ses06) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_dsk_mean_bi_c12_ses06_p1.png",
+  plot = vol_dsk_mean_c12_ses06_p1,
+  path = here("results/brainmaps")
+)
+
+vol_dsk_mean_c12_ses06_p05 <- ggplot(posthoc_vol_dsk_1_2_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_dsk_mean_bi_c12_ses06_p05.png",
+  plot = vol_dsk_mean_c12_ses06_p05,
+  path = here("results/brainmaps")
+)
 
 ```
 
@@ -710,75 +1105,75 @@ posthoc_vol_dst_0_1_ses06 <- posthoc_vol_dst_0_1 %>%
 
 # 2
 
-vol_dst_c01_ses02_p1 <- ggplot(posthoc_vol_dst_0_1_ses02) +
+vol_dst_mean_c01_ses02_p1 <- ggplot(posthoc_vol_dst_0_1_ses02) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c01_ses02_p1.png",
-  plot = vol_dst_c01_ses02_p1,
+  filename = "vol_dst_mean_bi_c01_ses02_p1.png",
+  plot = vol_dst_mean_c01_ses02_p1,
   path = here("results/brainmaps")
 )
 
-vol_dst_c01_ses02_p05 <- ggplot(posthoc_vol_dst_0_1_ses02 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c01_ses02_p05 <- ggplot(posthoc_vol_dst_0_1_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c01_ses02_p05.png",
-  plot = vol_dst_c01_ses02_p05,
+  filename = "vol_dst_mean_bi_c01_ses02_p05.png",
+  plot = vol_dst_mean_c01_ses02_p05,
   path = here("results/brainmaps")
 )
 
 
 # 4
-vol_dst_c01_ses04_p1 <- ggplot(posthoc_vol_dst_0_1_ses04) +
+vol_dst_mean_c01_ses04_p1 <- ggplot(posthoc_vol_dst_0_1_ses04) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c01_ses04_p1.png",
-  plot = vol_dst_c01_ses04_p1,
+  filename = "vol_dst_mean_bi_c01_ses04_p1.png",
+  plot = vol_dst_mean_c01_ses04_p1,
   path = here("results/brainmaps")
 )
 
-vol_dst_c01_ses04_p05 <- ggplot(posthoc_vol_dst_0_1_ses04 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c01_ses04_p05 <- ggplot(posthoc_vol_dst_0_1_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c01_ses04_p05.png",
-  plot = vol_dst_c01_ses04_p05,
+  filename = "vol_dst_mean_bi_c01_ses04_p05.png",
+  plot = vol_dst_mean_c01_ses04_p05,
   path = here("results/brainmaps")
 )
 
 # 6
-vol_dst_c01_ses06_p1 <- ggplot(posthoc_vol_dst_0_1_ses06) +
+vol_dst_mean_c01_ses06_p1 <- ggplot(posthoc_vol_dst_0_1_ses06) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c01_ses06_p1.png",
-  plot = vol_dst_c01_ses06_p1,
+  filename = "vol_dst_mean_bi_c01_ses06_p1.png",
+  plot = vol_dst_mean_c01_ses06_p1,
   path = here("results/brainmaps")
 )
 
-vol_dst_c01_ses06_p05 <-  ggplot(posthoc_vol_dst_0_1_ses06 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c01_ses06_p05 <-  ggplot(posthoc_vol_dst_0_1_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c01_ses06_p05.png",
-  plot = vol_dst_c01_ses06_p05,
+  filename = "vol_dst_mean_bi_c01_ses06_p05.png",
+  plot = vol_dst_mean_c01_ses06_p05,
   path = here("results/brainmaps")
 )
 
@@ -802,75 +1197,75 @@ posthoc_vol_dst_0_2_ses06 <- posthoc_vol_dst_0_2 %>%
 
 # 2
 
-vol_dst_c02_ses02_p1 <- ggplot(posthoc_vol_dst_0_2_ses02) +
+vol_dst_mean_c02_ses02_p1 <- ggplot(posthoc_vol_dst_0_2_ses02) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c02_ses02_p1.png",
-  plot = vol_dst_c02_ses02_p1,
+  filename = "vol_dst_mean_bi_c02_ses02_p1.png",
+  plot = vol_dst_mean_c02_ses02_p1,
   path =here("results/brainmaps")
 )
 
-vol_dst_c02_ses02_p05 <- ggplot(posthoc_vol_dst_0_2_ses02 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c02_ses02_p05 <- ggplot(posthoc_vol_dst_0_2_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c02_ses02_p05.png",
-  plot = vol_dst_c02_ses02_p05,
+  filename = "vol_dst_mean_bi_c02_ses02_p05.png",
+  plot = vol_dst_mean_c02_ses02_p05,
   path = here("results/brainmaps")
 )
 
 
 # 4
-vol_dst_c02_ses04_p1 <- ggplot(posthoc_vol_dst_0_2_ses04) +
+vol_dst_mean_c02_ses04_p1 <- ggplot(posthoc_vol_dst_0_2_ses04) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c02_ses04_p1.png",
-  plot = vol_dst_c02_ses04_p1,
+  filename = "vol_dst_mean_bi_c02_ses04_p1.png",
+  plot = vol_dst_mean_c02_ses04_p1,
   path = here("results/brainmaps")
 )
 
-vol_dst_c02_ses04_p05 <- ggplot(posthoc_vol_dst_0_2_ses04 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c02_ses04_p05 <- ggplot(posthoc_vol_dst_0_2_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c02_ses04_p05.png",
-  plot = vol_dst_c02_ses04_p05,
+  filename = "vol_dst_mean_bi_c02_ses04_p05.png",
+  plot = vol_dst_mean_c02_ses04_p05,
   path = here("results/brainmaps")
 )
 
 # 6
-vol_dst_c02_ses06_p1 <- ggplot(posthoc_vol_dst_0_2_ses06) +
+vol_dst_c02_mean_ses06_p1 <- ggplot(posthoc_vol_dst_0_2_ses06) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c02_ses06_p1.png",
-  plot = vol_dst_c02_ses06_p1,
+  filename = "vol_dst_mean_bi_c02_ses06_p1.png",
+  plot = vol_dst_mean_c02_ses06_p1,
   path = here("results/brainmaps")
 )
 
-vol_dst_c02_ses06_p05 <-  ggplot(posthoc_vol_dst_0_2_ses06 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c02_ses06_p05 <-  ggplot(posthoc_vol_dst_0_2_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c02_ses06_p05.png",
-  plot = vol_dst_c02_ses06_p05,
+  filename = "vol_dst_mean_bi_c02_ses06_p05.png",
+  plot = vol_dst_mean_c02_ses06_p05,
   path = here("results/brainmaps")
 )
 
@@ -893,75 +1288,75 @@ posthoc_vol_dst_1_2_ses06 <- posthoc_vol_dst_1_2 %>%
 
 # 2
 
-vol_dst_c12_ses02_p1 <- ggplot(posthoc_vol_dst_1_2_ses02) +
+vol_dst_mean_c12_ses02_p1 <- ggplot(posthoc_vol_dst_1_2_ses02) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c12_ses02_p1.png",
-  plot = vol_dst_c12_ses02_p1,
+  filename = "vol_dst_mean_bi_c12_ses02_p1.png",
+  plot = vol_dst_mean_c12_ses02_p1,
   path = here("results/brainmaps")
 )
 
-vol_dst_c12_ses02_p05 <- ggplot(posthoc_vol_dst_1_2_ses02 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c12_ses02_p05 <- ggplot(posthoc_vol_dst_1_2_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c12_ses02_p05.png",
-  plot = vol_dst_c12_ses02_p05,
+  filename = "vol_dst_mean_bi_c12_ses02_p05.png",
+  plot = vol_dst_mean_c12_ses02_p05,
   path = here("results/brainmaps")
 )
 
 
 # 4
-vol_dst_c12_ses04_p1 <- ggplot(posthoc_vol_dst_1_2_ses04) +
+vol_dst_mean_c12_ses04_p1 <- ggplot(posthoc_vol_dst_1_2_ses04) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c12_ses04_p1.png",
-  plot = vol_dst_c12_ses04_p1,
+  filename = "vol_dst_mean_bi_c12_ses04_p1.png",
+  plot = vol_dst_mean_c12_ses04_p1,
   path = here("results/brainmaps")
 )
 
-vol_dst_c12_ses04_p05 <- ggplot(posthoc_vol_dst_1_2_ses04 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c12_ses04_p05 <- ggplot(posthoc_vol_dst_1_2_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_dst_c12_ses04_p05.png",
-  plot = vol_dst_c12_ses04_p05,
+  filename = "vol_dst_mean_bi_c12_ses04_p05.png",
+  plot = vol_dst_mean_c12_ses04_p05,
   path = here("results/brainmaps")
 )
 
 # 6
-vol_dst_c12_ses06_p1 <- ggplot(posthoc_vol_dst_1_2_ses06) +
+vol_dst_mean_c12_ses06_p1 <- ggplot(posthoc_vol_dst_1_2_ses06) +
   geom_brain(
     atlas = destrieux(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c12_ses06_p1.png",
-  plot = vol_dst_c12_ses06_p1,
+  filename = "vol_dst_mean_bi_c12_ses06_p1.png",
+  plot = vol_dst_mean_c12_ses06_p1,
   path = here("results/brainmaps")
 )
 
-vol_dst_c12_ses06_p05 <-  ggplot(posthoc_vol_dst_1_2_ses06 %>% filter(p.value < 0.05)) +
+vol_dst_mean_c12_ses06_p05 <-  ggplot(posthoc_vol_dst_1_2_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = destrieux(),
     aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_dst_c12_ses06_p05.png",
-  plot = vol_dst_c12_ses06_p05,
+  filename = "vol_dst_mean_bi_c12_ses06_p05.png",
+  plot = vol_dst_mean_c12_ses06_p05,
   path = here("results/brainmaps")
 )
 
@@ -969,21 +1364,405 @@ ggsave(
 
 
 ```{r cat_moy_vol_aseg_0-1}
+posthoc_vol_aseg_0_1 <- posthoc_vol_aseg %>%
+  filter(contrast == "co_longi0 - co_longi1")
 
+posthoc_vol_aseg_0_1_ses02 <- posthoc_vol_aseg_0_1 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_aseg_0_1_ses04 <- posthoc_vol_aseg_0_1 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_aseg_0_1_ses06 <- posthoc_vol_aseg_0_1 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_aseg_mean_c01_ses02_p1 <- ggplot(posthoc_vol_aseg_0_1_ses02) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c01_ses02_p1.png",
+  plot = vol_aseg_mean_c01_ses02_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c01_ses02_p05 <- ggplot(posthoc_vol_aseg_c01_ses02_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_c01_ses02_p05.png",
+  plot = vol_aseg_mean_c01_ses02_p05,
+  path = here("results/brainmaps")
+)
+
+
+# 4
+vol_aseg_mean_c01_ses04_p1 <- ggplot(posthoc_vol_aseg_0_1_ses04) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c01_ses04_p1.png",
+  plot = vol_aseg_mean_c01_ses04_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c01_ses04_p05 <- ggplot(posthoc_vol_aseg_c01_ses04_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_c01_ses04_p05.png",
+  plot = vol_aseg_mean_c01_ses04_p05,
+  path = here("results/brainmaps")
+)
+
+# 6
+vol_aseg_mean_c01_ses06_p1 <- ggplot(posthoc_vol_aseg_0_1_ses06) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c01_ses06_p1.png",
+  plot = vol_aseg_mean_c01_ses06_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c01_ses06_p05 <- ggplot(posthoc_vol_aseg_c01_ses06_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_c01_ses06_p05.png",
+  plot = vol_aseg_mean_c01_ses06_p05,
+  path = here("results/brainmaps")
+)
 ```
 
 
 ```{r cat_moy_vol_aseg_0-2}
+posthoc_vol_aseg_0_2 <- posthoc_vol_aseg %>%
+  filter(contrast == "co_longi0 - co_longi2")
+
+posthoc_vol_aseg_0_2_ses02 <- posthoc_vol_aseg_0_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_aseg_0_2_ses04 <- posthoc_vol_aseg_0_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_aseg_0_2_ses06 <- posthoc_vol_aseg_0_2 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_aseg_mean_c02_ses02_p1 <- ggplot(posthoc_vol_aseg_0_2_ses02) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c02_ses02_p1.png",
+  plot = vol_aseg_mean_c02_ses02_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c02_ses02_p05 <- ggplot(posthoc_vol_aseg_c02_ses02_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_c02_ses02_p05.png",
+  plot = vol_aseg_mean_c02_ses02_p05,
+  path = here("results/brainmaps")
+)
+
+
+# 4
+vol_aseg_mean_c02_ses04_p1 <- ggplot(posthoc_vol_aseg_0_2_ses04) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c02_ses04_p1.png",
+  plot = vol_aseg_mean_c02_ses04_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c02_ses04_p05 <- ggplot(posthoc_vol_aseg_c02_ses04_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_c02_ses04_p05.png",
+  plot = vol_aseg_mean_c02_ses04_p05,
+  path = here("results/brainmaps")
+)
+
+# 6
+vol_aseg_mean_c02_ses06_p1 <- ggplot(posthoc_vol_aseg_0_2_ses06) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c02_ses06_p1.png",
+  plot = vol_aseg_mean_c02_ses06_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c02_ses06_p05 <- ggplot(posthoc_vol_aseg_c02_ses06_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_c02_ses06_p05.png",
+  plot = vol_aseg_mean_c02_ses06_p05,
+  path = here("results/brainmaps")
+)
 
 ```
 
 
 ```{r cat_moy_vol_aseg_1-2}
+posthoc_vol_aseg_1_2 <- posthoc_vol_aseg %>%
+  filter(contrast == "co_longi1 - co_longi2")
+
+posthoc_vol_aseg_1_2_ses02 <- posthoc_vol_aseg_1_2 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_vol_aseg_1_2_ses04 <- posthoc_vol_aseg_1_2 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_vol_aseg_1_2_ses06 <- posthoc_vol_aseg_1_2 %>%
+  filter(session_id == "ses-06A")
+
+
+# 2
+
+vol_aseg_mean_c02_ses12_p1 <- ggplot(posthoc_vol_aseg_1_2_ses02) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c12_ses02_p1.png",
+  plot = vol_aseg_mean_c12_ses02_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c12_ses02_p05 <- ggplot(posthoc_vol_aseg_c12_ses02_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_c12_ses02_p05.png",
+  plot = vol_aseg_mean_c12_ses02_p05,
+  path = here("results/brainmaps")
+)
+
+
+# 4
+vol_aseg_mean_c12_ses04_p1 <- ggplot(posthoc_vol_aseg_1_2_ses04) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c12_ses04_p1.png",
+  plot = vol_aseg_mean_c12_ses04_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c12_ses04_p05 <- ggplot(posthoc_vol_aseg_c12_ses04_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_c12_ses04_p05.png",
+  plot = vol_aseg_mean_c12_ses04_p05,
+  path = here("results/brainmaps")
+)
+
+# 6
+vol_aseg_mean_c12_ses06_p1 <- ggplot(posthoc_vol_aseg_1_2_ses06) +
+  geom_brain(
+    atlas = aseg(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "vol_aseg_mean_bi_c12_ses06_p1.png",
+  plot = vol_aseg_mean_c12_ses06_p1,
+  path = here("results/brainmaps")
+)
+
+vol_aseg_mean_c12_ses06_p05 <- ggplot(posthoc_vol_aseg_c12_ses06_p05 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = aseg(),
+    aes(fill = estimate)
+  )
+
+ggsave(
+  filename = "vol_aseg_mean_bi_12_ses06_p05.png",
+  plot = vol_aseg_mean_c12_ses06_p05,
+  path = here("results/brainmaps")
+)
 
 ```
 
 # temps catégoriel, différences de pentes entre les groupes à chaque temps de mesure
 ```{r cat_pen_ct_dsk_0-1}
+ggseg.formats::atlas_regions(dk())
+
+
+# changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
+posthoc_ct_dsk_pente <- posthoc_ct_dsk_pente %>%
+  mutate(region = recode(region,
+
+    "mr_y_smri__thk__dsk__bstmps" = "banks of superior temporal sulcus",
+    "mr_y_smri__thk__dsk__cac"    = "caudal anterior cingulate",
+    "mr_y_smri__thk__dsk__cmfrt"  = "caudal middle frontal",
+    "mr_y_smri__thk__dsk__cn"     = "cuneus",
+    "mr_y_smri__thk__dsk__er"     = "entorhinal",
+    "mr_y_smri__thk__dsk__ff"     = "fusiform",
+    "mr_y_smri__thk__dsk__ic"     = "isthmuscingulate",
+    "mr_y_smri__thk__dsk__ins"    = "insula",
+    "mr_y_smri__thk__dsk__iprt"   = "inferior parietal",
+    "mr_y_smri__thk__dsk__itmp"   = "inferior temporal",
+    "mr_y_smri__thk__dsk__lg"     = "lingual",
+    "mr_y_smri__thk__dsk__lobfrt" = "lateral orbitofrontal",
+    "mr_y_smri__thk__dsk__locc"   = "lateral occipital",
+    "mr_y_smri__thk__dsk__mobfrt" = "medial orbitofrontal",
+    "mr_y_smri__thk__dsk__mtmp"   = "middle temporal",
+    "mr_y_smri__thk__dsk__pactr"  = "paracentral",
+    "mr_y_smri__thk__dsk__pcc"    = "pericalcarine",
+    "mr_y_smri__thk__dsk__pcg"    = "posterior cingulate",
+    "mr_y_smri__thk__dsk__pfrt"   = "frontal pole", 
+    "mr_y_smri__thk__dsk__ph"     = "parahippocampal",
+    "mr_y_smri__thk__dsk__pob"    = "pars orbitalis",
+    "mr_y_smri__thk__dsk__poctr"  = "postcentral",
+    "mr_y_smri__thk__dsk__pop"    = "pars opercularis",
+    "mr_y_smri__thk__dsk__prcn"   = "precuneus",
+    "mr_y_smri__thk__dsk__prctr"  = "precentral",
+    "mr_y_smri__thk__dsk__ptg"    = "pars triangularis",
+    "mr_y_smri__thk__dsk__ptmp"   = "temporal pole", 
+    "mr_y_smri__thk__dsk__rac"    = "rostral anterior cingulate",
+    "mr_y_smri__thk__dsk__rmfrt"  = "rostral middle frontal",
+    "mr_y_smri__thk__dsk__sfrt"   = "superior frontal",
+    "mr_y_smri__thk__dsk__sm"     = "supramarginal",
+    "mr_y_smri__thk__dsk__sprt"   = "superior parietal",
+    "mr_y_smri__thk__dsk__stmp"   = "superior temporal",
+    "mr_y_smri__thk__dsk__ttmp"   = "transverse temporal"
+
+  ))
+
+posthoc_ct_dsk_pente_0_1 <- posthoc_ct_dsk_pente %>%
+  filter(contrast == "co_longi0 - co_longi1")
+
+posthoc_ct_dsk_pente_0_1_ses02 <- posthoc_ct_dsk_pente_0_1 %>%
+  filter(session_id == "ses-02A")
+
+posthoc_ct_dsk_pente_0_1_ses04 <- posthoc_ct_dsk_pente_0_1 %>%
+  filter(session_id == "ses-04A")
+
+posthoc_ct_dsk_pente_0_1_ses06 <- posthoc_ct_dsk_pente_0_1 %>%
+  filter(session_id == "ses-06A")
+
+plot(dk())
+
+# 2
+
+ct_dsk_pente_c01_ses01_p1 <- ggplot(posthoc_ct_dsk_pente_0_1_ses02) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_pente_bi_c01_ses02_p1.png",
+  plot = ct_dsk_pente_c01_ses02_p1,
+  path = here("results/brainmaps"
+))
+
+ct_dsk_pente_c01_ses02_p05 <- ggplot(posthoc_ct_dsk_pente_0_1_ses02 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_pente_bi_c01_ses02_p05.png",
+  plot = ct_dsk_pente_c01_ses02_p05,
+  path = here("results/brainmaps"
+))
+
+# 4
+ct_dsk_pente_c01_ses04_p1 <- ggplot(posthoc_ct_dsk_pente_0_1_ses04) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_pente_bi_c01_ses04_p1.png",
+  plot = ct_dsk_pente_c01_ses04_p1,
+  path = here("results/brainmaps"
+))
+
+ct_dsk_pente_c01_ses04_p05 <- ggplot(posthoc_ct_dsk_pente_0_1_ses04 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_pente_bi_c01_ses04_p05.png",
+  plot = ct_dsk_pente_c01_ses04_p05,
+  path = here("results/brainmaps"
+))
+
+# 6
+ct_dsk_pente_c01_ses06_p1 <- ggplot(posthoc_ct_dsk_pente_0_1_ses06) +
+  geom_brain(
+    atlas = dk(),
+    mapping = aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_pente_bi_c01_ses06_p1.png",
+  plot = ct_dsk_pente_c01_ses06_p1,
+  path = here("results/brainmaps"
+))
+
+ct_dsk_pente_c01_ses06_p05 <- ggplot(posthoc_ct_dsk_pente_0_1_ses06 %>% filter(p.value < 0.05)) +
+  geom_brain(
+    atlas = dk(),
+    aes(fill = estimate)
+  )
+ggsave(
+  filename = "ct_dsk_pente_bi_c01_ses06_p05.png",
+  plot = ct_dsk_pente_c01_ses06_p05,
+  path = here("results/brainmaps"
+))
 
 ```
 
@@ -1049,7 +1828,7 @@ ggseg.formats::atlas_regions(aseg())
 plot(aseg())
 
 # changer les noms dans les tableaux pour que ca fit avec ceux de l'atlas
-posthoc_vol_aseg <- posthoc_vol_aseg %>%
+posthoc_vol_aseg_pente <- posthoc_vol_aseg_pente %>%
   mutate(region = recode(region,
  "mr_y_smri__vol__aseg__ab"   = "accumbens area",
   "mr_y_smri__vol__aseg__ag"   = "Amygdala",
@@ -1070,90 +1849,90 @@ posthoc_vol_aseg <- posthoc_vol_aseg %>%
 
   ))
 
-posthoc_vol_aseg_0_1 <- posthoc_vol_aseg %>%
+posthoc_vol_aseg_pente_0_1 <- posthoc_vol_aseg_pente %>%
   filter(contrast == "co_longi0 - co_longi1")
 
-posthoc_vol_aseg_0_1_ses02 <- posthoc_vol_aseg_0_1 %>%
+posthoc_vol_aseg_pente_0_1_ses02 <- posthoc_vol_aseg_pente_0_1 %>%
   filter(session_id == "ses-02A")
 
-posthoc_vol_aseg_0_1_ses04 <- posthoc_vol_aseg_0_1 %>%
+posthoc_vol_aseg_pente_0_1_ses04 <- posthoc_vol_aseg_pente_0_1 %>%
   filter(session_id == "ses-04A")
 
-posthoc_vol_aseg_0_1_ses06 <- posthoc_vol_aseg_0_1 %>%
+posthoc_vol_aseg_pente_0_1_ses06 <- posthoc_vol_aseg_pente_0_1 %>%
   filter(session_id == "ses-06A")
 
 
 # 2
 
-vol_aseg_c01_ses02_p1 <- ggplot(posthoc_vol_aseg_0_1_ses02) +
+vol_aseg_pente_c01_ses02_p1 <- ggplot(posthoc_vol_aseg_pente_0_1_ses02) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c01_ses02_p1.png",
-  plot = vol_aseg_c01_ses02_p1,
+  filename = "vol_aseg_pente_bi_c01_ses02_p1.png",
+  plot = vol_aseg_pente_c01_ses02_p1,
   path = here("results/brainmaps")
 )
 
-vol_aseg_c01_ses02_p05 <- ggplot(posthoc_vol_aseg_0_1_ses02 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c01_ses02_p05 <- ggplot(posthoc_vol_aseg_pente_0_1_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c01_ses02_p05.png",
-  plot = vol_aseg_c01_ses02_p05,
+  filename = "vol_aseg_pente_bi_c01_ses02_p05.png",
+  plot = vol_aseg_pente_c01_ses02_p05,
   path = here("results/brainmaps")
 )
 
 
 # 4
-vol_aseg_c01_ses04_p1 <- ggplot(posthoc_vol_aseg_0_1_ses04) +
+vol_aseg_pente_c01_ses04_p1 <- ggplot(posthoc_vol_aseg_pente_0_1_ses04) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c01_ses04_p1.png",
-  plot = vol_aseg_c01_ses04_p1,
+  filename = "vol_aseg_pente_bi_c01_ses04_p1.png",
+  plot = vol_aseg_pente_c01_ses04_p1,
   path = here("results/brainmaps")
 )
 
-vol_aseg_c01_ses04_p05 <- ggplot(posthoc_vol_aseg_0_1_ses04 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c01_ses04_p05 <- ggplot(posthoc_vol_aseg_pente_0_1_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c01_ses04_p05.png",
-  plot = vol_aseg_c01_ses04_p05,
+  filename = "vol_aseg_pente_bi_c01_ses04_p05.png",
+  plot = vol_aseg_pente_c01_ses04_p05,
   path = here("results/brainmaps")
 )
 
 # 6
-vol_aseg_c01_ses06_p1 <- ggplot(posthoc_vol_aseg_0_1_ses06) +
+vol_aseg_pente_c01_ses06_p1 <- ggplot(posthoc_vol_aseg_pente_0_1_ses06) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c01_ses06_p1.png",
-  plot = vol_aseg_c01_ses06_p1,
+  filename = "vol_aseg_pente_bi_c01_ses06_p1.png",
+  plot = vol_aseg_pente_c01_ses06_p1,
   path = here("results/brainmaps")
 )
 
-vol_aseg_c01_ses06_p05 <-  ggplot(posthoc_vol_aseg_0_1_ses06 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c01_ses06_p05 <-  ggplot(posthoc_vol_aseg_pente_0_1_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c01_ses06_p05.png",
-  plot = vol_aseg_c01_ses06_p05,
+  filename = "vol_aseg_pente_bi_c01_ses06_p05.png",
+  plot = vol_aseg_pente_c01_ses06_p05,
   path = here("results/brainmaps")
 )
 
@@ -1163,90 +1942,90 @@ ggsave(
 
 ```{r cat_pen_vol_aseg_0-2}
 
-posthoc_vol_aseg_0_2 <- posthoc_vol_aseg %>%
+posthoc_vol_aseg_pente_0_2 <- posthoc_vol_aseg_pente %>%
   filter(contrast == "co_longi0 - co_longi2")
 
-posthoc_vol_aseg_0_2_ses02 <- posthoc_vol_aseg_0_2 %>%
+posthoc_vol_aseg_pente_0_2_ses02 <- posthoc_vol_aseg_pente_0_2 %>%
   filter(session_id == "ses-02A")
 
-posthoc_vol_aseg_0_2_ses04 <- posthoc_vol_aseg_0_2 %>%
+posthoc_vol_aseg_pente_0_2_ses04 <- posthoc_vol_aseg_pente_0_2 %>%
   filter(session_id == "ses-04A")
 
-posthoc_vol_aseg_0_2_ses06 <- posthoc_vol_aseg_0_2 %>%
+posthoc_vol_aseg_pente_0_2_ses06 <- posthoc_vol_aseg_pente_0_2 %>%
   filter(session_id == "ses-06A")
 
 
 # 2
 
-vol_aseg_c02_ses02_p1 <- ggplot(posthoc_vol_aseg_0_2_ses02) +
+vol_aseg_pente_c02_ses02_p1 <- ggplot(posthoc_vol_aseg_pente_0_2_ses02) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c02_ses02_p1.png",
-  plot = vol_aseg_c02_ses02_p1,
+  filename = "vol_aseg_pente_bi_c02_ses02_p1.png",
+  plot = vol_aseg_pente_c02_ses02_p1,
   path = here("results/brainmaps")
 )
 
-vol_aseg_c02_ses02_p05 <- ggplot(posthoc_vol_aseg_0_2_ses02 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c02_ses02_p05 <- ggplot(posthoc_vol_aseg_pente_0_2_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c02_ses02_p05.png",
-  plot = vol_aseg_c02_ses02_p05,
+  filename = "vol_aseg_pente_bi_c02_ses02_p05.png",
+  plot = vol_aseg_pente_c02_ses02_p05,
   path = here("results/brainmaps")
 )
 
 
 # 4
-vol_aseg_c02_ses04_p1 <- ggplot(posthoc_vol_aseg_0_2_ses04) +
+vol_aseg_pente_c02_ses04_p1 <- ggplot(posthoc_vol_aseg_pente_0_2_ses04) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c02_ses04_p1.png",
-  plot = vol_aseg_c02_ses04_p1,
+  filename = "vol_aseg_pente_bi_c02_ses04_p1.png",
+  plot = vol_aseg_pente_c02_ses04_p1,
   path =  here("results/brainmaps")
 )
 
-vol_aseg_c02_ses04_p05 <- ggplot(posthoc_vol_aseg_0_2_ses04 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c02_ses04_p05 <- ggplot(posthoc_vol_aseg_pente_0_2_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c02_ses04_p05.png",
-  plot = vol_aseg_c02_ses04_p05,
+  filename = "vol_aseg_pente_bi_c02_ses04_p05.png",
+  plot = vol_aseg_pente_c02_ses04_p05,
   path = here("results/brainmaps")
 )
 
 # 6
-vol_aseg_c02_ses06_p1 <- ggplot(posthoc_vol_aseg_0_2_ses06) +
+vol_aseg_pente_c02_ses06_p1 <- ggplot(posthoc_vol_aseg_pente_0_2_ses06) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c02_ses06_p1.png",
-  plot = vol_aseg_c02_ses06_p1,
+  filename = "vol_aseg_pente_bi_c02_ses06_p1.png",
+  plot = vol_aseg_pente_c02_ses06_p1,
   path = here("results/brainmaps")
 )
 
-vol_aseg_c02_ses06_p05 <-  ggplot(posthoc_vol_aseg_0_2_ses06 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c02_ses06_p05 <-  ggplot(posthoc_vol_aseg_pente_0_2_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c02_ses06_p05.png",
-  plot = vol_aseg_c02_ses06_p05,
+  filename = "vol_aseg_pente_bi_c02_ses06_p05.png",
+  plot = vol_aseg_pente_c02_ses06_p05,
   path = here("results/brainmaps")
 )
 
@@ -1255,90 +2034,90 @@ ggsave(
 
 ```{r cat_pen_vol_aseg_1-2}
 
-posthoc_vol_aseg_1_2 <- posthoc_vol_aseg %>%
+posthoc_vol_aseg_pente_1_2 <- posthoc_vol_aseg_pente %>%
   filter(contrast == "co_longi1 - co_longi2")
 
-posthoc_vol_aseg_1_2_ses02 <- posthoc_vol_aseg_1_2 %>%
+posthoc_vol_aseg_pente_1_2_ses02 <- posthoc_vol_aseg_pente_1_2 %>%
   filter(session_id == "ses-02A")
 
-posthoc_vol_aseg_1_2_ses04 <- posthoc_vol_aseg_1_2 %>%
+posthoc_vol_aseg_pente_1_2_ses04 <- posthoc_vol_aseg_pente_1_2 %>%
   filter(session_id == "ses-04A")
 
-posthoc_vol_aseg_1_2_ses06 <- posthoc_vol_aseg_1_2 %>%
+posthoc_vol_aseg_pente_1_2_ses06 <- posthoc_vol_aseg_pente_1_2 %>%
   filter(session_id == "ses-06A")
 
 
 # 2
 
-vol_aseg_c12_ses02_p1 <- ggplot(posthoc_vol_aseg_1_2_ses02) +
+vol_aseg_pente_c12_ses02_p1 <- ggplot(posthoc_vol_aseg_pente_1_2_ses02) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c12_ses02_p1.png",
-  plot = vol_aseg_c12_ses02_p1,
+  filename = "vol_aseg_pente_bi_c12_ses02_p1.png",
+  plot = vol_aseg_pente_c12_ses02_p1,
   path = here("results/brainmaps")
 )
 
-vol_aseg_c12_ses02_p05 <- ggplot(posthoc_vol_aseg_1_2_ses02 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c12_ses02_p05 <- ggplot(posthoc_vol_aseg_pente_1_2_ses02 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c12_ses02_p05.png",
-  plot = vol_aseg_c12_ses02_p05,
+  filename = "vol_aseg_pente_bi_c12_ses02_p05.png",
+  plot = vol_aseg_pente_c12_ses02_p05,
   path = here("results/brainmaps")
 )
 
 
 # 4
-vol_aseg_c12_ses04_p1 <- ggplot(posthoc_vol_aseg_1_2_ses04) +
+vol_aseg_pente_c12_ses04_p1 <- ggplot(posthoc_vol_aseg_pente_1_2_ses04) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c12_ses04_p1.png",
-  plot = vol_aseg_c12_ses04_p1,
+  filename = "vol_aseg_pente_bi_c12_ses04_p1.png",
+  plot = vol_aseg_pente_c12_ses04_p1,
   path = here("results/brainmaps")
 )
 
-vol_aseg_c12_ses04_p05 <- ggplot(posthoc_vol_aseg_1_2_ses04 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c12_ses04_p05 <- ggplot(posthoc_vol_aseg_pente_1_2_ses04 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 
 ggsave(
-  filename = "vol_aseg_c12_ses04_p05.png",
-  plot = vol_aseg_c12_ses04_p05,
+  filename = "vol_aseg_pente_bi_c12_ses04_p05.png",
+  plot = vol_aseg_pente_c12_ses04_p05,
   path = here("results/brainmaps")
 )
 
 # 6
-vol_aseg_c12_ses06_p1 <- ggplot(posthoc_vol_aseg_1_2_ses06) +
+vol_aseg_pente_c12_ses06_p1 <- ggplot(posthoc_vol_aseg_pente_1_2_ses06) +
   geom_brain(
     atlas = aseg(),
     mapping = aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c12_ses06_p1.png",
-  plot = vol_aseg_c12_ses06_p1,
+  filename = "vol_aseg_pente_bi_c12_ses06_p1.png",
+  plot = vol_aseg_pente_c12_ses06_p1,
   path = here("results/brainmaps")
 )
 
-vol_aseg_c12_ses06_p05 <-  ggplot(posthoc_vol_aseg_1_2_ses06 %>% filter(p.value < 0.05)) +
+vol_aseg_pente_c12_ses06_p05 <-  ggplot(posthoc_vol_aseg_pente_1_2_ses06 %>% filter(p.value < 0.05)) +
   geom_brain(
     atlas = aseg(),
     aes(fill = estimate)
   )
 ggsave(
-  filename = "vol_aseg_c12_ses06_p05.png",
-  plot = vol_aseg_c12_ses06_p05,
+  filename = "vol_aseg_pente_bi_c12_ses06_p05.png",
+  plot = vol_aseg_pente_c12_ses06_p05,
   path = here("results/brainmaps")
 )
 
