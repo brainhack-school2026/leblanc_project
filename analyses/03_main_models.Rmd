@@ -912,12 +912,14 @@ data_vol_dsk_long <- data_vol_dsk %>%
     score,
     hemi
   )
+
     
 # liste des régions
 regions <- unique(data_vol_dsk_long$variable)
 
 
 # modèle avec temps catégoriel ####
+
 run_model <- function(reg) {
   
   dat <- data_vol_dsk_long %>%
@@ -991,7 +993,6 @@ posthoc_vol_dsk_mean_bi <- map_dfr(sig_regions, function(reg) {
 write.csv(posthoc_vol_dsk_mean_bi, here("results/tables/posthoc_vol_dsk_mean_bi.csv"), row.names = FALSE)
 
 ### pentes entre les temps
-
 posthoc_vol_dsk_pente_bi <- map_dfr(sig_regions, function(reg) {
 
   model <- models[[reg]]
