@@ -498,6 +498,7 @@ data_vol_aseg_bi_long <- data_vol_aseg %>%
     ab_p_demo__income__hhold_001__v01,
     ab_p_demo__relig_003,
     ple_cat,
+    mr_y_smri__vol__aseg__icv_sum,
     
 
     variable,
@@ -604,7 +605,7 @@ write.csv(posthoc_vol_aseg_pente_bi, here("results/tables/posthoc_vol_aseg_pente
 ## modèle avec temps continu ####
 run_model <- function(reg) {
   
-  dat <- data_vol_aseg_long %>%
+  dat <- data_vol_aseg_bi_long %>%
     filter(variable == reg)
   
   model <- lmer(
@@ -652,6 +653,7 @@ anova_vol_aseg_continu_bi <- anova_vol_aseg_continu_bi %>%
   ungroup()
 
 
+
 # post hoc d'interaction co_longi x session_id
 
 sig_regions <- anova_vol_aseg_continu_bi %>%
@@ -681,39 +683,32 @@ write.csv(posthoc_vol_aseg_continu_bi, here("results/tables/posthoc_vol_aseg_con
 # liste des régions unilatérales ####
 print(cols_no_hemi)
 
+cols_no_hemi_no_icv <- setdiff(cols_no_hemi, "mr_y_smri__vol__aseg__icv_sum")
+
 data_vol_aseg_uni_long <- data_vol_aseg %>%
   pivot_longer(
-    cols = all_of(cols_no_hemi),
+    cols = all_of(cols_no_hemi_no_icv),
     names_to = "variable",
     values_to = "score"
   ) %>%
   select(
-    participant_id,
-    session_id,
-    session_id_continu,
-    co,
-    co_longi,
-    ch,
-    ch_longi,
-    ab_g_dyn__design_site,
-    ab_g_dyn__design_mr__model,
-    puberty,
-    ab_g_stc__cohort_sex,
-    ph_y_pds__f_002,
-    ph_y_pds__f_002__05__01__v1,
-    ab_g_stc__cohort_ethnrace__meim,
-    ab_p_demo__income__hhold_001__v01,
-    ab_p_demo__relig_003,
-    ple_cat,
-    variable,
-    score
+    participant_id, session_id, session_id_continu, co, co_longi, ch, ch_longi,
+    ab_g_dyn__design_site, ab_g_dyn__design_mr__model, puberty,
+    ab_g_stc__cohort_sex, ph_y_pds__f_002, ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim, ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003, ple_cat,
+    mr_y_smri__vol__aseg__icv_sum,
+    variable, score
   )
 
 regions <- unique(data_vol_aseg_uni_long$variable)
 
 ## modèle avec temps catégoriel ####
 run_model <- function(reg) {
-  
+
+  dat_reg <- data_vol_aseg_uni_long %>%
+    filter(variable == reg)
+
   model <- lmer(
     reformulate(
       termlabels = c(
@@ -727,20 +722,18 @@ run_model <- function(reg) {
         "ab_p_demo__relig_003",
         "(1 | participant_id)"
       ),
-      response = reg
+      response = "score"
     ),
-    data = data_vol_aseg_uni_long,
+    data = dat_reg,
     na.action = na.omit
   )
-  
+
   return(model)
 }
 
 ## appliquer à toutes les régions
 models <- map(regions, run_model)
-
-## nommer la liste
-names(models) <- regions
+names(models) <- regions  
 summaries <- lapply(models, summary)
 
 ## anova
@@ -808,7 +801,10 @@ write.csv(posthoc_vol_aseg_pente_uni, here("results/tables/posthoc_vol_aseg_pent
 
 ## modèle avec temps continu ####
 run_model <- function(reg) {
-  
+
+  dat_reg <- data_vol_aseg_uni_long %>%
+    filter(variable == reg)
+
   model <- lmer(
     reformulate(
       termlabels = c(
@@ -822,22 +818,19 @@ run_model <- function(reg) {
         "ab_p_demo__relig_003",
         "(1 | participant_id)"
       ),
-      response = reg
+      response = "score"
     ),
-    data = data_vol_aseg_uni_long,
+    data = dat_reg,
     na.action = na.omit
   )
-  
+
   return(model)
 }
 
-# appliquer à toutes les régions
+## appliquer à toutes les régions
 models <- map(regions, run_model)
-
-# nommer la liste
-names(models) <- regions
+names(models) <- regions  
 summaries <- lapply(models, summary)
-
 # anova
 anova_vol_aseg_continu_uni <- lapply(names(models), function(nm) {
   
