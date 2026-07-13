@@ -462,7 +462,7 @@ cols_no_hemi <- names(data_vol_aseg)[
   !grepl("__lh_|__rh_", names(data_vol_aseg))
 ]
 
-data_vol_aseg_long <- data_vol_aseg %>%
+data_vol_aseg_bi_long <- data_vol_aseg %>%
   pivot_longer(
     cols = names(data_vol_aseg)[
       grepl("^mr_y_smri__vol__aseg__", names(data_vol_aseg)) &
@@ -499,7 +499,6 @@ data_vol_aseg_long <- data_vol_aseg %>%
     ab_p_demo__relig_003,
     ple_cat,
     
-    all_of(cols_no_hemi),
 
     variable,
     score,
@@ -507,13 +506,13 @@ data_vol_aseg_long <- data_vol_aseg %>%
   )
      
 # liste des régions bilatérales ####
-regions <- unique(data_vol_aseg_long$variable)
+regions <- unique(data_vol_aseg_bi_long$variable)
 
 
 ## modèle avec temps catégoriel  ####
 run_model <- function(reg) {
   
-  dat <- data_vol_aseg_long %>%
+  dat <- data_vol_aseg_bi_long %>%
     filter(variable == reg)
   
   model <- lmer(
@@ -681,22 +680,36 @@ write.csv(posthoc_vol_aseg_continu_bi, here("results/tables/posthoc_vol_aseg_con
 
 # liste des régions unilatérales ####
 print(cols_no_hemi)
-regions <- c("mr_y_smri__vol__aseg__3rdv_sum",
-             "mr_y_smri__vol__aseg__4thv_sum",
-             "mr_y_smri__vol__aseg__avs_sum",
-             "mr_y_smri__vol__aseg__bs_sum",
-             "mr_y_smri__vol__aseg__cca_sum",
-             "mr_y_smri__vol__aseg__ccam_sum",
-             "mr_y_smri__vol__aseg__ccc_sum",
-             "mr_y_smri__vol__aseg__ccp_sum",
-             "mr_y_smri__vol__aseg__ccpm_sum",
-             "mr_y_smri__vol__aseg__csf_sum",
-             "mr_y_smri__vol__aseg__lvs_sum",
-             "mr_y_smri__vol__aseg__scgv_sum",
-             "mr_y_smri__vol__aseg__stv_sum",
-             "mr_y_smri__vol__aseg__whb_sum",
-             "mr_y_smri__vol__aseg__wmh_sum" 
-)
+
+data_vol_aseg_uni_long <- data_vol_aseg %>%
+  pivot_longer(
+    cols = all_of(cols_no_hemi),
+    names_to = "variable",
+    values_to = "score"
+  ) %>%
+  select(
+    participant_id,
+    session_id,
+    session_id_continu,
+    co,
+    co_longi,
+    ch,
+    ch_longi,
+    ab_g_dyn__design_site,
+    ab_g_dyn__design_mr__model,
+    puberty,
+    ab_g_stc__cohort_sex,
+    ph_y_pds__f_002,
+    ph_y_pds__f_002__05__01__v1,
+    ab_g_stc__cohort_ethnrace__meim,
+    ab_p_demo__income__hhold_001__v01,
+    ab_p_demo__relig_003,
+    ple_cat,
+    variable,
+    score
+  )
+
+regions <- unique(data_vol_aseg_uni_long$variable)
 
 ## modèle avec temps catégoriel ####
 run_model <- function(reg) {
@@ -716,7 +729,7 @@ run_model <- function(reg) {
       ),
       response = reg
     ),
-    data = data_vol_aseg,
+    data = data_vol_aseg_uni_long,
     na.action = na.omit
   )
   
@@ -811,7 +824,7 @@ run_model <- function(reg) {
       ),
       response = reg
     ),
-    data = data_vol_aseg,
+    data = data_vol_aseg_uni_long,
     na.action = na.omit
   )
   
