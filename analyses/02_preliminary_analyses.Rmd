@@ -406,6 +406,7 @@ data_filtered$co_longi[
   data_filtered$ab_g_stc__cohort_sex == "1"
 ] <- 0
 
+
 data_filtered$co_longi[
   ave(
     data_filtered$co == 2,
@@ -414,6 +415,7 @@ data_filtered$co_longi[
   )
 ] <- 2
 
+
 data_filtered$co_longi[
   ave(
     data_filtered$co == 3,
@@ -421,6 +423,7 @@ data_filtered$co_longi[
     FUN = any
   )
 ] <- 3
+
 
 data_filtered$co_longi[
   data_filtered$ab_g_stc__cohort_sex == "2" &
@@ -431,12 +434,19 @@ data_filtered$co_longi[
   )
 ] <- 1
 
+
 data_filtered$co_longi <- as.factor(data_filtered $co_longi)
 
 count <- data_filtered %>%
   group_by(session_id, co_longi) %>%
   summarise(frequence = n(), .groups = "drop")
 
+# vérifie que la valeur de co_longi est stable au sein d'un participant
+data_filtered %>%
+  group_by(participant_id) %>%
+  summarise(n_valeurs_distinctes = n_distinct(co_longi, na.rm = TRUE)) %>%
+  filter(n_valeurs_distinctes > 1) %>%
+  nrow()
 
 # créer une variable catégorielle de groupes de ch : homme, fille pas CH, fille ch
 
@@ -486,7 +496,7 @@ data_filtered$ch_longi[
 data_filtered$ch_longi[
   data_filtered$ab_g_stc__cohort_sex == "2" &
   !ave(
-    data_filtered$co == 2,
+    data_filtered$ch == 2,
     data_filtered$participant_id,
     FUN = any
   )
@@ -498,6 +508,13 @@ data_filtered$ch_longi <- as.factor(data_filtered $ch_longi)
 count <- data_filtered %>%
   group_by(session_id, ch_longi) %>%
   summarise(frequence = n(), .groups = "drop")
+
+# vérifie que la valeur de ch_longi est stable au sein d'un participant
+data_filtered %>%
+  group_by(participant_id) %>%
+  summarise(n_valeurs_distinctes = n_distinct(ch_longi, na.rm = TRUE)) %>%
+  filter(n_valeurs_distinctes > 1) %>%
+  nrow()
 
 # life events 
 
@@ -684,14 +701,14 @@ data_analyses <- data_filtered %>%
     
   )
 
-write.csv(data_filtered,here("data/processed/data_analyses.csv"), row.names = FALSE)
+write.csv(data_analyses,here("data/processed/data_analyses.csv"), row.names = FALSE)
 
 ```
 
 ## 2.5 Création des différentes bases de données
 data_CO contient les garçons, les filles qui n'ont jamais utilisé de CO et qui ont leurs règles à T4, ainsi que les utilisatrices de CO uniquement: Toutes les filles ayant rapporté l'utilisation d'une autre forme de CH sont exclues. 
 
-data_CO_clean contient les garçons, les filles qui n'ont jamais utilisé de CO, ainsi que les utilisatrices qui ont commencé après T3 - car seulement 21 personnes ont commencé à T3, ce qui complique l'interprétation des résultats. Les premières utilisations de CO se font donc à T4.
+data_CO_clean contient les garçons, les filles qui n'ont jamais utilisé de CO, ainsi que les utilisatrices qui ont commencé après T3 (pour le moment, à suivre) : parce que celles qui commentcent tôt vs tard est-ce qu'on peut vrm les mettre dans le même groupe? sous analyse par la suite ?
 
 data_ct_dsk : contient seulement les données d'épaisseur corticale avec atlas desikan
 data_ct_dst : contient seulement les données d'épaisseur corticale avec atlas destrieux
@@ -700,18 +717,35 @@ data_vol_dsk : contient seulement les données de volume avec atlas desikan
 data_vol_dst :  contient seulement les données de volume avec atlas destrieux
 
 ```{r data_CO}
+
+count <- data_analyses %>%
+  group_by(session_id, co) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+count <- data_analyses %>%
+  group_by(session_id, co_longi) %>%
+  summarise(frequence = n(), .groups = "drop")
+
 data_CO <- data_analyses %>%
   group_by(participant_id) %>%
-  filter(!any(co == 3, na.rm = TRUE)) %>%
+  filter(!any(co_longi == 3, na.rm = TRUE)) %>%
   ungroup()
 
-write.csv(data_filtered,here("data/processed/data_CO.csv"), row.names = FALSE)
+count <- data_CO %>%
+  group_by(session_id, co) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+count <- data_CO %>%
+  group_by(session_id, co_longi) %>%
+  summarise(frequence = n(), .groups = "drop")
+
+write.csv(data_CO,here("data/processed/data_CO.csv"), row.names = FALSE)
 ```
 
 ```{r data_CO_clean }
 
 count <- data_CO %>%
-  group_by(session_id, ch) %>%
+  group_by(session_id, co) %>%
   summarise(frequence = n(), .groups = "drop")
 
 data_CO_clean <- data_CO %>%
@@ -724,10 +758,13 @@ data_CO_clean <- data_CO %>%
   )
 
 count <- data_CO_clean %>%
-  group_by(session_id, ch) %>%
+  group_by(session_id, co) %>%
+  summarise(frequence = n(), .groups = "drop")
+count <- data_CO_clean %>%
+  group_by(session_id, co_longi) %>%
   summarise(frequence = n(), .groups = "drop")
 
-write.csv(data_filtered,here("data/processed/data_CO_clean.csv"), row.names = FALSE)
+write.csv(data_CO_clean,here("data/processed/data_CO_clean.csv"), row.names = FALSE)
 
 
 ```
@@ -759,7 +796,7 @@ data_ct_dsk <- data_CO_clean %>%
     starts_with("mr_y_smri__thk__dsk")
   )
 
-write.csv(data_filtered,here("data/processed/data_ct_dsk.csv"), row.names = FALSE)
+write.csv(data_ct_dsk,here("data/processed/data_ct_dsk.csv"), row.names = FALSE)
 
 ```
 
@@ -791,7 +828,7 @@ data_ct_dst <- data_CO_clean %>%
     starts_with("mr_y_smri__thk__dst")
   )
 
-write.csv(data_filtered,here("data/processed/data_ct_dst.csv"), row.names = FALSE)
+write.csv(data_ct_dst,here("data/processed/data_ct_dst.csv"), row.names = FALSE)
 ```
 
 ```{r data_vol_aseg}
@@ -821,7 +858,7 @@ data_vol_aseg <- data_CO_clean %>%
     starts_with("mr_y_smri__vol__aseg")
   )
 
-write.csv(data_filtered,here("data/processed/data_vol_aseg.csv"), row.names = FALSE)
+write.csv(data_vol_aseg,here("data/processed/data_vol_aseg.csv"), row.names = FALSE)
 ```
 
 ```{r data_vol_dsk}
@@ -851,7 +888,7 @@ data_vol_dsk <- data_CO_clean %>%
     starts_with("mr_y_smri__vol__dsk")
   )
 
-write.csv(data_filtered,here("data/processed/data_vol_dsk.csv"), row.names = FALSE)
+write.csv(data_vol_dsk,here("data/processed/data_vol_dsk.csv"), row.names = FALSE)
 ```
 
 ```{r data_vol_dst}
@@ -881,13 +918,15 @@ data_vol_dst <- data_CO_clean %>%
     starts_with("mr_y_smri__vol__dst")
   )
 
-write.csv(data_filtered,here("data/processed/data_vol_dst.csv"), row.names = FALSE)
+write.csv(data_vol_dst,here("data/processed/data_vol_dst.csv"), row.names = FALSE)
 ```
 
 ## 2.6 Analyses descriptives
 
 ```{r data_CO_clean}
 
+#nombre de personnes par temps de mesure
+table(data_CO_clean$session_id)  
 
 # nombre de personnes dans chaque groupe ####
 count <- data_CO_clean %>%
@@ -902,6 +941,8 @@ count <- data_CO_clean %>%
     nb_participants = n(),               
     .groups = "drop"
   )
+
+# vérification que fréquences CO équivalentes à fréquences CH
 
 count <- data_CO_clean %>%
   group_by(session_id, ch ) %>%
