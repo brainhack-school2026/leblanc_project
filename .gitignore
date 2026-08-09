@@ -6,3 +6,5 @@ data/processed/
 .RDataTmp
 *.RData
 analyses/*.html
+*.RDataTmp*
+*.RData
